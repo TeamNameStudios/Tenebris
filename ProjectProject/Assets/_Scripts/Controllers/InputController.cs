@@ -8,41 +8,33 @@ public class InputController : Singleton<InputController>
    
     public static event Action<Vector2> OnLeftMovement;
     public static event Action<Vector2> OnRightMovement;
-    public static event Action OnJumpMovement;
+    public static event Action<bool> OnJumpMovement;
     private void Update()
     {
-        #region LeftMovement
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-            
-                OnLeftMovement?.Invoke(Vector2.left);
-            }
-            if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-                OnLeftMovement?.Invoke(Vector2.zero);
-        }
-        #endregion
-        #region RightMovement
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
 
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            OnLeftMovement?.Invoke(Vector2.left);
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            OnLeftMovement?.Invoke(Vector2.zero);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
             OnRightMovement?.Invoke(Vector2.right);
         }
-        if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             OnRightMovement?.Invoke(Vector2.zero);
         }
-        #endregion
-        #region JumpMovement
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-
-            OnJumpMovement?.Invoke();
+            OnJumpMovement?.Invoke(true);
         }
-        if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            OnJumpMovement?.Invoke();
+            OnJumpMovement?.Invoke(false);
         }
-        #endregion
     }
 }

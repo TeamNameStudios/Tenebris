@@ -36,46 +36,54 @@ public class Player : MonoBehaviour
 
     private void Move(Vector2 movementDirection)
     {
-
-        if (isGrounded)
-        {
-            velocity.x = movementDirection.x * speed;
-        }
+         velocity.x = movementDirection.x * speed;
     }
-        private void Jump()
+    private void Jump(bool isJumping)
     {
-        if (isGrounded)
+        if (isGrounded && isJumping)
         {
             isGrounded = false;
             velocity.y = jumpVelocity;
         }
     }
 
-    private void Update()
-    {
-        //if (isGrounded)
-        //{
-        //    if(Input.GetKeyDown(KeyCode.Space)) { 
-        //        isGrounded = false;
-        //        velocity.y = jumpVelocity;
-        //    }
-        //}
-    }
-
     private void FixedUpdate()
     {
         Vector2 pos = transform.position;
-        if(!isGrounded)
+        if (!isGrounded)
         {
             pos.y += velocity.y * Time.fixedDeltaTime;
             velocity.y += gravity * Time.fixedDeltaTime;
 
-            if(pos.y <= groundHeight) {
-                pos.y = groundHeight;
-                isGrounded=true;
+            Vector2 raycastOrigin = new Vector2((pos.x + 0.7f)* direction.x, pos.y);
+            Vector2 rayDirection = Vector2.up;
+            float rayDistance = velocity.y * Time.fixedDeltaTime;
+            RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
+            if(hit2D.collider != null)
+            {
+                Terrain terrain = hit2D.collider.GetComponent<Terrain>();
+                if(terrain != null)
+                {
+                    groundHeight = terrain.terrainHeight;
+                    pos.y = groundHeight;
+                    velocity.y = 0f;
+                    isGrounded = true;
+                }
             }
+            Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.cyan);
         }
-
+        if (isGrounded)
+        {
+            Vector2 raycastOrigin = new Vector2((pos.x - 0.7f) * direction.x, pos.y);
+            Vector2 rayDirection = Vector2.up;
+            float rayDistance = velocity.y * Time.fixedDeltaTime;
+            RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
+            if (hit2D.collider == null)
+            {
+                isGrounded = false;
+            }
+            Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.green);
+        }
         transform.position = pos;
     }
 }

@@ -34,7 +34,7 @@ public class GameController : Singleton<GameController>
                 HandleStarting();
                 break;
             case GameState.SpawningPlayer:
-                HandleSpawningCultist();
+                //HandleSpawningCultist();
                 break;
             case GameState.Lose:
                 HandleLose();
@@ -57,10 +57,10 @@ public class GameController : Singleton<GameController>
         ChangeState(GameState.SpawningPlayer);
     }
 
-    private void HandleSpawningCultist()
-    {
-        CultistController.Instance.SpawnCultist(cultistType);
-    }
+    //private void HandleSpawningCultist()
+    //{
+    //    CultistController.Instance.SpawnCultist(cultistType);
+    //}
                
     private void HandlePlaying()
     {

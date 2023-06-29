@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EventManager
+public class EventManager<T>
 {
-    private static EventManager instance;
+    private static EventManager<T> instance;
     
-    public static EventManager Instance
+    public static EventManager<T> Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new EventManager();
+                instance = new EventManager<T>();
 
                 instance.Init();
             }
@@ -23,7 +23,7 @@ public class EventManager
 
     private Dictionary<string, Action> eventDictionary;
     
-    private Dictionary<string, Action<object>> paramEventDictionary;
+    private Dictionary<string, Action<T>> paramEventDictionary;
 
     private EventManager() { }
 
@@ -32,20 +32,22 @@ public class EventManager
         if (eventDictionary == null)
         {
             eventDictionary = new Dictionary<string, Action>();
-            paramEventDictionary = new Dictionary<string, Action<object>>();
+            paramEventDictionary = new Dictionary<string, Action<T>>();
         }
     }
 
     public void StartListening(string eventName, Action listener)
     {
+         
         Action thisListener = null;
 
-        if (Instance.eventDictionary.TryGetValue(eventName, out thisListener))
+        if (eventDictionary.ContainsKey(eventName))
         {
-            thisListener += listener;
+            eventDictionary[eventName] += listener;
         }
         else
         {
+           
             thisListener = listener;
             Instance.eventDictionary.Add(eventName, thisListener);
         }
@@ -60,9 +62,9 @@ public class EventManager
 
         Action thisListener = null;
 
-        if (Instance.eventDictionary.TryGetValue(eventName, out thisListener))
+        if (eventDictionary.ContainsKey(eventName))
         {
-            thisListener -= listener;
+            eventDictionary[eventName] -= listener;
         }
     }
 
@@ -76,39 +78,40 @@ public class EventManager
 
     
     
-    public void StartListening(string eventName, Action<object> listener)
+    public void StartListening(string eventName, Action<T> listener)
     {
-        Action<object> thisListener = null;
-
-        if (Instance.paramEventDictionary.TryGetValue(eventName, out thisListener))
+        Action<T> thisListener = null;
+        
+        if (paramEventDictionary.ContainsKey(eventName))
         {
-            thisListener += listener;
+            paramEventDictionary[eventName] += listener;
+        
         }
         else
         {
-            thisListener = listener;
-            Instance.paramEventDictionary.Add(eventName, thisListener);
+            thisListener += listener;
+           paramEventDictionary.Add(eventName, thisListener);
         }
     }
 
-    public void StopListening(string eventName, Action<object> listener)
+    public void StopListening(string eventName, Action<T> listener)
     {
         if (instance == null)
         {
             return;
         }
 
-        Action<object> thisListener = null;
+        Action<T> thisListener = null;
 
-        if (Instance.paramEventDictionary.TryGetValue(eventName, out thisListener))
+        if (paramEventDictionary.ContainsKey(eventName))
         {
-            thisListener -= listener;
+            paramEventDictionary[eventName] -= listener;
         }
     }
 
-    public void TriggerEvent(string eventName, object data)
+    public void TriggerEvent(string eventName, T data)
     {
-        if (Instance.paramEventDictionary.ContainsKey(eventName))
+        if (paramEventDictionary.ContainsKey(eventName))
         {
             paramEventDictionary[eventName]?.Invoke(data);
         }

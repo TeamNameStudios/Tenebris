@@ -5,36 +5,33 @@ using UnityEngine;
 
 public class InputController : Singleton<InputController>
 {
-   
-    public static event Action<Vector2> OnLeftMovement;
-    public static event Action<Vector2> OnRightMovement;
-    public static event Action<bool> OnJumpMovement;
+
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            OnLeftMovement?.Invoke(Vector2.left);
+            EventManager<Vector2>.Instance.TriggerEvent("leftMovement", Vector2.left);
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
         {
-            OnLeftMovement?.Invoke(Vector2.zero);
+            EventManager<Vector2>.Instance.TriggerEvent("leftMovement", Vector2.zero);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            OnRightMovement?.Invoke(Vector2.right);
+            EventManager<Vector2>.Instance.TriggerEvent("rightMovement", Vector2.right);
         }
-        else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
         {
-            OnRightMovement?.Invoke(Vector2.zero);
+            EventManager<Vector2>.Instance.TriggerEvent("rightMovement", Vector2.zero);
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            OnJumpMovement?.Invoke(true);
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement",true);
         }
-        else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
         {
-            OnJumpMovement?.Invoke(false);
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
         }
     }
 }

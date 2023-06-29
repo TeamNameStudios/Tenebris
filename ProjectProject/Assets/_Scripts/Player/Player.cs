@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public float jumpVelocity =20;
     public float groundHeight = 10;
     public bool isGrounded = false;
+
     private void Awake()
     {
      
@@ -23,21 +24,25 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        InputController.OnLeftMovement += Move;
-        InputController.OnRightMovement += Move;
-        InputController.OnJumpMovement += Jump;
+        EventManager<Vector2>.Instance.StartListening("leftMovement",Move);
+        EventManager<Vector2>.Instance.StartListening("rightMovement", Move);
+        EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
     }
     private void OnDisable()
     {
-        InputController.OnLeftMovement -= Move;
-        InputController.OnRightMovement -= Move;
-        InputController.OnJumpMovement -= Jump;
+        EventManager<Vector2>.Instance.StopListening("leftMovement", Move);
+        EventManager<Vector2>.Instance.StopListening("rightMovement", Move);
+        EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
     }
 
     private void Move(Vector2 movementDirection)
     {
-         velocity.x = movementDirection.x * speed;
+        velocity.x = movementDirection.x * speed;
+        EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
+
+
     }
+
     private void Jump(bool isJumping)
     {
         if (isGrounded && isJumping)

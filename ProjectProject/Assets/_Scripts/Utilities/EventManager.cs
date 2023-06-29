@@ -32,6 +32,7 @@ public class EventManager
         if (eventDictionary == null)
         {
             eventDictionary = new Dictionary<string, Action>();
+            
             paramEventDictionary = new Dictionary<string, Action<object>>();
         }
     }

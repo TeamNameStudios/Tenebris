@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public float jumpVelocity =20;
     public float groundHeight = 10;
     public bool isGrounded = false;
+    
     private void Awake()
     {
      
@@ -23,24 +24,48 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        InputController.OnLeftMovement += Move;
-        InputController.OnRightMovement += Move;
-        InputController.OnJumpMovement += Jump;
+        //InputController.OnLeftMovement += Move;
+        //InputController.OnRightMovement += Move;
+        //InputController.OnJumpMovement += Jump;
+
+        EventManager.Instance.StartListening("MoveLeft", Move);
+        EventManager.Instance.StartListening("MoveRight", Move);
+        EventManager.Instance.StartListening("Jump", Jump);
     }
     private void OnDisable()
     {
-        InputController.OnLeftMovement -= Move;
-        InputController.OnRightMovement -= Move;
-        InputController.OnJumpMovement -= Jump;
+        //InputController.OnLeftMovement -= Move;
+        //InputController.OnRightMovement -= Move;
+        //InputController.OnJumpMovement -= Jump;
+
+        EventManager.Instance.StopListening("MoveLeft", Move);
+        EventManager.Instance.StopListening("MoveRight", Move);
+        EventManager.Instance.StopListening("Jump", Jump);
+    }
+    
+    //private void Move(Vector2 movementDirection)
+    //{
+    //     velocity.x = movementDirection.x * speed;
+    //}
+
+    private void Move(object movementDirection)
+    {
+        Vector2 moveDir = (Vector2)movementDirection;
+        velocity.x = moveDir.x * speed;
     }
 
-    private void Move(Vector2 movementDirection)
+    //private void Jump(bool isJumping)
+    //{
+    //    if (isGrounded && isJumping)
+    //    {
+    //        isGrounded = false;
+    //        velocity.y = jumpVelocity;
+    //    }
+    //}
+
+    private void Jump(object isJumping)
     {
-         velocity.x = movementDirection.x * speed;
-    }
-    private void Jump(bool isJumping)
-    {
-        if (isGrounded && isJumping)
+        if (isGrounded && (bool)isJumping)
         {
             isGrounded = false;
             velocity.y = jumpVelocity;

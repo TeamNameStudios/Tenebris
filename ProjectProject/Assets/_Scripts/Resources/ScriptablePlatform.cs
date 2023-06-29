@@ -6,12 +6,20 @@ using UnityEngine;
 public class ScriptablePlatform : ScriptableObject
 {
     public PlatformType Type;
+    public PlatformSize Size;
     public GameObject PlatformPrefab;
 }
 
-public enum PlatformType
+public enum PlatformSize
 {
    SMALL,
    MEDIUM,
    LARGE
+}
+
+public enum PlatformType
+{
+    NORMAL,
+    FLAOTING,
+    LIFT
 }

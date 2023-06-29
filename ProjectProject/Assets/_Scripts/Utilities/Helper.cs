@@ -28,6 +28,7 @@ public class Helper
         }
     }
 
+    #region POOLS
     // OBJECT POOL W\ GAMEOBJECTS
     public class ObjectPool
     {
@@ -73,6 +74,48 @@ public class Helper
         }
     }
 
+    // GENERIC POOL
+    public class GenericObjectPool<T> where T : Component
+    {
+        public T basePrefab;
+
+        private Queue<T> objectPool;
+
+        public GenericObjectPool(T prefab, int poolSize)
+        {
+            basePrefab = prefab;
+            objectPool = new Queue<T>();
+
+            for (int i = 0; i < poolSize; i++)
+            {
+                var obj = MonoBehaviour.Instantiate(prefab);
+                obj.gameObject.SetActive(false);
+                objectPool.Enqueue(obj);
+            }
+        }
+
+        public T GetObject()
+        {
+            if (objectPool.Count > 0)
+            {
+                T obj = objectPool.Dequeue();
+                return obj;
+            }
+            else
+            {
+                T obj = MonoBehaviour.Instantiate(basePrefab);
+                return obj;
+            }
+        }
+
+        public void ReturnObject(T obj)
+        {
+            obj.gameObject.SetActive(false);
+            objectPool.Enqueue(obj);
+        }
+    }
+
+    #endregion
     // FACTORY W\ POOLS OF GAMEOBJECTS (we ask for the GO name, maybe try to implement the asking with an enum (?))
     public class Factory : MonoBehaviour
     {
@@ -130,6 +173,63 @@ public class Helper
         }
     }
 
+    // FACTORY WITH GENERICS
+
+    public class GenericFactory<T> where T : Component
+    {
+        public int poolSize;
+        public T[] prefabs;
+
+        protected Dictionary<string, Helper.GenericObjectPool<T>> pools;
+
+        private void Start()
+        {
+            InitPools();
+        }
+
+        private void InitPools()
+        {
+            pools = new Dictionary<string, Helper.GenericObjectPool<T>>();
+
+            foreach (T go in prefabs)
+                pools.Add(go.gameObject.name, new Helper.GenericObjectPool<T>(go, poolSize));
+        }
+
+        public T CreateObject(string name, Vector3 position)
+        {
+            return CreateObject(name, position, Quaternion.identity);
+        }
+
+        public T CreateObject(string objectName, Vector3 position, Quaternion rotation, bool setActive = true)
+        {
+            if (!pools.ContainsKey(objectName))
+            {
+                return null;
+            }
+
+            T instance = pools[objectName].GetObject();
+            instance.transform.position = position;
+            instance.transform.rotation = rotation;
+            instance.gameObject.SetActive(setActive);
+
+
+            return instance;
+        }
+
+        public bool ReturnObject(T instance)
+        {
+            if (!pools.ContainsKey(instance.gameObject.name))
+            {
+                return false;
+            }
+
+            pools[instance.gameObject.name].ReturnObject(instance);
+
+            return true;
+        }
+    }
+
+    
     #endregion
 
     #region Utility

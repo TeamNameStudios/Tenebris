@@ -35,8 +35,8 @@ public class InputController : Singleton<InputController>
         }
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.P))
         {
-            //EventManager<bool>.Instance.TriggerEvent("createTentacle", true);
-            //EventManager<bool>.Instance.TriggerEvent("dashMovement", true);
+            EventManager<bool>.Instance.TriggerEvent("createTentacle", true);
+            EventManager<bool>.Instance.TriggerEvent("dashMovement", true);
             EventManager<bool>.Instance.TriggerEvent("attac", true);
         }
     }

@@ -13,8 +13,10 @@ public class TentacleAttack : MonoBehaviour
     public AnimationCurve animCurve;
     public float tentacleLenght;
     private Vector2 defaultPosition;
-    public Rigidbody rb2d;
+    public Rigidbody2D rb2d;
     internal bool hook;
+
+    public float tt { get; }
     
     Collider coll;
 
@@ -34,7 +36,7 @@ public class TentacleAttack : MonoBehaviour
 
     private void OnEnable()
     {
-        rb2d = rb2d.GetComponent<Rigidbody>();
+        rb2d = rb2d.GetComponent<Rigidbody2D>();
         rb2d.WakeUp();
         Debug.Log($"The rigid body is kinematic: {rb2d.isKinematic}");
 
@@ -86,7 +88,7 @@ public class TentacleAttack : MonoBehaviour
         }
         else if(!isAlive)
         {
-            EventManager<bool>.Instance.TriggerEvent("finishTentacleAttack", true);
+            EventManager<bool>.Instance.TriggerEvent("atkAgn", true);
             tentaclePrefab.transform.position = defaultPosition;
             tentaclePrefab.SetActive(false);
             box = null;

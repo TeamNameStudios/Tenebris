@@ -13,16 +13,20 @@ public class TentaclePlatform : MonoBehaviour
     public AnimationCurve animCurve;
     public float tentacleLenght;
     private Vector2 defaultPosition;
+    public Collider2D coll2D;
 
  
 
-    public void TentacleInit(float spawnY)
+    public void TentacleInit(Vector2 spawnPos)
     {
-        initialPos = spawnY;
+        tentaclePrefab.SetActive(true);
+        coll2D = GetComponent<Collider2D>();
+        spawnPos.y -= transform.localScale.y / 2;
+        transform.position = spawnPos;
+        initialPos = spawnPos.y;
         finalPos = initialPos + tentacleLenght;
         isAlive = true;
         currentTimer = 0;
-        tentaclePrefab.SetActive(true);
         defaultPosition = tentaclePrefab.transform.position;
     }
 

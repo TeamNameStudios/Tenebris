@@ -67,37 +67,55 @@ public class TentacleAttack : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-
-        currentTimer += Time.fixedDeltaTime;
-        if(isAlive && currentTimer < aliveTimer)
+        if (hook)
         {
+            currentTimer -= Time.fixedDeltaTime;
+
             float t = animCurve.Evaluate(currentTimer);
             float lerp = Mathf.Lerp(initialPos, finalPos, t);
-            
+
             Vector2 posX = tentaclePrefab.transform.position;
-            float posDelta = lerp - posX.x;
             posX.x = lerp;
             tentaclePrefab.transform.position = posX;
 
-            if(box != null)
+            if (currentTimer <= 0.2f)
             {
-                Vector2 posBoxX = box.transform.position;
-                posBoxX.x += posDelta;
-                box.transform.position = posBoxX;
+                isAlive = false;
+                hook = false;
             }
         }
-        else if(!isAlive)
+
+        else if (!isAlive)
         {
             EventManager<bool>.Instance.TriggerEvent("atkAgn", true);
             tentaclePrefab.transform.position = defaultPosition;
             tentaclePrefab.SetActive(false);
             box = null;
         }
-        else if(hook)
-            return;
-        
-        else if(currentTimer >= aliveTimer)
+
+        else if (currentTimer >= aliveTimer)
             isAlive = false;
+
+        else 
+        {
+            currentTimer += Time.fixedDeltaTime;
+            float t = animCurve.Evaluate(currentTimer);
+            float lerp = Mathf.Lerp(initialPos, finalPos, t);
+
+            Vector2 posX = tentaclePrefab.transform.position;
+            float posDelta = lerp - posX.x;
+            posX.x = lerp;
+            tentaclePrefab.transform.position = posX;
+
+            if (box != null)
+            {
+                Vector2 posBoxX = box.transform.position;
+                posBoxX.x += posDelta;
+                box.transform.position = posBoxX;
+            }
+        }
+
+        
 
     }
 

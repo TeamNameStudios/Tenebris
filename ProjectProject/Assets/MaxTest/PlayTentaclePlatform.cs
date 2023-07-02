@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 
-public class PlayTentaclePlatform : Player
+public class PlayTentaclePlatform : PlayContro
 {
 
     public TentaclePlatform tentacle;
@@ -45,7 +45,7 @@ public class PlayTentaclePlatform : Player
         _canCreateTentacle = canCreateAgain;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private new void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("TentaPlatform"))// &&
             //collision.bounds.max.y <= Mathf.Lerp(coll2D.bounds.min.y, coll2D.bounds.center.y, 0.3f))
@@ -55,6 +55,7 @@ public class PlayTentaclePlatform : Player
             pos.y = collision.bounds.max.y + coll2D.bounds.extents.y;
             transform.position = pos;
             isRising = true;
+            return;
         }
     }
 
@@ -79,5 +80,26 @@ public class PlayTentaclePlatform : Player
             isGrounded = false;
             velocity.y =  Mathf.Max(velocity.y, 0);
         }
+    }
+
+    private new void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isRising && isGrounded)
+            return;
+        base.OnCollisionEnter2D(collision);
+    }
+
+    private new void OnCollisionStay2D(Collision2D collision)
+    {
+        if (isRising && isGrounded)
+            return;
+        base.OnCollisionStay2D(collision);
+    }
+
+    private new void OnCollisionExit2D(Collision2D collision)
+    {
+        if (isRising && isGrounded)
+            return;
+        base.OnCollisionExit2D(collision);
     }
 }

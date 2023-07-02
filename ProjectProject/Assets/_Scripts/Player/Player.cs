@@ -10,49 +10,40 @@ public class Player : MonoBehaviour
     public Vector2 velocity;
     public Vector2 direction = Vector2.zero;
     public float maxVelocity;
-    public float deceleration;
     public float speed = 2f;
     public float acceleration;
     public float maxAcceleration;
-    public float jumpVelocity =20;
+    public float jumpVelocity = 20;
     public float groundHeight = 10;
-    private bool _isGrounded;
+    public bool isGrounded = false;
 
-    public bool isGrounded
+    private void Awake()
     {
-        get { return _isGrounded; }
-        set 
-        { 
-            _isGrounded = value;
-        }
+
     }
 
-
-    internal void Awake()
+    private void OnEnable()
     {
-     
-    }
-
-    internal void OnEnable()
-    {
-        EventManager<Vector2>.Instance.StartListening("leftMovement",Move);
+        EventManager<Vector2>.Instance.StartListening("leftMovement", Move);
         EventManager<Vector2>.Instance.StartListening("rightMovement", Move);
         EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
     }
-    internal void OnDisable()
+    private void OnDisable()
     {
         EventManager<Vector2>.Instance.StopListening("leftMovement", Move);
         EventManager<Vector2>.Instance.StopListening("rightMovement", Move);
         EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
     }
 
-    internal void Move(Vector2 movementDirection)
+    private void Move(Vector2 movementDirection)
     {
         velocity.x = movementDirection.x * speed;
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
+
+
     }
 
-    internal void Jump(bool isJumping)
+    private void Jump(bool isJumping)
     {
         if (isGrounded && isJumping)
         {
@@ -61,80 +52,42 @@ public class Player : MonoBehaviour
         }
     }
 
-    internal void OnCollisionEnter(Collision collision)
+    private void FixedUpdate()
     {
-        var obj = collision.gameObject;
-        if (obj.CompareTag("Ground") &&
-            transform.position.y >= obj.transform.position.y - float.Epsilon)
-        {
-            isGrounded = true;
-        }
-        else if (obj.CompareTag("Pushable") &&
-            transform.position.y >= obj.transform.position.y - float.Epsilon)
-        {
-            isGrounded = true;
-        }
-    }
-
-    internal void OnCollisionStay2D(Collision2D collision)
-    {
-        var obj = collision.gameObject;
-        if (obj.CompareTag("Ground") &&
-            transform.position.y >= obj.transform.position.y - float.Epsilon)
-        {
-            isGrounded = true;
-            Vector2 pos = transform.position;
-            pos.y = collision.collider.bounds.max.y + 1;
-            transform.position = pos;
-        }
-        else if(obj.CompareTag("Pushable") &&
-            transform.position.y >= obj.transform.position.y - float.Epsilon)
-        {
-            isGrounded = true;
-            Vector2 pos = transform.position;
-            pos.y = collision.collider.bounds.max.y + 1;
-            transform.position = pos;
-        }
-    }
-    internal void OnCollisionEnter2D(Collision2D collision)
-    {
-        var obj = collision.gameObject;
-        if (obj.CompareTag("Ground") &&
-            transform.position.y >= obj.transform.position.y - float.Epsilon)
-        {
-            isGrounded = true;
-            velocity.y = 0;
-        }
-        else if (obj.CompareTag("Pushable") &&
-            transform.position.y >= obj.transform.position.y - float.Epsilon)
-        {
-            isGrounded = true;
-            Vector2 pos = transform.position;
-            pos.y = collision.collider.bounds.max.y + 1;
-            transform.position = pos;
-        }
-    }
-
-    internal void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Pushable"))
-            isGrounded = false;
-    }
-
-    internal void OnCollisionExit2D(Collision2D collision)
-    {
-        var obj = collision.gameObject;
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Pushable"))
-            isGrounded = false;
-    }
-    internal void FixedUpdate()
-    {   
         Vector2 pos = transform.position;
-        
         if (!isGrounded)
         {
             pos.y += velocity.y * Time.fixedDeltaTime;
-            velocity.y += gravity * Time.fixedDeltaTime; 
+            velocity.y += gravity * Time.fixedDeltaTime;
+
+            Vector2 raycastOrigin = new Vector2((pos.x + 0.7f) * direction.x, pos.y);
+            Vector2 rayDirection = Vector2.up;
+            float rayDistance = velocity.y * Time.fixedDeltaTime;
+            RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
+            if (hit2D.collider != null)
+            {
+                Terrain terrain = hit2D.collider.GetComponent<Terrain>();
+                if (terrain != null)
+                {
+                    groundHeight = terrain.terrainHeight;
+                    pos.y = groundHeight;
+                    velocity.y = 0f;
+                    isGrounded = true;
+                }
+            }
+            Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.cyan);
+        }
+        if (isGrounded)
+        {
+            Vector2 raycastOrigin = new Vector2((pos.x - 0.7f) * direction.x, pos.y);
+            Vector2 rayDirection = Vector2.up;
+            float rayDistance = velocity.y * Time.fixedDeltaTime;
+            RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
+            if (hit2D.collider == null)
+            {
+                isGrounded = false;
+            }
+            Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.green);
         }
         transform.position = pos;
     }

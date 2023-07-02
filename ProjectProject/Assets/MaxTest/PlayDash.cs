@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
-public class PlayDash : Player
+public class PlayDash : PlayContro
 {
 
     public AnimationCurve dashCurve;
@@ -88,7 +88,7 @@ public class PlayDash : Player
         if(timerCD <= 0)
             dashing = true;
 
-        if (dashing)
+        if (dashing && !isDark)
         {
             isDark = true;
             _dTimer = 0;

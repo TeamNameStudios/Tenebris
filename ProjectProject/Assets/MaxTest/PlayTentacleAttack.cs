@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayTentacleAttack : Player
+public class PlayTentacleAttack : PlayContro
 {
     public Collider2D coll2D;
 
     public TentacleAttack tentAtac;
     private bool _canAtac = true;
-
+    private float baseGravity;
     private float initialVel;
     private float finalVel;
     private bool _hooked = false;
@@ -37,6 +37,7 @@ public class PlayTentacleAttack : Player
                 EventManager<Vector2>.Instance.StartListening("leftMovement", Move);
                 EventManager<Vector2>.Instance.StartListening("rightMovement", Move);
                 EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
+                gravity = baseGravity;
             }
         }
     }
@@ -46,6 +47,8 @@ public class PlayTentacleAttack : Player
     public float postHookVel;
     public float postHookDecel = 9 / 10;
     public float hookJump;
+    public float hookGravity;
+
 
     private new void OnEnable()
     {
@@ -54,6 +57,7 @@ public class PlayTentacleAttack : Player
         EventManager<Vector2>.Instance.StartListening("hook", Hook);
         EventManager<bool>.Instance.StartListening("atkAgn", AtacAgain);
         coll2D = GetComponent<Collider2D>();
+        baseGravity = gravity;
     }
     private new void OnDisable()
     {
@@ -80,6 +84,7 @@ public class PlayTentacleAttack : Player
     private void Hook(Vector2 hitCollision)
     {
         hooked = true;
+        tentAtac.hook = true;
 
         velocity.y = 0;
         initialVel = velocity.x;
@@ -87,6 +92,8 @@ public class PlayTentacleAttack : Player
 
         hooTimer = tentAtac.currentTimer;
         hookCurrentTimer = 0;
+
+        gravity = hookGravity;
 
         EventManager<Vector2>.Instance.StopListening("leftMovement", Move);
         EventManager<Vector2>.Instance.StopListening("rightMovement", Move);
@@ -118,7 +125,7 @@ public class PlayTentacleAttack : Player
 
     internal new void OnCollisionExit(Collision collision)
     {
-        base.OnCollisionEnter(collision);
+        base.OnCollisionExit(collision);
         var obj = collision.gameObject;
         if (obj.CompareTag("Hookable"))
             hooked = false; 
@@ -126,7 +133,7 @@ public class PlayTentacleAttack : Player
 
     internal new void OnCollisionExit2D(Collision2D collision)
     {
-        base.OnCollisionEnter2D(collision);
+        base.OnCollisionExit2D(collision);
         var obj = collision.gameObject;
         if (obj.CompareTag("Hookable"))
             hooked = false;  
@@ -169,7 +176,7 @@ public class PlayTentacleAttack : Player
 
         if (velocity.x > 0)
         {
-            velocity.x -= deceleration * Time.deltaTime;
+            velocity.x = Mathf.Max(velocity.x - (deceleration * Time.deltaTime), 0);
             EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
         }
         transform.position = pos;

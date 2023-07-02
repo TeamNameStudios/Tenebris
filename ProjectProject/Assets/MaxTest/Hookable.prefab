@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 943170855801632466}
   - component: {fileID: 2763015268222150784}
-  - component: {fileID: -6172493448373428984}
   - component: {fileID: 5102915282556874482}
   m_Layer: 0
   m_Name: Hookable
@@ -28,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1345246611747454490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.63068986, y: -0.11494195, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,19 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6172493448373428984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1345246611747454490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc00bee191b3a2641924c711e55fae1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  depth: 1
 --- !u!61 &5102915282556874482
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -109,7 +95,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

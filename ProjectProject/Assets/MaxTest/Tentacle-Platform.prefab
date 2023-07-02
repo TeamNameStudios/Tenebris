@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1865644461428151623}
   - component: {fileID: 3185621989979606635}
   - component: {fileID: -4982623686381857841}
-  - component: {fileID: -8252443223957878374}
   - component: {fileID: 2806320971568088185}
   - component: {fileID: -6883614895972192879}
   m_Layer: 0
@@ -145,19 +144,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   tentacleLenght: 10
---- !u!114 &-8252443223957878374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458637246239538642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc00bee191b3a2641924c711e55fae1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  depth: 1
+  coll2D: {fileID: 0}
 --- !u!61 &2806320971568088185
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -196,10 +183,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

@@ -20,7 +20,7 @@ public class TerrainGenerator : Singleton<TerrainGenerator>
         
     }
 
-    public List<Terrain> GenerateTerrains(Transform parentTransform)
+    public List<Terrain> GenerateTerrains(Transform parentTransform, bool initChunk)
     {
         
         GameObject terrainContainer = new GameObject("Terrains");
@@ -29,7 +29,14 @@ public class TerrainGenerator : Singleton<TerrainGenerator>
         List <Terrain> terrains = new List <Terrain>();
         for (int i = 0; i < 12; i++)
         {
-            if(i%5 != 0)
+            if (initChunk)
+            {
+                Vector2 position = new Vector2((parentTransform.position.x - 30f) + (i * 5), -11);
+                Terrain terrain = Instantiate(TerrainPrefab, position, Quaternion.identity).GetComponent<Terrain>();
+                terrain.transform.SetParent(terrainContainer.transform);
+                terrains.Add(terrain);
+            }
+            if(i%5 != 0 &&  !initChunk)
             {
                 Vector2 position = new Vector2((parentTransform.position.x - 30f) + (i * 5), -11);
                 Terrain terrain = Instantiate(TerrainPrefab, position, Quaternion.identity).GetComponent<Terrain>();

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Shadow : MapMover
 {
+    [SerializeField]
     float shadowSpeed = 1.5f;
     [SerializeField]
     private Player player;

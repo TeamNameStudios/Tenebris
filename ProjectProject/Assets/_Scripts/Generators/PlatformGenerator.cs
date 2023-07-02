@@ -23,7 +23,7 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
         
     }
 
-    public List<Platform> GeneratePlatforms(Transform parentTransform)
+    public List<Platform> GeneratePlatforms(Transform parentTransform, bool initChunk)
     {
         float jumpTollerance = 0.7f;
         float h1 = player.jumpVelocity * 0.5f;
@@ -39,26 +39,29 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
         platformContainer.transform.position = parentTransform.position;
         platformContainer.transform.SetParent(parentTransform);
         List<Platform> platforms = new List<Platform>();
-        for (int i = 0; i < 8; i++)
+        if(!initChunk)
         {
-            float posY = Mathf.Ceil(Random.Range(-11, (-11 + maxJumpHeight) * jumpTollerance));
-            float posX = parentTransform.position.x - 30f;
-            if (platforms.Count > 0)
+            for (int i = 0; i < 8; i++)
             {
-                Platform previousPlatform = platforms[platforms.Count - 1];
-                float maxY = previousPlatform.transform.position.y + maxJumpHeight;
-                maxY *= jumpTollerance;
-                float actuallyY = Random.Range(minY, maxY);
-                posY = Mathf.Ceil(actuallyY);
-                posX = previousPlatform.transform.position.x + previousPlatform.GetComponent<BoxCollider2D>().size.x + 1f;
-            }
-            Platform platformPrefab = platformsPrefabs[Random.Range(0, platformsPrefabs.Count)];
-            Vector2 position = new Vector2(posX, posY);
-            Platform platform = Instantiate(platformPrefab, position, Quaternion.identity).GetComponent<Platform>();
-            platform.transform.SetParent(platformContainer.transform);
+                float posY = Mathf.Ceil(Random.Range(-11, (-11 + maxJumpHeight) * jumpTollerance));
+                float posX = parentTransform.position.x - 30f;
+                if (platforms.Count > 0)
+                {
+                    Platform previousPlatform = platforms[platforms.Count - 1];
+                    float maxY = previousPlatform.transform.position.y + maxJumpHeight;
+                    maxY *= jumpTollerance;
+                    float actuallyY = Random.Range(minY, maxY);
+                    posY = Mathf.Ceil(actuallyY);
+                    posX = previousPlatform.transform.position.x + previousPlatform.GetComponent<BoxCollider2D>().size.x + 1f;
+                }
+                Platform platformPrefab = platformsPrefabs[Random.Range(0, platformsPrefabs.Count)];
+                Vector2 position = new Vector2(posX, posY);
+                Platform platform = Instantiate(platformPrefab, position, Quaternion.identity).GetComponent<Platform>();
+                platform.transform.SetParent(platformContainer.transform);
 
-            platforms.Add(platform);
+                platforms.Add(platform);
             
+            }
         }
         return platforms;
     }

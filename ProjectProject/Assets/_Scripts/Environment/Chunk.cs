@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Chunk : MapMover
 {
+    const float chunkSize = 60f;
 
     [SerializeField]
     private Chunk previousChunk;
@@ -16,18 +18,14 @@ public class Chunk : MapMover
     [SerializeField]
     private int IndexOfChunk;
 
-    public void Setup(int index, float chunkSize)
-    {
-        IndexOfChunk = index;
-        EndOfChunk = transform.position.x +(chunkSize / 2);
-        Terrains = TerrainGenerator.Instance.GenerateTerrains(transform);
-        Platforms = PlatformGenerator.Instance.GeneratePlatforms(transform);
-    }
+    [SerializeField]
+    private Shadow shadow;
 
-    public void Setup(int index,float chunkSize, Chunk previous)
+    public void Setup(List<Terrain> terrains, List<Platform> platforms)
     {
-        Setup(index, chunkSize);
-        previousChunk = previous;
+        EndOfChunk = transform.position.x +( chunkSize / 2);
+        Terrains = terrains;
+        Platforms = platforms;
     }
 
     public void Update()
@@ -42,5 +40,15 @@ public class Chunk : MapMover
             pos.x -= 180f;
         }
         transform.position = pos;
+        if(EndOfChunk < -60f)
+        {
+            //Reset();
+            ChunkGenerator.Instance.GenerateChunk(this,false);
+        }
+    }
+
+    public void SetPreviousChunk(Chunk previous)
+    {
+        previousChunk = previous;
     }
 }

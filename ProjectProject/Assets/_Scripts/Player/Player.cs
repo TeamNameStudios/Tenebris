@@ -39,8 +39,6 @@ public class Player : MonoBehaviour
     {
         velocity.x = movementDirection.x * speed;
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
-
-
     }
 
     private void Jump(bool isJumping)
@@ -66,10 +64,10 @@ public class Player : MonoBehaviour
             RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
             if(hit2D.collider != null)
             {
-                Terrain terrain = hit2D.collider.GetComponent<Terrain>();
-                if(terrain != null)
+                LandableGround landableGround = hit2D.collider.GetComponent<LandableGround>();
+                if(landableGround != null)
                 {
-                    groundHeight = terrain.terrainHeight;
+                    groundHeight = landableGround.groundHeight;
                     pos.y = groundHeight;
                     velocity.y = 0f;
                     isGrounded = true;

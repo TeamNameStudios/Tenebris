@@ -25,7 +25,7 @@ public class MapMover : MonoBehaviour
 
     public void FixedUpdate()
     {
-        float realVelocity = velocity * depth;
+        float realVelocity = velocity / depth;
         Vector2 pos = transform.position;
         pos.x -= realVelocity * Time.fixedDeltaTime;
         transform.position = pos;

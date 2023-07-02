@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleGenerator : MonoBehaviour
+public class PuzzleGenerator : Singleton<PuzzleGenerator>
 {
     // Start is called before the first frame update
     void Start()

@@ -38,13 +38,19 @@ public class ChunkGenerator : Singleton<ChunkGenerator>
         return chunk;
     }
 
-    public Chunk GenerateChunk(Chunk chunk, bool initChunk) 
+    public Chunk GenerateChunk(Chunk chunk, bool initChunk = false) 
     {
-        List<Terrain> Terrains = TerrainGenerator.Instance.GenerateTerrains(chunk.transform, initChunk);
-        List<Platform> Platforms = PlatformGenerator.Instance.GeneratePlatforms(chunk.transform, initChunk);
-        chunk.Setup(Terrains, Platforms);
-        return chunk;
+        GameObject terrainContainer;
+        List<Terrain> Terrains = TerrainGenerator.Instance.GenerateTerrains(chunk.transform, initChunk, out terrainContainer);
 
+        GameObject platformContainer;
+        List<Platform> Platforms = PlatformGenerator.Instance.GeneratePlatforms(chunk.transform, initChunk, out platformContainer);
+        
+        chunk.Setup(Terrains, Platforms, terrainContainer, platformContainer);
+
+        TileTerrainGeneration.Instance.GenerateTilemap(chunk.transform, EnvironmentController.Instance.tilemapDictionary[chunk]);
+
+        return chunk;
     }
 
 }

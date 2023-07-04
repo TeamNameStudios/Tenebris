@@ -10,9 +10,10 @@ public class Shadow : MapMover
     private Player player;
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         base.FixedUpdate();
+        
         Vector2 pos = transform.position;
 
         pos.x += Vector2.right.x * shadowSpeed * Time.fixedDeltaTime;

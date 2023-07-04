@@ -11,19 +11,9 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
     [SerializeField]
     private Player player;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private GameObject platformContainer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public List<Platform> GeneratePlatforms(Transform parentTransform, bool initChunk)
+    public List<Platform> GeneratePlatforms(Transform parentTransform, bool initChunk, out GameObject _platformContainer)
     {
         float jumpTollerance = 0.7f;
         float h1 = player.jumpVelocity * 0.5f;
@@ -33,17 +23,19 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
         //float maxY = Mathf.Ceil((player.transform.position.y + maxJumpHeight) * 0.7f);
         float minY = -6;
 
-
-
-        GameObject platformContainer = new GameObject("Platforms");
+        platformContainer = new GameObject("Platforms");
         platformContainer.transform.position = parentTransform.position;
         platformContainer.transform.SetParent(parentTransform);
+
+        _platformContainer = platformContainer;
+
         List<Platform> platforms = new List<Platform>();
+        
         if(!initChunk)
         {
             for (int i = 0; i < 8; i++)
             {
-                float posY = Mathf.Ceil(Random.Range(-11, (-11 + maxJumpHeight) * jumpTollerance));
+                float posY = Mathf.Ceil(Random.Range(-5, (-5 + maxJumpHeight) * jumpTollerance));
                 float posX = parentTransform.position.x - 30f;
                 if (platforms.Count > 0)
                 {
@@ -52,7 +44,7 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
                     maxY *= jumpTollerance;
                     float actuallyY = Random.Range(minY, maxY);
                     posY = Mathf.Ceil(actuallyY);
-                    posX = previousPlatform.transform.position.x + previousPlatform.GetComponent<BoxCollider2D>().size.x + 1f;
+                    posX = previousPlatform.transform.position.x + previousPlatform.GetComponent<BoxCollider2D>().size.x + 3f;
                 }
                 Platform platformPrefab = platformsPrefabs[Random.Range(0, platformsPrefabs.Count)];
                 Vector2 position = new Vector2(posX, posY);
@@ -63,6 +55,7 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
             
             }
         }
+        
         return platforms;
     }
 }

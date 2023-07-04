@@ -8,7 +8,7 @@ public class MapMover : MonoBehaviour
 
     private float velocity;
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy",changeVelocity);
     }

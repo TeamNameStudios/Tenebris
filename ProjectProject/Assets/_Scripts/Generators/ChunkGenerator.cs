@@ -26,7 +26,6 @@ public class ChunkGenerator : Singleton<ChunkGenerator>
     }
     public Chunk CreateChunk(int index)
     {
-        float EndOfChunk = Vector3.right.x * index * chunkSize / 2;
         float xPos = 0;
         if (index != 0)
         {

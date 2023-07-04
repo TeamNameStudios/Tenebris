@@ -33,9 +33,9 @@ public class TileTerrainGeneration : Singleton<TileTerrainGeneration>
 
     public Tilemap CreateTilemap(Transform parentTransform)
     {
-        Grid grid = Instantiate(gridPrefab, parentTransform);
+        Grid grid = Instantiate(gridPrefab, new Vector3(parentTransform.position.x - 30f, parentTransform.position.y), Quaternion.identity);
         grid.transform.SetParent(parentTransform);
-        grid.transform.GetChild(0).position = parentTransform.position + new Vector3(0, -17f, 0);
+        grid.transform.GetChild(0).position = grid.transform.position + new Vector3(0, -17f, 0);
 
         Tilemap tilemap = grid.GetComponentInChildren<Tilemap>();
 

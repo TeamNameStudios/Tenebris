@@ -57,20 +57,16 @@ public class Chunk : MapMover
         if (pos.x < -60f)
         {
             pos.x += 180f;
+            ResetChunk(this);
         }
-        if (pos.x > 60f)
+        if (pos.x > 120f)
         {
             pos.x -= 180f;
             isGenerated = false;
         }
-        
-        transform.position = pos;
-        EndOfChunk = transform.position.x + (chunkSize / 2);
 
-        if (EndOfChunk < -60f)
-        {
-            ResetChunk(this);
-        }
+        transform.position = pos;
+        
     }
 
     public void SetPreviousChunk(Chunk previous)

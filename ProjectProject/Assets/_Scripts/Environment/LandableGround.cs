@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class LandableGround : MonoBehaviour
 {
     public float groundHeight;
-    BoxCollider2D collider;
+    private BoxCollider2D collider;
     void Start()
     {
         collider = GetComponent<BoxCollider2D>();

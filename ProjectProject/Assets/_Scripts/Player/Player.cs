@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public float jumpVelocity =20;
     public float groundHeight = 10;
     public bool isGrounded = false;
+    public bool isFacingRight = true;
+
 
     private void Awake()
     {
@@ -36,9 +38,8 @@ public class Player : MonoBehaviour
 
     private void Move(float movementDirection)
     {
-        //velocity.x = movementDirection.x * speed;
         direction = movementDirection;
-        
+        Flip();
     }
 
     private void Jump(bool isJumping)
@@ -47,6 +48,17 @@ public class Player : MonoBehaviour
         {
             isGrounded = false;
             velocity.y = jumpVelocity;
+        }
+    }
+
+    public void Flip()
+    {
+        if(isFacingRight && direction > 0f || !isFacingRight && direction < 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
         }
     }
 

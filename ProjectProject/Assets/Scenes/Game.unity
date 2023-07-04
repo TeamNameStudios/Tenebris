@@ -398,6 +398,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1
+  velocity: 0
+  isDashing: 0
   shadowSpeed: 2
   player: {fileID: 1293098422}
 --- !u!1 &779529589
@@ -446,6 +448,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 3.5
+  velocity: 0
+  isDashing: 0
 --- !u!212 &779529592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -544,6 +548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1.5
+  velocity: 0
+  isDashing: 0
 --- !u!212 &885797227
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -673,6 +679,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1005206824
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -745,6 +753,10 @@ PrefabInstance:
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2774550027810738097, guid: dd0a0b564332c744fbf94d5f00e07351, type: 3}
+      propertyPath: isFacingRight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774550027810738097, guid: dd0a0b564332c744fbf94d5f00e07351, type: 3}
       propertyPath: deAcceleration
       value: 40
       objectReference: {fileID: 0}
@@ -792,7 +804,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1094199120524255346, guid: dd0a0b564332c744fbf94d5f00e07351, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dd0a0b564332c744fbf94d5f00e07351, type: 3}
 --- !u!1 &1064700903
 GameObject:
@@ -840,6 +853,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 3
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1064700906
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -938,6 +953,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 3
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1198070064
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1036,6 +1053,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 3.5
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1247152009
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1093,7 +1112,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2774550027810738097, guid: dd0a0b564332c744fbf94d5f00e07351, type: 3}
   m_PrefabInstance: {fileID: 1005479709}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1861174317}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1ff403cc5ab2794493443756fba74fb, type: 3}
@@ -1145,6 +1164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 2
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1314678037
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1389,6 +1410,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 2.5
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1641922023
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1487,6 +1510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 2
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1704069374
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1585,6 +1610,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 2.5
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1845155214
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1721,6 +1748,155 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1861174317 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2774550027810738096, guid: dd0a0b564332c744fbf94d5f00e07351, type: 3}
+  m_PrefabInstance: {fileID: 1005479709}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1861174321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861174317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f393d46b0df3841b3ad472c3b1341a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDash: 1
+  isDashing: 0
+  dashingPower: 5
+  dashingTime: 0.6
+  dashingCooldown: 0.5
+  player: {fileID: 1293098422}
+--- !u!96 &1861174322
+TrailRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861174317}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Time: 5
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.03910446
+        value: 0.012578964
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.24860336
+        value: 0.29559752
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5251397
+        value: 0.8427673
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.7905028
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MinVertexDistance: 0.1
+  m_Autodestruct: 0
+  m_Emitting: 1
 --- !u!1 &1908130487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,6 +1943,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1
+  velocity: 0
+  isDashing: 0
 --- !u!212 &1908130490
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2050,6 +2228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1.5
+  velocity: 0
+  isDashing: 0
 --- !u!212 &2123635772
 SpriteRenderer:
   m_ObjectHideFlags: 0

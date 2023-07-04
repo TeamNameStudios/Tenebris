@@ -14,11 +14,24 @@ public class InputController : Singleton<InputController>
 
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            EventManager<bool>.Instance.TriggerEvent("jumpMovement",true);
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
         }
         else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
         {
             EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
         }
+
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        {
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
+        {
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            EventManager<bool>.Instance.TriggerEvent("dash", true);
+        }
     }
-}
+   }

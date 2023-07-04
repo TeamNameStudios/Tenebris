@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public float groundHeight = 10;
     public bool isGrounded = false;
     public bool isFacingRight = true;
-
+    public bool isDashing = false;
 
     private void Awake()
     {
@@ -29,13 +29,19 @@ public class Player : MonoBehaviour
     {
         EventManager<float>.Instance.StartListening("movement", Move);
         EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
+        EventManager<bool>.Instance.StartListening("isDashing", IsDashing);
     }
     private void OnDisable()
     {
         EventManager<float>.Instance.StopListening("movement", Move);
         EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
+        EventManager<bool>.Instance.StopListening("isDashing", IsDashing);
     }
 
+    private void IsDashing(bool _isDashing)
+    {
+        isDashing = _isDashing;
+    }
     private void Move(float movementDirection)
     {
         direction = movementDirection;
@@ -53,7 +59,7 @@ public class Player : MonoBehaviour
 
     public void Flip()
     {
-        if(isFacingRight && direction > 0f || !isFacingRight && direction < 0f)
+        if(isFacingRight && direction < 0f || !isFacingRight && direction > 0f)
         {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
@@ -64,7 +70,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-  
+        if (isDashing)
+        {
+            return;
+        }
         if (direction == 0f)
         {
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deAcceleration * Time.deltaTime);

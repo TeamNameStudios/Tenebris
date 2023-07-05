@@ -9,7 +9,7 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
     private List<Platform> platformsPrefabs = new List<Platform>();
 
     [SerializeField]
-    private Player player;
+    private PlayerJump playerJump;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +26,9 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
     public List<Platform> GeneratePlatforms(Transform parentTransform, bool initChunk)
     {
         float jumpTollerance = 0.7f;
-        float h1 = player.jumpVelocity * 0.5f;
-        float t = player.jumpVelocity / player.gravity;
-        float h2 = player.jumpVelocity * t + (0.5f * (player.gravity * (t * t)));
+        float h1 = playerJump.jumpVelocity * 0.5f;
+        float t = playerJump.jumpVelocity / playerJump.gravity;
+        float h2 = playerJump.jumpVelocity * t + (0.5f * (playerJump.gravity * (t * t)));
         float maxJumpHeight = h1 + h2;
         //float maxY = Mathf.Ceil((player.transform.position.y + maxJumpHeight) * 0.7f);
         float minY = -6;

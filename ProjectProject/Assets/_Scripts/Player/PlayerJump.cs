@@ -4,15 +4,80 @@ using UnityEngine;
 
 public class PlayerJump : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    public float jumpVelocity = 20;
+    [SerializeField]
+    public float groundHeight = 10;
+    [SerializeField]
+    public float gravity;
+    [SerializeField]
+    private Player player;
+    private void Awake()
     {
-        
+        player = GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnEnable()
+    { 
+        EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
+    }
+    private void OnDisable()
     {
-        
+        EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
+    }
+
+    private void Jump(bool isJumping)
+    {
+        if (player.isGrounded && isJumping)
+        {
+            player.isGrounded = false;
+            player.velocity.y = jumpVelocity;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Vector2 pos = transform.position;
+
+        if (player.isDashing)
+        {
+            return;
+        }
+        if (!player.isGrounded)
+        {
+            pos.y += player.velocity.y * Time.fixedDeltaTime;
+            player.velocity.y += gravity * Time.fixedDeltaTime;
+
+            Vector2 raycastOrigin = new Vector2((pos.x + 0.7f) * player.direction.x, pos.y);
+            Vector2 rayDirection = Vector2.up;
+            float rayDistance = player.velocity.y * Time.fixedDeltaTime;
+            RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
+            if (hit2D.collider != null)
+            {
+                LandableGround landableGround = hit2D.collider.GetComponent<LandableGround>();
+                if (landableGround != null)
+                {
+                    groundHeight = landableGround.groundHeight;
+                    pos.y = groundHeight;
+                    player.velocity.y = 0f;
+                    player.isGrounded = true;
+                }
+            }
+            Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.cyan);
+        }
+        if (player.isGrounded)
+        {
+            Vector2 raycastOrigin = new Vector2((pos.x - 0.7f) * player.direction.x, pos.y);
+            Vector2 rayDirection = Vector2.up;
+            float rayDistance = player.velocity.y * Time.fixedDeltaTime;
+            RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
+            if (hit2D.collider == null)
+            {
+                player.isGrounded = false;
+            }
+            Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.green);
+        }
+        transform.position = pos;
     }
 }

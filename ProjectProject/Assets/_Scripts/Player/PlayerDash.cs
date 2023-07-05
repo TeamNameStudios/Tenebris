@@ -15,10 +15,15 @@ public class PlayerDash : MonoBehaviour
     [SerializeField]
     private float dashingCooldown = 1f;
     [SerializeField]
+    private PlayerJump playerJump;
+    [SerializeField]
     private Player player;
+    [SerializeField]
+    GameObject DashEffect;
 
     private void Awake()
     {
+        playerJump = GetComponent<PlayerJump>();
         player = GetComponent<Player>();
     }
     private void OnEnable()
@@ -41,18 +46,19 @@ public class PlayerDash : MonoBehaviour
     private IEnumerator Dash()
     {
         canDash = false;
-        isDashing = true;
-        EventManager<bool>.Instance.TriggerEvent("isDashing", isDashing);
-        float originalGravity = player.gravity;
-        player.gravity = 0f;
+        GameObject dashEffect = Instantiate(DashEffect,transform.position, DashEffect.transform.rotation);
+
+        player.isDashing = true;
+        float originalGravity = playerJump.gravity;
+        playerJump.gravity = 0f;
         float velocityX = player.velocity.x * dashingPower;
         player.velocity.x = velocityX;
         player.velocity.y = 0f;
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocityX);
         yield return new WaitForSeconds(dashingTime);
-        isDashing =false;
-        player.gravity = originalGravity;
-        EventManager<bool>.Instance.TriggerEvent("isDashing", isDashing);
+        playerJump.gravity = originalGravity;
+        Destroy(dashEffect);
+        player.isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }

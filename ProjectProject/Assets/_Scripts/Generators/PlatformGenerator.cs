@@ -35,7 +35,7 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
         {
             for (int i = 0; i < 8; i++)
             {
-                float posY = Mathf.Ceil(Random.Range(-5, (-5 + maxJumpHeight) * jumpTollerance));
+                float posY = Mathf.Ceil(Random.Range(-10, (-7 + maxJumpHeight) * jumpTollerance));
                 float posX = parentTransform.position.x - 30f;
                 if (platforms.Count > 0)
                 {
@@ -44,7 +44,7 @@ public class PlatformGenerator : Singleton<PlatformGenerator>
                     maxY *= jumpTollerance;
                     float actuallyY = Random.Range(minY, maxY);
                     posY = Mathf.Ceil(actuallyY);
-                    posX = previousPlatform.transform.position.x + previousPlatform.GetComponent<BoxCollider2D>().size.x + 3f;
+                    posX = previousPlatform.transform.position.x + previousPlatform.GetComponent<BoxCollider2D>().size.x + 4f;
                 }
                 Platform platformPrefab = platformsPrefabs[Random.Range(0, platformsPrefabs.Count)];
                 Vector2 position = new Vector2(posX, posY);

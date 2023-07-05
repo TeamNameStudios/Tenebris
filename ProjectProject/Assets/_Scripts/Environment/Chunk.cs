@@ -40,13 +40,20 @@ public class Chunk : MapMover
 
     public bool isGenerated;
 
-    public void Setup(List<Terrain> terrains, List<Platform> platforms, GameObject _terrainContainer, GameObject _platformContainer)
-    {
-        EndOfChunk = transform.position.x +( chunkSize / 2);
-        Terrains = terrains;
-        Platforms = platforms;
+    //public void Setup(List<Terrain> terrains, List<Platform> platforms, GameObject _terrainContainer, GameObject _platformContainer)
+    //{
+    //    EndOfChunk = transform.position.x +( chunkSize / 2);
+    //    Terrains = terrains;
+    //    Platforms = platforms;
+    //
+    //    terrainContainer = _terrainContainer;
+    //    platformContainer = _platformContainer;
+    //}
 
-        terrainContainer = _terrainContainer;
+    public void Setup(List<Platform> platforms, GameObject _platformContainer)
+    {
+        EndOfChunk = transform.position.x + (chunkSize / 2);
+        Platforms = platforms;
         platformContainer = _platformContainer;
     }
 
@@ -76,10 +83,10 @@ public class Chunk : MapMover
 
     public void ResetChunk(Chunk chunk)
     {
-        chunk.terrains.Clear();
+        //chunk.terrains.Clear();
         chunk.platforms.Clear();
 
-        terrainContainer.transform.DestroyChildren();
+        //terrainContainer.transform.DestroyChildren();
 
         platformContainer.transform.DestroyChildren();
 
@@ -87,7 +94,7 @@ public class Chunk : MapMover
         
         if (!isGenerated)
         {
-            ChunkGenerator.Instance.GenerateChunk(this);  //whi it is being called every frame even if isGenerated is false ????
+            ChunkGenerator.Instance.GenerateChunk(this);
             isGenerated = true;
         }
     }

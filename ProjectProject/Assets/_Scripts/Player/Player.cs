@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
 public class Player : MonoBehaviour
 {
 
@@ -90,6 +92,22 @@ public class Player : MonoBehaviour
                     velocity.y = 0f;
                     isGrounded = true;
                 }
+
+                //TilemapCollider2D collider = hit2D.collider.GetComponent<TilemapCollider2D>();
+                //Tilemap tilemap = hit2D.collider.GetComponent<Tilemap>();
+                //
+                //if (collider != null)
+                //{
+                //    tilemap.CompressBounds();
+                //    Vector3Int tilemapSize = tilemap.size;
+                //
+                //    groundHeight = (collider.transform.position.y + collider.transform.localScale.y / 2) + tilemapSize.y;
+                //    Debug.Log(hit2D.distance);
+                //    pos.y = groundHeight;
+                //    velocity.y = 0f;
+                //    
+                //    isGrounded = true;
+                //}
             }
             Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.cyan);
         }

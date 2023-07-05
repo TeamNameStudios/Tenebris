@@ -40,12 +40,13 @@ public class ChunkGenerator : Singleton<ChunkGenerator>
     public Chunk GenerateChunk(Chunk chunk, bool initChunk = false) 
     {
         GameObject terrainContainer;
-        List<Terrain> Terrains = TerrainGenerator.Instance.GenerateTerrains(chunk.transform, initChunk, out terrainContainer);
+        //List<Terrain> Terrains = TerrainGenerator.Instance.GenerateTerrains(chunk.transform, initChunk, out terrainContainer);
 
         GameObject platformContainer;
         List<Platform> Platforms = PlatformGenerator.Instance.GeneratePlatforms(chunk.transform, initChunk, out platformContainer);
         
-        chunk.Setup(Terrains, Platforms, terrainContainer, platformContainer);
+        //chunk.Setup(Terrains, Platforms, terrainContainer, platformContainer);
+        chunk.Setup(Platforms, platformContainer);
 
         TileTerrainGeneration.Instance.GenerateTilemap(chunk.transform, EnvironmentController.Instance.tilemapDictionary[chunk]);
 

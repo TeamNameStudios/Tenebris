@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class EnvironmentController : Singleton<EnvironmentController>
 {
@@ -9,12 +10,16 @@ public class EnvironmentController : Singleton<EnvironmentController>
     public int numberOfChunk;
     [SerializeField]
     public List<Chunk> chunks;
-    // Start is called before the first frame update
+
+    public Dictionary<Chunk, Tilemap> tilemapDictionary;
+
     void Start()
-    { 
+    {
+        tilemapDictionary = new Dictionary<Chunk, Tilemap>();
+
         for (int i = 0; i < numberOfChunk; i++)
         {
-            AddChunk(i);  
+            AddChunk(i); 
         }
         chunks[0].SetPreviousChunk(chunks[chunks.Count - 1]);
     }
@@ -23,6 +28,8 @@ public class EnvironmentController : Singleton<EnvironmentController>
     {
 
         Chunk generatedChunk = ChunkGenerator.Instance.CreateChunk(index);
+        Tilemap tilemap = TileTerrainGeneration.Instance.CreateTilemap(generatedChunk.transform);
+        tilemapDictionary.Add(generatedChunk, tilemap);
         generatedChunk = ChunkGenerator.Instance.GenerateChunk(generatedChunk, index == 0);
         chunks.Add(generatedChunk);
         if(chunks.Count > 0) {

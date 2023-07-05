@@ -48,7 +48,7 @@ public class EventManager<T>
         else
         {
            
-            thisListener = listener;
+            thisListener += listener;
             Instance.eventDictionary.Add(eventName, thisListener);
         }
     }
@@ -60,7 +60,7 @@ public class EventManager<T>
             return;
         }
 
-        Action thisListener = null;
+        //Action thisListener = null;
 
         if (eventDictionary.ContainsKey(eventName))
         {
@@ -101,7 +101,7 @@ public class EventManager<T>
             return;
         }
 
-        Action<T> thisListener = null;
+        //Action<T> thisListener = null;
 
         if (paramEventDictionary.ContainsKey(eventName))
         {

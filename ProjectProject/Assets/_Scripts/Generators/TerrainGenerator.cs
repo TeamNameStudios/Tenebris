@@ -8,25 +8,19 @@ public class TerrainGenerator : Singleton<TerrainGenerator>
     [SerializeField]
     private GameObject TerrainPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private GameObject terrainContainer;
 
-    // Update is called once per frame
-    void Update()
+    public List<Terrain> GenerateTerrains(Transform parentTransform, bool initChunk, out GameObject _terrainContainer)
     {
-        
-    }
 
-    public List<Terrain> GenerateTerrains(Transform parentTransform, bool initChunk)
-    {
-        
-        GameObject terrainContainer = new GameObject("Terrains");
+        terrainContainer = new GameObject("Terrains");
         terrainContainer.transform.position = parentTransform.position;
         terrainContainer.transform.SetParent(parentTransform);
+
+        _terrainContainer = terrainContainer;
+        
         List <Terrain> terrains = new List <Terrain>();
+        
         for (int i = 0; i < 12; i++)
         {
             if (initChunk)

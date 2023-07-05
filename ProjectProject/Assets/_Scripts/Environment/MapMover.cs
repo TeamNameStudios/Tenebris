@@ -7,6 +7,7 @@ public class MapMover : MonoBehaviour
     public float depth = 1;
     [SerializeField]
     private float velocity;
+	
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy",changeVelocity);

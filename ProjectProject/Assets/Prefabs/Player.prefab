@@ -178,6 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9164660901016660943}
   - component: {fileID: 9164660901016660940}
+  - component: {fileID: 3494281188119029969}
   - component: {fileID: 8998615552283208031}
   - component: {fileID: 649298859899979900}
   - component: {fileID: 4559558177157745187}
@@ -220,9 +221,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
-  direction: 0
+  direction: {x: 0, y: 0}
   isGrounded: 0
   isDashing: 0
+--- !u!114 &3494281188119029969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9164660901016660941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0818d79d50d6348898a66b69341cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Corruption: 0
+  maxCorruption: 0
+  corrupted: 0
+  corruptionTime: 0
+  canRecover: 0
+  recoverCorruptionWaitTime: 0
+  recoverCorruptionSpeed: 0
 --- !u!114 &8998615552283208031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +262,9 @@ MonoBehaviour:
   dashingCooldown: 0.5
   playerJump: {fileID: 0}
   player: {fileID: 9164660901016660940}
+  DashEffect: {fileID: 0}
+  corruptionSystem: {fileID: 0}
+  dashCorruption: 0
 --- !u!114 &649298859899979900
 MonoBehaviour:
   m_ObjectHideFlags: 0

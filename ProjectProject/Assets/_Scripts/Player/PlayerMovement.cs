@@ -15,9 +15,12 @@ public class PlayerMovement : MonoBehaviour
     public bool isFacingRight = true;
     [SerializeField]
     private Player player;
+    [SerializeField]
+    private PlayerHook playerHook;
     private void Awake()
     {
         player = GetComponent<Player>();
+        playerHook = GetComponent<PlayerHook>();
     }
 
     private void OnEnable()
@@ -38,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.isDashing)
+        if (player.isDashing || playerHook.isHooked)
         {
             return;
         }

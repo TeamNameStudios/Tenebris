@@ -16,5 +16,7 @@ public class Player : MonoBehaviour
     public bool isGrounded = false;
     [SerializeField]
     public bool isDashing = false;
+    
+
 
 }

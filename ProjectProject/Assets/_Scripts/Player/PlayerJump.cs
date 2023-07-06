@@ -10,12 +10,18 @@ public class PlayerJump : MonoBehaviour
     [SerializeField]
     public float groundHeight = 10;
     [SerializeField]
+    public float originalGravity;
+    [SerializeField]
     public float gravity;
     [SerializeField]
     private Player player;
+    [SerializeField]
+    private PlayerHook playerHook;
     private void Awake()
     {
         player = GetComponent<Player>();
+        playerHook = GetComponent<PlayerHook>();
+        originalGravity = gravity;
     }
 
 
@@ -41,7 +47,7 @@ public class PlayerJump : MonoBehaviour
     {
         Vector2 pos = transform.position;
 
-        if (player.isDashing)
+        if (player.isDashing || playerHook.isHooked)
         {
             return;
         }

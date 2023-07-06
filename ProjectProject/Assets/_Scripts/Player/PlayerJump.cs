@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerJump : MonoBehaviour
 {
@@ -63,6 +64,22 @@ public class PlayerJump : MonoBehaviour
                     player.velocity.y = 0f;
                     player.isGrounded = true;
                 }
+
+                // To get the size of the tilemap !!!
+                //TilemapCollider2D tilemapCollider = hit2D.collider.GetComponent<TilemapCollider2D>();
+                //Tilemap tilemap = hit2D.collider.GetComponent<Tilemap>();
+                //
+                //if (tilemapCollider != null)
+                //{
+                //    tilemap.CompressBounds();
+                //    Vector3Int tilemapSize = tilemap.size;
+                //
+                //    groundHeight = (tilemapCollider.transform.position.y + tilemapCollider.transform.localScale.y / 2) + tilemapSize.y;
+                //    pos.y = groundHeight;
+                //    player.velocity.y = 0f;
+                //
+                //    player.isGrounded = true;
+                //}
             }
             Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.cyan);
         }

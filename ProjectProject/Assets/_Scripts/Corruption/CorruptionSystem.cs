@@ -18,7 +18,7 @@ public class CorruptionSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager<float>.Instance.StartListening("Dashed", AddCorruption);
+        EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
     }
 
     private void Start()
@@ -44,7 +44,7 @@ public class CorruptionSystem : MonoBehaviour
     {
         if (!corrupted && canRecover)
         {
-            DecreaseCorruption(recoverCorruptionSpeed * Time.fixedDeltaTime);
+            DecreaseCorruption(recoverCorruptionSpeed/Corruption);
         }
     }
 
@@ -95,7 +95,6 @@ public class CorruptionSystem : MonoBehaviour
         yield return new WaitForSeconds(corruptionTime);
         corrupted = false;
         Corruption = 0;
-        //canRecover = false;
     }
 
     private IEnumerator CanRecovery()

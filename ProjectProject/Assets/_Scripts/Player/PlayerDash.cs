@@ -49,7 +49,7 @@ public class PlayerDash : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        EventManager<float>.Instance.TriggerEvent("Dashed", dashCorruption);
+        EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
         canDash = false;
         GameObject dashEffect = Instantiate(DashEffect,transform.position, DashEffect.transform.rotation);
 

@@ -188,7 +188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &21870125
 Transform:
   m_ObjectHideFlags: 0
@@ -302,6 +302,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_Constraints
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8633722325534548935, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 649298859899979900, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: player
       value: 

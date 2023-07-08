@@ -21,6 +21,11 @@ public class CorruptionSystem : MonoBehaviour
         EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
     }
 
+    private void OnDisable()
+    {
+        EventManager<float>.Instance.StopListening("Corruption", AddCorruption);
+    }
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -44,7 +49,7 @@ public class CorruptionSystem : MonoBehaviour
     {
         if (!corrupted && canRecover)
         {
-            DecreaseCorruption(recoverCorruptionSpeed/Corruption);
+            DecreaseCorruption(Mathf.Pow(recoverCorruptionSpeed / Corruption, 2));
         }
     }
 

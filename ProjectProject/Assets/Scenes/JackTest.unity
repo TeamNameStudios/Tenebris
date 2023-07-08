@@ -308,7 +308,7 @@ PrefabInstance:
       objectReference: {fileID: 911217507}
     - target: {fileID: 3494281188119029969, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: maxCorruption
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3494281188119029969, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: corruptionTime
@@ -316,7 +316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3494281188119029969, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: recoverCorruptionSpeed
-      value: 0.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3494281188119029969, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: recoverCorruptionWaitTime
@@ -494,6 +494,8 @@ MonoBehaviour:
   velocity: 0
   shadowSpeed: 2
   player: {fileID: 911217507}
+  minDistance: 20
+  corruptionValue: 10
 --- !u!1 &779529589
 GameObject:
   m_ObjectHideFlags: 0

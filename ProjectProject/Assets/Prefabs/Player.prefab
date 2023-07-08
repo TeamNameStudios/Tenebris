@@ -237,12 +237,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Corruption: 0
-  maxCorruption: 0
+  maxCorruption: 10
   corrupted: 0
-  corruptionTime: 0
+  corruptionTime: 5
   canRecover: 0
-  recoverCorruptionWaitTime: 0
-  recoverCorruptionSpeed: 0
+  recoverCorruptionWaitTime: 5
+  recoverCorruptionSpeed: 0.5
 --- !u!114 &8998615552283208031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,11 +260,11 @@ MonoBehaviour:
   dashingPower: 5
   dashingTime: 0.6
   dashingCooldown: 0.5
-  playerJump: {fileID: 0}
+  playerJump: {fileID: 649298859899979900}
   player: {fileID: 9164660901016660940}
-  DashEffect: {fileID: 0}
+  DashEffect: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
   corruptionSystem: {fileID: 0}
-  dashCorruption: 0
+  dashCorruption: 2.5
 --- !u!114 &649298859899979900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   jumpVelocity: 50
   groundHeight: 10
   gravity: -200
-  player: {fileID: 0}
+  player: {fileID: 9164660901016660940}
 --- !u!114 &4559558177157745187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
   acceleration: 60
   deAcceleration: 40
   isFacingRight: 1
-  player: {fileID: 0}
+  player: {fileID: 9164660901016660940}
 --- !u!70 &1133532749736719681
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

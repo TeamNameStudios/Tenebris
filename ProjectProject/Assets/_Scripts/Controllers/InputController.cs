@@ -9,35 +9,38 @@ public class InputController : Singleton<InputController>
     private void Update()
     {
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            EventManager<Vector2>.Instance.TriggerEvent("leftMovement", Vector2.left);
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
-        {
-            EventManager<Vector2>.Instance.TriggerEvent("leftMovement", Vector2.zero);
-        }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            EventManager<Vector2>.Instance.TriggerEvent("rightMovement", Vector2.right);
-        }
-        else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
-        {
-            EventManager<Vector2>.Instance.TriggerEvent("rightMovement", Vector2.zero);
-        }
+        float directionX = Input.GetAxisRaw("Horizontal");
+        float directionY = Input.GetAxisRaw("Horizontal");
+        EventManager<Vector2>.Instance.TriggerEvent("movement", new Vector2(directionX, directionY));
+
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            EventManager<bool>.Instance.TriggerEvent("jumpMovement",true);
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
         }
         else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
         {
             EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
         }
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.P))
+
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            EventManager<bool>.Instance.TriggerEvent("createTentacle", true);
-            EventManager<bool>.Instance.TriggerEvent("dashMovement", true);
-            EventManager<bool>.Instance.TriggerEvent("attac", true);
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
+        {
+            EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            EventManager<bool>.Instance.TriggerEvent("dash", true);
+        }
+        if (Input.GetKey(KeyCode.Z))
+        {
+            EventManager<bool>.Instance.TriggerEvent("hook", true);
+        }
+        else if(Input.GetKeyUp(KeyCode.Z))
+        {
+            EventManager<bool>.Instance.TriggerEvent("hook",false);
         }
     }
-}
+   }

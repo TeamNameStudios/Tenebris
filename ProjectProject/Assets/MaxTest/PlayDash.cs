@@ -16,6 +16,8 @@ public class PlayDash : PlayContro
     public float timerCD;
 
     public bool isDark;
+
+    public float corruptionNeeded;
     public enum blockedDirection
     {
         None,
@@ -85,13 +87,17 @@ public class PlayDash : PlayContro
 
     private void Dash(bool isDashing)
     {
-        if(timerCD <= 0)
+        if (corruptionNeeded > corruption)
+            return;
+
+        if (timerCD <= 0)
             dashing = true;
 
         if (dashing && !isDark)
         {
             isDark = true;
             _dTimer = 0;
+            EventManager<float>.Instance.TriggerEvent("updateCorruption", -corruptionNeeded);
             EventManager<Vector2>.Instance.StopListening("leftMovement", MoveD);
             EventManager<Vector2>.Instance.StopListening("rightMovement", MoveD);
             EventManager<bool>.Instance.StopListening("jumpMovement", Jump);

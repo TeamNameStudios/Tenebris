@@ -13,6 +13,8 @@ public class PlayTentaclePlatform : PlayContro
     private float endPose;
     public Collider2D coll2D;
     private bool isRising;
+    public float corruptionNeeded = 10;
+
 
     private new void OnEnable() 
     {
@@ -30,8 +32,12 @@ public class PlayTentaclePlatform : PlayContro
 
     private void TentacleUp(bool sentinel)
     {
+        if (corruptionNeeded > corruption)
+            return;
+
         if (_canCreateTentacle && sentinel && isGrounded)
         {
+            EventManager<float>.Instance.TriggerEvent("updateCorruption", -corruptionNeeded);
             _canCreateTentacle = false;
             Vector2 pos = new Vector2(
                 transform.position.x,
@@ -45,10 +51,9 @@ public class PlayTentaclePlatform : PlayContro
         _canCreateTentacle = canCreateAgain;
     }
 
-    private new void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("TentaPlatform"))// &&
-            //collision.bounds.max.y <= Mathf.Lerp(coll2D.bounds.min.y, coll2D.bounds.center.y, 0.3f))
+        if (collision.gameObject.CompareTag("TentaPlatform"))
         {
             isGrounded = true;
             Vector2 pos = transform.position;
@@ -61,8 +66,7 @@ public class PlayTentaclePlatform : PlayContro
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("TentaPlatform"))// &&
-            //collision.bounds.max.y <= Mathf.Lerp(coll2D.bounds.min.y, coll2D.bounds.center.y, 0.3f))
+        if (collision.gameObject.CompareTag("TentaPlatform"))
         {
             isGrounded = true;
             Vector2 pos = transform.position;

@@ -8,6 +8,8 @@ public class PlayTentacleAttack : PlayContro
     public Collider2D coll2D;
 
     public TentacleAttack tentAtac;
+
+    public float corruptionNeeded = 10;
     private bool _canAtac = true;
     private float baseGravity;
     private float initialVel;
@@ -69,8 +71,12 @@ public class PlayTentacleAttack : PlayContro
 
     private void Attack(bool sentinel)
     {
+        if (corruptionNeeded > corruption)
+            return;
+
         if (_canAtac && sentinel)
         {
+            EventManager<float>.Instance.TriggerEvent("updateCorruption", -corruptionNeeded);
             _canAtac = false;
             tentAtac.TentacleInit(transform.position);
         }

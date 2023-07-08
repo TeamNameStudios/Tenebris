@@ -5,9 +5,9 @@ using UnityEngine;
 public class MapMover : MonoBehaviour
 {
     public float depth = 1;
-
+    [SerializeField]
     private float velocity;
-
+	
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy",changeVelocity);
@@ -15,7 +15,7 @@ public class MapMover : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", changeVelocity);
+        EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", changeVelocity);  
     }
 
     private void changeVelocity(float _velocity)
@@ -25,7 +25,7 @@ public class MapMover : MonoBehaviour
 
     public void FixedUpdate()
     {
-        float realVelocity = velocity * depth;
+        float realVelocity = velocity / depth;
         Vector2 pos = transform.position;
         pos.x -= realVelocity * Time.fixedDeltaTime;
         transform.position = pos;

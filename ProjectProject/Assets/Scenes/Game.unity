@@ -306,6 +306,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911217507}
+    - target: {fileID: 649298859899979900, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2313536404991503854, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -338,6 +342,26 @@ PrefabInstance:
       propertyPath: playerJump
       value: 
       objectReference: {fileID: 911217505}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: isGrounded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _characterBounds.m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _characterBounds.m_Extent.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _characterBounds.m_Extent.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660941, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_Name
       value: Player

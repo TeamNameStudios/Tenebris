@@ -47,16 +47,14 @@ public class PlayerDash : MonoBehaviour
     {
         canDash = false;
         GameObject dashEffect = Instantiate(DashEffect,transform.position, DashEffect.transform.rotation);
-
         player.isDashing = true;
-        
-        playerJump.gravity = 0f;
+        //playerJump.gravity = 0f;
         float velocityX = player.velocity.x * dashingPower;
         player.velocity.x = velocityX;
         player.velocity.y = 0f;
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocityX);
         yield return new WaitForSeconds(dashingTime);
-        playerJump.gravity = playerJump.originalGravity;
+        //playerJump.gravity = playerJump.originalGravity;
         Destroy(dashEffect);
         player.isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);

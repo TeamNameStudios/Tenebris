@@ -25,6 +25,8 @@ public class PlayerHook : MonoBehaviour
     private PlayerMovement playerMovement;
     [SerializeField]
     private Player player;
+
+
     [SerializeField]
     float swingAccellerationSwing;
     [SerializeField]
@@ -120,8 +122,8 @@ public class PlayerHook : MonoBehaviour
                 //float distance = Vector2.Distance(HookableObject.transform.position, transform.position);
                 //actualDistance = Mathf.Clamp(distance - 3f, minDistance, maxDistance);
                 isHooked = _isHooked;
-                player.isGrounded = false;
-                playerJump.gravity = 0f;
+                //player.isGrounded = false;
+                //playerJump.gravity = 0f;
                 player.velocity.y = 0f;
                 lineRenderer.enabled = true;
             }   
@@ -129,7 +131,7 @@ public class PlayerHook : MonoBehaviour
         else
         {
             lineRenderer.enabled = false;
-            playerJump.gravity = playerJump.originalGravity;
+            //playerJump.gravity = playerJump.originalGravity;
         }
         
     }
@@ -137,7 +139,7 @@ public class PlayerHook : MonoBehaviour
     private void JumpAfterSwing()
     {
         lineRenderer.enabled = false;
-        playerJump.gravity = playerJump.originalGravity;
+        //playerJump.gravity = playerJump.originalGravity;
         player.velocity.y = jumpPowerAfterSwing.y;
         player.velocity.x = jumpPowerAfterSwing.x * swingingDirection.x;
         player.velocity.x = Mathf.Clamp(player.velocity.x, -jumpPowerAfterSwing.x, jumpPowerAfterSwing.x);

@@ -11,8 +11,9 @@ public class ChunkGenerator : Singleton<ChunkGenerator>
     public GameObject ChunksContainer;
     public GameObject ChunkPrefab;
     public GameObject HookablePrefab;
+    [SerializeField]
     private float chunkSize = 60;
-
+   
     // Start is called before the first frame update
     void Start()
     {

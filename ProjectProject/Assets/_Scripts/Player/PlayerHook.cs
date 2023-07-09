@@ -13,17 +13,31 @@ public class PlayerHook : MonoBehaviour
     [SerializeField]
     private float minDistance;
     [SerializeField]
+    private float actualDistance;
+    [SerializeField]
+    private float maxDistance;
+    [SerializeField]
     private PlayerJump playerJump;
+    [SerializeField]
+    private PlayerMovement playerMovement;
     [SerializeField]
     private Player player;
     [SerializeField]
-    float swingPower;
+    float swingAccellerationSwing;
+    [SerializeField]
+    float maxSwingPower;
     [SerializeField]
     float distanceToCheck;
+    [SerializeField]
+    Vector2 jumpPowerAfterSwing;
+
+    [SerializeField]
+    private Vector2 swingingDirection;
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         playerJump = GetComponent<PlayerJump>();
+        playerMovement = GetComponent<PlayerMovement>();
         player = GetComponent<Player>();
     }
 
@@ -53,15 +67,6 @@ public class PlayerHook : MonoBehaviour
 
         }
 
-        //if (HookableObject != null)
-        //{
-            //if (Vector3.Distance(HookableObject.transform.position, pos) > 10f)
-            //{
-            //    lineRenderer.enabled = false;
-            //    HookableObject = null;
-
-            //}
-        //}
     }
 
 
@@ -79,21 +84,36 @@ public class PlayerHook : MonoBehaviour
             Vector2 hookObjectpos = HookableObject.transform.position;
             lineRenderer.SetPosition(0, hookObjectpos);
             lineRenderer.SetPosition(1, pos);
-            playerJump.gravity = 0f;
-            float velocityX = player.direction.x * swingPower;
-            player.velocity.x = velocityX;
-            pos.y = -Mathf.Sqrt(Mathf.Pow(minDistance, 2)- Mathf.Pow(hookObjectpos.x - pos.x, 2)) + hookObjectpos.y;
+            player.velocity.x += swingAccellerationSwing * swingingDirection.x * Time.fixedDeltaTime * 100f;
+            player.velocity.x = Mathf.Clamp(player.velocity.x, -maxSwingPower, maxSwingPower);
+            //pos.y = -Mathf.Sqrt(Mathf.Pow(minDistance, 2)- Mathf.Pow(hookObjectpos.x - pos.x, 2)) + hookObjectpos.y;
+            pos.y = Mathf.Lerp(pos.y, hookObjectpos.y, Time.fixedDeltaTime * 2f);
             transform.position = Vector2.Lerp(transform.position, pos, Time.fixedDeltaTime * 100f);
-            EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocityX);
+            EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", player.velocity.x);
+            if ((swingingDirection.x > 0 && hookObjectpos.x < pos.x) || (swingingDirection.x < 0 && hookObjectpos.x > pos.x))
+            {
+                isHooked = false;
+                JumpAfterSwing();
+            }
+
         }
     }
 
     private void Hook(bool _isHooked)
     {
-
-        this.isHooked = _isHooked;
-        if(isHooked)
+        if(HookableObject != null)
         {
+            float distance = Vector2.Distance(HookableObject.transform.position, transform.position);
+            actualDistance = Mathf.Clamp(distance - 3f,minDistance,maxDistance);
+            swingingDirection = playerMovement.isFacingRight ? Vector2.right : Vector2.left;
+
+        }
+        isHooked = _isHooked;
+        if(_isHooked)
+        {
+            player.isGrounded = false;
+            playerJump.gravity = 0f;
+            player.velocity.y = 0f;
             lineRenderer.enabled = true;
         }
         else
@@ -101,7 +121,22 @@ public class PlayerHook : MonoBehaviour
             lineRenderer.enabled = false;
             playerJump.gravity = playerJump.originalGravity;
         }
+        //else
+        //{
+        //    JumpAfterSwing();
+        //}
 
 
+    }
+
+    private void JumpAfterSwing()
+    {
+        lineRenderer.enabled = false;
+        playerJump.gravity = playerJump.originalGravity;
+        player.velocity.y = jumpPowerAfterSwing.y;
+        player.velocity.x = jumpPowerAfterSwing.x * swingingDirection.x;
+        player.velocity.x = Mathf.Clamp(player.velocity.x, -jumpPowerAfterSwing.x, jumpPowerAfterSwing.x);
+        EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", player.velocity.x);
+        swingingDirection = Vector2.zero;
     }
 }

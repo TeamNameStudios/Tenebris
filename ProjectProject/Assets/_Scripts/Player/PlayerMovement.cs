@@ -51,8 +51,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            player.velocity.x += acceleration * player.direction.x * Time.deltaTime;
-            player.velocity.x = Math.Clamp(player.velocity.x, -maxVelocity, maxVelocity);
+            if (Math.Abs(player.velocity.x) > maxVelocity) 
+            {
+                player.velocity.x = Mathf.MoveTowards(player.velocity.x, maxVelocity * player.direction.x, deAcceleration * Time.deltaTime);
+            }else{
+                player.velocity.x += acceleration * player.direction.x * Time.deltaTime;
+                player.velocity.x = Math.Clamp(player.velocity.x, -maxVelocity, maxVelocity);
+
+            }
         }
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", player.velocity.x);
     }

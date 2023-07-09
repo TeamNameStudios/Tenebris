@@ -306,10 +306,18 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 911217507}
+    - target: {fileID: 2313536404991503854, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4559558177157745187, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 911217507}
+    - target: {fileID: 8545429054291874027, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: DashEffect
       value: 
@@ -939,7 +947,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1086787849
 Transform:
   m_ObjectHideFlags: 0
@@ -1345,27 +1353,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9164660901016660941, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
   m_PrefabInstance: {fileID: 398615835}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &1364120337
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1364120332}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.0001
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &1364120338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,13 +1367,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 0}
   HookableObject: {fileID: 0}
-  IsHooked: 0
-  minDistance: 5
+  isHooked: 0
+  minDistance: 6
+  maxDistance: 9
   playerJump: {fileID: 0}
+  playerMovement: {fileID: 0}
   player: {fileID: 0}
-  originalGravity: 0
-  swingPower: 5
+  swingAccellerationSwing: 10
+  maxSwingPower: 40
   distanceToCheck: 20
+  jumpPowerAfterSwing: {x: 30, y: 40}
+  swingingDirection: {x: 0, y: 0}
 --- !u!120 &1364120339
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1530,7 +1521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cfc618094fa8344acbe2a7be340af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfChunk: 3
+  numberOfChunk: 1
   chunks: []
 --- !u!1 &1627763698
 GameObject:
@@ -2174,6 +2165,7 @@ MonoBehaviour:
   ChunksContainer: {fileID: 1627763698}
   ChunkPrefab: {fileID: 751979122317325099, guid: 2d0e309fb31bbde4291b9ee6a088ad8b, type: 3}
   HookablePrefab: {fileID: 5192149630952065976, guid: ea2230e78db3ba046a838525fcc1ba6e, type: 3}
+  chunkSize: 60
 --- !u!1 &2109206751
 GameObject:
   m_ObjectHideFlags: 0

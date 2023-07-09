@@ -38,7 +38,6 @@ public class TileTerrainGeneration : Singleton<TileTerrainGeneration>
         grid.transform.GetChild(0).position = grid.transform.position + new Vector3(0, -16f, 0);
 
         Tilemap tilemap = grid.GetComponentInChildren<Tilemap>();
-
         return tilemap;
     }
 }

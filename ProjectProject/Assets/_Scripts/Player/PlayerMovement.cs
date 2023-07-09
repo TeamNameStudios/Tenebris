@@ -54,7 +54,9 @@ public class PlayerMovement : MonoBehaviour
             if (Math.Abs(player.velocity.x) > maxVelocity) 
             {
                 player.velocity.x = Mathf.MoveTowards(player.velocity.x, maxVelocity * player.direction.x, deAcceleration * Time.deltaTime);
-            }else{
+            }
+            else
+            {
                 player.velocity.x += acceleration * player.direction.x * Time.deltaTime;
                 player.velocity.x = Math.Clamp(player.velocity.x, -maxVelocity, maxVelocity);
 

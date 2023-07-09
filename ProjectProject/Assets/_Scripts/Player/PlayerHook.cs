@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlayerHook : MonoBehaviour
 {
@@ -10,12 +13,12 @@ public class PlayerHook : MonoBehaviour
     private HookableObject HookableObject;
     [SerializeField]
     public bool isHooked;
-    [SerializeField]
-    private float minDistance;
-    [SerializeField]
-    private float actualDistance;
-    [SerializeField]
-    private float maxDistance;
+    //[SerializeField]
+    //private float minDistance;
+    //[SerializeField]
+    //private float actualDistance;
+    //[SerializeField]
+    //private float maxDistance;
     [SerializeField]
     private PlayerJump playerJump;
     [SerializeField]
@@ -30,9 +33,10 @@ public class PlayerHook : MonoBehaviour
     float distanceToCheck;
     [SerializeField]
     Vector2 jumpPowerAfterSwing;
-
     [SerializeField]
     private Vector2 swingingDirection;
+    [SerializeField]
+    LayerMask hookableLayer;
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -49,38 +53,37 @@ public class PlayerHook : MonoBehaviour
     {
         EventManager<bool>.Instance.StopListening("hook", Hook);
     }
-    private void Update()
+
+    public HookableObject GetNearestHookable(Collider2D[] hookableHits)
     {
         Vector2 pos = transform.position;
-        if (HookableObject == null)
+        HookableObject nearestHookableObject = null;
+        float minDist = Mathf.Infinity;
+        for(int i = 0;i< hookableHits.Length; i++)
         {
-            Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos, distanceToCheck);
-            for (int i = 0; i < HookableHits.Length; i++)
+            HookableObject hookableObject;
+            if (hookableHits[i].TryGetComponent<HookableObject>(out hookableObject))
             {
-                HookableObject hookableObject;
-                if (HookableHits[i].TryGetComponent<HookableObject>(out hookableObject))
+                float dist = Vector3.Distance(hookableObject.transform.position, pos);
+                if (dist < minDist)
                 {
-                    HookableObject = hookableObject;
-                    return;
+                    nearestHookableObject = hookableObject;
+                    minDist = dist;
                 }
             }
-
         }
+        return nearestHookableObject;
 
     }
-
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.DrawSphere(transform.position, distanceToCheck);
-    //}
-
     private void FixedUpdate()
     {
-        
+        Vector2 pos = transform.position;
+        Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos, 20f);
+        HookableObject = GetNearestHookable(HookableHits);
+
         if (isHooked)
         {
-            Vector2 pos = transform.position;
+          
             Vector2 hookObjectpos = HookableObject.transform.position;
             lineRenderer.SetPosition(0, hookObjectpos);
             lineRenderer.SetPosition(1, pos);
@@ -101,32 +104,34 @@ public class PlayerHook : MonoBehaviour
 
     private void Hook(bool _isHooked)
     {
-        if(HookableObject != null)
+     
+        if (_isHooked)
         {
-            float distance = Vector2.Distance(HookableObject.transform.position, transform.position);
-            actualDistance = Mathf.Clamp(distance - 3f,minDistance,maxDistance);
-            swingingDirection = playerMovement.isFacingRight ? Vector2.right : Vector2.left;
-
-        }
-        isHooked = _isHooked;
-        if(_isHooked)
-        {
-            player.isGrounded = false;
-            playerJump.gravity = 0f;
-            player.velocity.y = 0f;
-            lineRenderer.enabled = true;
+            if (HookableObject != null)
+                
+            {
+                Vector2 pos = transform.position;
+                Vector2 hookObjectpos = HookableObject.transform.position;
+                swingingDirection = playerMovement.isFacingRight ? Vector2.right : Vector2.left;
+                if ((swingingDirection.x > 0 && hookObjectpos.x < pos.x) || (swingingDirection.x < 0 && hookObjectpos.x > pos.x))
+                {
+                    return;
+                }
+                //float distance = Vector2.Distance(HookableObject.transform.position, transform.position);
+                //actualDistance = Mathf.Clamp(distance - 3f, minDistance, maxDistance);
+                isHooked = _isHooked;
+                player.isGrounded = false;
+                playerJump.gravity = 0f;
+                player.velocity.y = 0f;
+                lineRenderer.enabled = true;
+            }   
         }
         else
         {
             lineRenderer.enabled = false;
             playerJump.gravity = playerJump.originalGravity;
         }
-        //else
-        //{
-        //    JumpAfterSwing();
-        //}
-
-
+        
     }
 
     private void JumpAfterSwing()

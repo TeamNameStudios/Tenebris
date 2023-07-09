@@ -1368,8 +1368,6 @@ MonoBehaviour:
   lineRenderer: {fileID: 0}
   HookableObject: {fileID: 0}
   isHooked: 0
-  minDistance: 6
-  maxDistance: 9
   playerJump: {fileID: 0}
   playerMovement: {fileID: 0}
   player: {fileID: 0}
@@ -1378,6 +1376,9 @@ MonoBehaviour:
   distanceToCheck: 20
   jumpPowerAfterSwing: {x: 30, y: 40}
   swingingDirection: {x: 0, y: 0}
+  hookableLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!120 &1364120339
 LineRenderer:
   m_ObjectHideFlags: 0

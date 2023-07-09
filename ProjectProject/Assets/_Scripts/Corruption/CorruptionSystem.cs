@@ -52,6 +52,8 @@ public class CorruptionSystem : MonoBehaviour
     {
         StopAllCoroutines();
 
+        EventManager<float>.Instance.TriggerEvent("InitCorruptionBar", maxCorruption);
+
         if (!corrupted)
         {
             if (value + Corruption >= maxCorruption)
@@ -65,12 +67,14 @@ public class CorruptionSystem : MonoBehaviour
                 StartCoroutine(CanRecovery());
             }
 
+            EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
 
             if (Corruption >= maxCorruption)
             {
                 StopCoroutine(CanRecovery());
                 corrupted = true;
             }
+
         }
     }
 
@@ -87,6 +91,8 @@ public class CorruptionSystem : MonoBehaviour
             {
                 Corruption -= value;
             }
+
+            EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
         }
     }
 
@@ -95,6 +101,7 @@ public class CorruptionSystem : MonoBehaviour
         yield return new WaitForSeconds(corruptionTime);
         corrupted = false;
         Corruption = 0;
+        EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
     }
 
     private IEnumerator CanRecovery()

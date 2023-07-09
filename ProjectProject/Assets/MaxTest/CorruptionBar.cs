@@ -7,11 +7,13 @@ public class CorruptionBar : MonoBehaviour
 {
 
     public Slider corruptionSlider;
+    public float maxCorruptionBar;
 
     public void SetMaxValue(float corruptionValue)
     {
         corruptionSlider.maxValue = corruptionValue;
         corruptionSlider.value = corruptionValue;
+        EventManager<float>.Instance.StopListening("InitCorruptionBar", SetMaxValue);
     }
 
     public void SetCorruptionBar(float corruptionValue)
@@ -19,15 +21,15 @@ public class CorruptionBar : MonoBehaviour
         corruptionSlider.value = corruptionValue;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        
+        EventManager<float>.Instance.StartListening("UpdateCorruptionBar", SetCorruptionBar);
+        EventManager<float>.Instance.StartListening("InitCorruptionBar", SetMaxValue);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        EventManager<float>.Instance.StopListening("UpdateCorruptionBar", SetCorruptionBar);
+        EventManager<float>.Instance.StopListening("InitCorruptionBar", SetMaxValue);
     }
 }

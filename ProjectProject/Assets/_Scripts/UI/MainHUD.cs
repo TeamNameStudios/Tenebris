@@ -25,14 +25,14 @@ public class MainHUD : MonoBehaviour
             pausePanels[0].SetActive(false);
             pausePanels[1].SetActive(true);
             pauseMenu.SetActive(true);
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
         }
         else
         {
             pausePanels[0].SetActive(true);
             pausePanels[1].SetActive(false);
             pauseMenu.SetActive(false);
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
     }
 

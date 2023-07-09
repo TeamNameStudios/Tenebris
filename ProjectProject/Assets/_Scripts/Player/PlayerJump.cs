@@ -13,9 +13,13 @@ public class PlayerJump : MonoBehaviour
     public float gravity;
     [SerializeField]
     private Player player;
+
+    private Rigidbody2D playerRb;
+    
     private void Awake()
     {
         player = GetComponent<Player>();
+        playerRb = GetComponent<Rigidbody2D>();
     }
 
 
@@ -56,30 +60,31 @@ public class PlayerJump : MonoBehaviour
             RaycastHit2D hit2D = Physics2D.Raycast(raycastOrigin, rayDirection, rayDistance);
             if (hit2D.collider != null)
             {
-                LandableGround landableGround = hit2D.collider.GetComponent<LandableGround>();
-                if (landableGround != null)
-                {
-                    groundHeight = landableGround.groundHeight;
-                    pos.y = groundHeight;
-                    player.velocity.y = 0f;
-                    player.isGrounded = true;
-                }
-
-                // To get the size of the tilemap !!!
-                //TilemapCollider2D tilemapCollider = hit2D.collider.GetComponent<TilemapCollider2D>();
-                //Tilemap tilemap = hit2D.collider.GetComponent<Tilemap>();
-                //
-                //if (tilemapCollider != null)
+                //LandableGround landableGround = hit2D.collider.GetComponent<LandableGround>();
+                //if (landableGround != null)
                 //{
-                //    tilemap.CompressBounds();
-                //    Vector3Int tilemapSize = tilemap.size;
-                //
-                //    groundHeight = (tilemapCollider.transform.position.y + tilemapCollider.transform.localScale.y / 2) + tilemapSize.y;
+                //    groundHeight = landableGround.groundHeight;
                 //    pos.y = groundHeight;
                 //    player.velocity.y = 0f;
-                //
                 //    player.isGrounded = true;
                 //}
+
+                // To get the size of the tilemap !!!
+                TilemapCollider2D tilemapCollider = hit2D.collider.GetComponent<TilemapCollider2D>();
+                Tilemap tilemap = hit2D.collider.GetComponent<Tilemap>();
+                
+                if (tilemapCollider != null)
+                {
+                    tilemap.CompressBounds();
+                    Vector3Int tilemapSize = tilemap.size;
+
+                    //groundHeight = (tilemapCollider.transform.position.y /*+ tilemapCollider.transform.localScale.y / 2)*/ + tilemapSize.y);
+                    groundHeight = hit2D.point.y;
+                    pos.y = groundHeight;
+                    player.velocity.y = 0f;
+                
+                    player.isGrounded = true;
+                }
             }
             Debug.DrawRay(raycastOrigin, rayDirection * rayDistance, Color.cyan);
         }

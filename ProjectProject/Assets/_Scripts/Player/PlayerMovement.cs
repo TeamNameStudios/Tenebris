@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     public bool isFacingRight = true;
     [SerializeField]
     private Player player;
+
+    [SerializeField] private bool blockedRight, blockedLeft;
+
+
     private void Awake()
     {
         player = GetComponent<Player>();

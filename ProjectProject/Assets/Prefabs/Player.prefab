@@ -223,8 +223,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}
   direction: {x: 0, y: 0}
-  isGrounded: 0
   isDashing: 0
+  JumpingThisFrame: 0
+  LandingThisFrame: 0
+  playerJump: {fileID: 0}
+  _characterBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _detectorCount: 3
+  _detectionRayLength: 0.1
+  _rayBuffer: 0.1
+  _colUp: 0
+  _colRight: 0
+  _colDown: 0
+  _colLeft: 0
+  _timeLeftGrounded: 0
+  _fallClamp: -40
+  _minFallSpeed: 80
+  _maxFallSpeed: 120
+  _fallSpeed: 0
 --- !u!114 &8998615552283208031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +265,8 @@ MonoBehaviour:
   playerJump: {fileID: 0}
   player: {fileID: 9164660901016660940}
   DashEffect: {fileID: 0}
+  corruptionSystem: {fileID: 0}
+  dashCorruption: 0
 --- !u!114 &649298859899979900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +285,13 @@ MonoBehaviour:
   gravity: -200
   player: {fileID: 0}
   playerHook: {fileID: 0}
+  _jumpHeight: 30
+  _jumpApexThreshold: 10
+  _coyoteTimeThreshold: 0.1
+  _jumpBuffer: 0.1
+  _jumpEndEarlyGravityModifier: 3
+  _coyoteUsable: 0
+  _endedJumpEarly: 1
 --- !u!114 &4559558177157745187
 MonoBehaviour:
   m_ObjectHideFlags: 0

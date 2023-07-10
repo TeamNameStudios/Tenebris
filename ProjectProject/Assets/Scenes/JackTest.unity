@@ -307,6 +307,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: dashCorruption
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: corruptionSystem
+      value: 
+      objectReference: {fileID: 911217514}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _groundLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _characterBounds.m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _characterBounds.m_Extent.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _characterBounds.m_Extent.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660941, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_Name
       value: Player
@@ -732,6 +756,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ff403cc5ab2794493443756fba74fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &911217514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360377878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0818d79d50d6348898a66b69341cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Corruption: 0
+  maxCorruption: 100
+  corrupted: 0
+  corruptionTime: 5
+  canRecover: 0
+  recoverCorruptionWaitTime: 5
+  recoverCorruptionSpeed: 3
 --- !u!1 &935973303
 GameObject:
   m_ObjectHideFlags: 0

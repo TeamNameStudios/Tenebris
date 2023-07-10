@@ -305,10 +305,38 @@ PrefabInstance:
     - target: {fileID: 649298859899979900, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 911217507}
+      objectReference: {fileID: 0}
+    - target: {fileID: 649298859899979900, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: gravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 649298859899979900, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 649298859899979900, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: jumpVelocity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233552883932278963, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: maxSwingPower
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233552883932278963, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: distanceToCheck
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233552883932278963, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: jumpPowerAfterSwing.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233552883932278963, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: jumpPowerAfterSwing.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233552883932278963, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: swingAccellerationSwing
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2313536404991503854, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_SortingOrder
@@ -317,7 +345,19 @@ PrefabInstance:
     - target: {fileID: 4559558177157745187, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 911217507}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559558177157745187, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: maxVelocity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559558177157745187, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: acceleration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559558177157745187, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: deAcceleration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5343215473335522038, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime1
       value: 65535
@@ -335,20 +375,32 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: DashEffect
       value: 
-      objectReference: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: playerJump
       value: 
-      objectReference: {fileID: 911217505}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: dashingTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: dashingPower
-      value: 2
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: dashingCooldown
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _rayBuffer
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: isGrounded
@@ -364,19 +416,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _groundLayer.m_Bits
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _characterBounds.m_Center.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _characterBounds.m_Extent.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _characterBounds.m_Extent.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660941, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_Name
@@ -534,6 +586,8 @@ MonoBehaviour:
   velocity: 0
   shadowSpeed: 2
   player: {fileID: 911217507}
+  minDistance: 0
+  corruptionValue: 0
 --- !u!1 &779529589
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,7 +1053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1086787849
 Transform:
   m_ObjectHideFlags: 0
@@ -2087,8 +2141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChunksContainer: {fileID: 1627763698}
   ChunkPrefab: {fileID: 751979122317325099, guid: 2d0e309fb31bbde4291b9ee6a088ad8b, type: 3}
-  HookablePrefab: {fileID: 5192149630952065976, guid: ea2230e78db3ba046a838525fcc1ba6e, type: 3}
-  chunkSize: 60
 --- !u!1 &2109206751
 GameObject:
   m_ObjectHideFlags: 0

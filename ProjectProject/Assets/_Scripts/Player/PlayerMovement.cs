@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private Player player;
     [SerializeField]
     private PlayerHook playerHook;
+
     private void Awake()
     {
         player = GetComponent<Player>();

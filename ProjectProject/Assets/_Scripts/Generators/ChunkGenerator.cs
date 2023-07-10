@@ -10,10 +10,9 @@ public class ChunkGenerator : Singleton<ChunkGenerator>
     [SerializeField]
     public GameObject ChunksContainer;
     public GameObject ChunkPrefab;
-    public GameObject HookablePrefab;
-    [SerializeField]
+
     private float chunkSize = 60;
-   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,17 +39,16 @@ public class ChunkGenerator : Singleton<ChunkGenerator>
 
     public Chunk GenerateChunk(Chunk chunk, bool initChunk = false) 
     {
-        GameObject terrainContainer;
-        List<Terrain> Terrains = TerrainGenerator.Instance.GenerateTerrains(chunk.transform, initChunk, out terrainContainer);
+        //GameObject terrainContainer;
+        //List<Terrain> Terrains = TerrainGenerator.Instance.GenerateTerrains(chunk.transform, initChunk, out terrainContainer);
 
-        GameObject platformContainer;
-        List<Platform> Platforms = PlatformGenerator.Instance.GeneratePlatforms(chunk.transform, initChunk, out platformContainer);
-
+        //GameObject platformContainer;
+        //List<Platform> Platforms = PlatformGenerator.Instance.GeneratePlatforms(chunk.transform, initChunk, out platformContainer);
+        
         //chunk.Setup(Terrains, Platforms, terrainContainer, platformContainer);
-     
-        chunk.Setup(Platforms, platformContainer);
+        //chunk.Setup(Platforms, platformContainer);
 
-        //TileTerrainGeneration.Instance.GenerateTilemap(chunk.transform, EnvironmentController.Instance.tilemapDictionary[chunk]);
+        TileTerrainGeneration.Instance.GenerateTilemap(chunk.transform, EnvironmentController.Instance.tilemapDictionary[chunk]);
 
         return chunk;
     }

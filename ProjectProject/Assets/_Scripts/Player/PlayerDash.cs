@@ -21,10 +21,14 @@ public class PlayerDash : MonoBehaviour
     [SerializeField]
     GameObject DashEffect;
 
+    [SerializeField] private CorruptionSystem corruptionSystem;
+    [SerializeField] private float dashCorruption;
+
     private void Awake()
     {
         playerJump = GetComponent<PlayerJump>();
         player = GetComponent<Player>();
+        corruptionSystem = GetComponent<CorruptionSystem>();
     }
     private void OnEnable()
     {
@@ -37,7 +41,7 @@ public class PlayerDash : MonoBehaviour
 
     private void GoDash(bool dash)
     {
-        if(canDash)
+        if(canDash && !corruptionSystem.corrupted)
         {
             StartCoroutine(Dash());
         }
@@ -45,6 +49,7 @@ public class PlayerDash : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
         canDash = false;
         GameObject dashEffect = Instantiate(DashEffect,transform.position, DashEffect.transform.rotation);
         player.isDashing = true;

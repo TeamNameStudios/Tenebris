@@ -40,22 +40,22 @@ public class Chunk : MapMover
 
     public bool isGenerated;
 
-    //public void Setup(List<Terrain> terrains, List<Platform> platforms, GameObject _terrainContainer, GameObject _platformContainer)
-    //{
-    //    EndOfChunk = transform.position.x +( chunkSize / 2);
-    //    Terrains = terrains;
-    //    Platforms = platforms;
-    //
-    //    terrainContainer = _terrainContainer;
-    //    platformContainer = _platformContainer;
-    //}
-
-    public void Setup(List<Platform> platforms, GameObject _platformContainer)
+    public void Setup(List<Terrain> terrains, List<Platform> platforms, GameObject _terrainContainer, GameObject _platformContainer)
     {
-        EndOfChunk = transform.position.x + (chunkSize / 2);
+        EndOfChunk = transform.position.x +( chunkSize / 2);
+        Terrains = terrains;
         Platforms = platforms;
+    
+        terrainContainer = _terrainContainer;
         platformContainer = _platformContainer;
     }
+
+    //public void Setup(List<Platform> platforms, GameObject _platformContainer)
+    //{
+    //    EndOfChunk = transform.position.x + (chunkSize / 2);
+    //    Platforms = platforms;
+    //    platformContainer = _platformContainer;
+    //}
 
     public void Update()
     {
@@ -84,11 +84,11 @@ public class Chunk : MapMover
     public void ResetChunk(Chunk chunk)
     {
         //chunk.terrains.Clear();
-        chunk.platforms.Clear();
+        //chunk.platforms.Clear();
+
 
         //terrainContainer.transform.DestroyChildren();
-
-        platformContainer.transform.DestroyChildren();
+        //platformContainer.transform.DestroyChildren();
 
         //chunk.GetComponentInChildren<Tilemap>().ClearAllTiles();
         

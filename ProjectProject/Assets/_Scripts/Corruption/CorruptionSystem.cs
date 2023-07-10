@@ -39,7 +39,7 @@ public class CorruptionSystem : MonoBehaviour
             //  while he is corrupted we can slow him down, make him unable to use his powers and maybe make the shadow faster
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             AddCorruption(5);
         }
@@ -50,6 +50,16 @@ public class CorruptionSystem : MonoBehaviour
         if (!corrupted && canRecover)
         {
             DecreaseCorruption(Mathf.Pow(recoverCorruptionSpeed / Corruption, 2));
+        }
+
+        if (Corruption == 0)
+        {
+            EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", false);
+        }
+        else
+        {
+            EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", true);
+
         }
     }
 

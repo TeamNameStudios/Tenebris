@@ -238,12 +238,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Corruption: 0
-  maxCorruption: 10
+  maxCorruption: 100
   corrupted: 0
   corruptionTime: 5
   canRecover: 0
   recoverCorruptionWaitTime: 5
-  recoverCorruptionSpeed: 0.5
+  recoverCorruptionSpeed: 3
 --- !u!114 &8998615552283208031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +299,8 @@ MonoBehaviour:
   deAcceleration: 40
   isFacingRight: 1
   player: {fileID: 9164660901016660940}
+  blockedRight: 0
+  blockedLeft: 0
 --- !u!70 &1133532749736719681
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -323,19 +325,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9164660901016660941}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
+  m_CollisionDetection: 0
+  m_Constraints: 5
 --- !u!1 &9164660901024896197
 GameObject:
   m_ObjectHideFlags: 0

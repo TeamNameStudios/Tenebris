@@ -342,9 +342,25 @@ PrefabInstance:
       propertyPath: playerJump
       value: 
       objectReference: {fileID: 911217505}
+    - target: {fileID: 8998615552283208031, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: dashingPower
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _rayBuffer
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: isGrounded
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _detectorCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: _timeLeftGrounded
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _groundLayer.m_Bits
@@ -376,7 +392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660943, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 90.36
       objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660943, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: m_LocalPosition.z

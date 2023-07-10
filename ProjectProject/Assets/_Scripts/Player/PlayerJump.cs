@@ -47,7 +47,7 @@ public class PlayerJump : MonoBehaviour
         InputJump = _inputJump;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Vector2 pos = transform.position;
         CalculateJumpApex();
@@ -57,7 +57,7 @@ public class PlayerJump : MonoBehaviour
         {
             return;
         }
-        pos.y += player.velocity.y * Time.fixedDeltaTime;
+        pos.y += player.velocity.y * Time.deltaTime;
 
         transform.position = pos;
 

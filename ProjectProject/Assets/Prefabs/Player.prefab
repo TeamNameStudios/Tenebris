@@ -229,11 +229,11 @@ MonoBehaviour:
   LandingThisFrame: 0
   playerJump: {fileID: 0}
   _characterBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Center: {x: 0, y: 1, z: 0}
+    m_Extent: {x: 0.5, y: 1, z: 0}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   _detectorCount: 3
   _detectionRayLength: 0.1
   _rayBuffer: 0.1
@@ -265,9 +265,9 @@ MonoBehaviour:
   dashingCooldown: 0.5
   playerJump: {fileID: 0}
   player: {fileID: 9164660901016660940}
-  DashEffect: {fileID: 0}
-  corruptionSystem: {fileID: 0}
-  dashCorruption: 0
+  DashEffect: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
+  corruptionSystem: {fileID: 2829687767122554904}
+  dashCorruption: 2.5
 --- !u!114 &649298859899979900
 MonoBehaviour:
   m_ObjectHideFlags: 0

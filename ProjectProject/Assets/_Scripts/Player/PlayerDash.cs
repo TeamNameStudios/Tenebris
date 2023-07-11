@@ -22,7 +22,7 @@ public class PlayerDash : MonoBehaviour
     GameObject DashEffect;
 
     [SerializeField] private CorruptionSystem corruptionSystem;
-    [SerializeField] private float dashCorruption;
+    [SerializeField] private float dashCorruption; // value added only when the dash starts
 
     private void Awake()
     {

@@ -11,6 +11,7 @@ public class Shadow : MapMover
 
     [SerializeField] private float minDistance;
     [SerializeField] private float corruptionValue;
+    [SerializeField] private float insideShadowCorruptionValue;
 
     // Update is called once per frame
     private void FixedUpdate()
@@ -28,11 +29,14 @@ public class Shadow : MapMover
         transform.position = pos;
 
         float distance = Vector2.Distance(pos, player.transform.position);
+        
         if (distance <= minDistance)
         {
-            
             EventManager<float>.Instance.TriggerEvent("Corruption", Mathf.Pow((corruptionValue / distance), 2));
-           
+        }
+        else if (transform.position.x > player.transform.position.x)
+        {
+            EventManager<float>.Instance.TriggerEvent("Corruption", insideShadowCorruptionValue);
         }
 
 

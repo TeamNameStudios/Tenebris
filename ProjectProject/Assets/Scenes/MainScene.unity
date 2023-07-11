@@ -307,6 +307,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1233552883932278963, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
+      propertyPath: hookCorruption
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 9164660901016660940, guid: 2056ee929c21ec64e87d1c482518fa1a, type: 3}
       propertyPath: _groundLayer.m_Bits
       value: 8
@@ -528,6 +532,7 @@ MonoBehaviour:
   player: {fileID: 911217507}
   minDistance: 20
   corruptionValue: 10
+  insideShadowCorruptionValue: 5
 --- !u!1 &779529589
 GameObject:
   m_ObjectHideFlags: 0

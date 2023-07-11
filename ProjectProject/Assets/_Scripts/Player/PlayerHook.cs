@@ -39,12 +39,17 @@ public class PlayerHook : MonoBehaviour
     private Vector2 swingingDirection;
     [SerializeField]
     LayerMask hookableLayer;
+
+    [SerializeField] private CorruptionSystem corruptionSystem;
+    [SerializeField] private float hookCorruption;  // value over time
+
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         playerJump = GetComponent<PlayerJump>();
         playerMovement = GetComponent<PlayerMovement>();
         player = GetComponent<Player>();
+        corruptionSystem = GetComponent<CorruptionSystem>();
     }
 
     private void OnEnable()
@@ -83,9 +88,9 @@ public class PlayerHook : MonoBehaviour
         Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos, 20f);
         HookableObject = GetNearestHookable(HookableHits);
 
-        if (isHooked)
+        if (isHooked && !corruptionSystem.corrupted && HookableObject != null)
         {
-          
+            EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruption);
             Vector2 hookObjectpos = HookableObject.transform.position;
             lineRenderer.SetPosition(0, hookObjectpos);
             lineRenderer.SetPosition(1, new Vector2(pos.x, pos.y+1));
@@ -95,7 +100,7 @@ public class PlayerHook : MonoBehaviour
             pos.y = Mathf.Lerp(pos.y, hookObjectpos.y, Time.fixedDeltaTime * 2f);
             transform.position = Vector2.Lerp(transform.position, pos, Time.fixedDeltaTime * 100f);
             EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", player.velocity.x);
-            if ((swingingDirection.x > 0 && hookObjectpos.x < pos.x) || (swingingDirection.x < 0 && hookObjectpos.x > pos.x))
+            if ((swingingDirection.x > 0 && hookObjectpos.x < pos.x) || (swingingDirection.x < 0 && hookObjectpos.x > pos.x) || corruptionSystem.corrupted)
             {
                 isHooked = false;
                 JumpAfterSwing();
@@ -107,7 +112,7 @@ public class PlayerHook : MonoBehaviour
     private void Hook(bool _isHooked)
     {
      
-        if (_isHooked)
+        if (_isHooked && !corruptionSystem.corrupted)
         {
             if (HookableObject != null)
                 

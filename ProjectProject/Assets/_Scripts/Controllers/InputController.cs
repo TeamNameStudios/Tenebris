@@ -42,5 +42,14 @@ public class InputController : Singleton<InputController>
         {
             EventManager<bool>.Instance.TriggerEvent("hook",false);
         }
+
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            EventManager<bool>.Instance.TriggerEvent("pause", true);
+        }
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            EventManager<bool>.Instance.TriggerEvent("pause", false);
+        }
     }
    }

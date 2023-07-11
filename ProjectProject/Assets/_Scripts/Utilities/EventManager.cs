@@ -6,7 +6,6 @@ using System;
 public class EventManager<T>
 {
     private static EventManager<T> instance;
-    
     public static EventManager<T> Instance
     {
         get
@@ -36,45 +35,45 @@ public class EventManager<T>
         }
     }
 
-    public void StartListening(string eventName, Action listener)
-    {
+    //public void StartListening(string eventName, Action listener)
+    //{
          
-        Action thisListener = null;
+    //    Action thisListener = null;
 
-        if (eventDictionary.ContainsKey(eventName))
-        {
-            eventDictionary[eventName] += listener;
-        }
-        else
-        {
+    //    if (eventDictionary.ContainsKey(eventName))
+    //    {
+    //        eventDictionary[eventName] += listener;
+    //    }
+    //    else
+    //    {
            
-            thisListener += listener;
-            Instance.eventDictionary.Add(eventName, thisListener);
-        }
-    }
+    //        thisListener += listener;
+    //        Instance.eventDictionary.Add(eventName, thisListener);
+    //    }
+    //}
 
-    public void StopListening(string eventName, Action listener)
-    {
-        if (instance == null)
-        {
-            return;
-        }
+    //public void StopListening(string eventName, Action listener)
+    //{
+    //    if (instance == null)
+    //    {
+    //        return;
+    //    }
 
-        //Action thisListener = null;
+    //    //Action thisListener = null;
 
-        if (eventDictionary.ContainsKey(eventName))
-        {
-            eventDictionary[eventName] -= listener;
-        }
-    }
+    //    if (eventDictionary.ContainsKey(eventName))
+    //    {
+    //        eventDictionary[eventName] -= listener;
+    //    }
+    //}
 
-    public void TriggerEvent(string eventName)
-    {
-        if (Instance.eventDictionary.ContainsKey(eventName))
-        {
-            eventDictionary[eventName]?.Invoke();
-        }
-    }
+    //public void TriggerEvent(string eventName)
+    //{
+    //    if (Instance.eventDictionary.ContainsKey(eventName))
+    //    {
+    //        eventDictionary[eventName]?.Invoke();
+    //    }
+    //}
 
     
     
@@ -116,4 +115,12 @@ public class EventManager<T>
             paramEventDictionary[eventName]?.Invoke(data);
         }
     }
+
+
+
+    //public enum GameControllerEvents
+    //{
+    //    ON_GAME_STARTING_STATE,
+    //    ON_GAME_STOPPED_STATE,
+    //}
 }

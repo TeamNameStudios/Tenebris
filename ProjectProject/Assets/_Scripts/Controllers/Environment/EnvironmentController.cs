@@ -13,14 +13,23 @@ public class EnvironmentController : Singleton<EnvironmentController>
 
     public Dictionary<Chunk, Tilemap> tilemapDictionary = new Dictionary<Chunk, Tilemap>();
 
+
+    private void OnEnable()
+    {
+        EventManager<bool>.Instance.StartListening("onGameStartingState", GenerateMap);
+    }
+    private void OnDisable()
+    {
+        EventManager<bool>.Instance.StopListening("onGameStartingState", GenerateMap);
+    }
     void Start()
     {
 
-        for (int i = 0; i < numberOfChunk; i++)
-        {
-            AddChunk(i); 
-        }
-        chunks[0].SetPreviousChunk(chunks[chunks.Count - 1]);
+        //for (int i = 0; i < numberOfChunk; i++)
+        //{
+        //    AddChunk(i); 
+        //}
+        //chunks[0].SetPreviousChunk(chunks[chunks.Count - 1]);
     }
 
     private void AddChunk(int index)
@@ -37,5 +46,17 @@ public class EnvironmentController : Singleton<EnvironmentController>
             generatedChunk.SetPreviousChunk(chunks[index]);
         }
     }
+
+    public void GenerateMap(bool isStarted)
+    {
+        for (int i = 0; i < numberOfChunk; i++)
+        {
+            AddChunk(i);
+        }
+        chunks[0].SetPreviousChunk(chunks[chunks.Count - 1]);
+        EventManager<bool>.Instance.TriggerEvent("endedGeneratedMap",true);
+    }
+
+
 
 }

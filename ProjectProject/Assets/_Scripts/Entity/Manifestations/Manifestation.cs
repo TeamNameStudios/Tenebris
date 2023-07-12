@@ -12,7 +12,7 @@ public abstract class Manifestation : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(AutoDestruction());
+        //StartCoroutine(AutoDestruction());
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", ChangeVelocity);
         EventManager<Vector2>.Instance.StartListening("onPlayerChangeDirection", PlayerGoingRight);
     }
@@ -41,5 +41,14 @@ public abstract class Manifestation : MonoBehaviour
     {
         yield return new WaitForSeconds(DestroyTimer);
         ManifestationsFactory.Instance.ReturnObject(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 7)
+        {
+            EventManager<float>.Instance.TriggerEvent("Corruption", CorruptionValue);
+            Debug.Log("COLLIDED!");
+        }
     }
 }

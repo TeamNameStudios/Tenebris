@@ -52,15 +52,15 @@ public class CorruptionSystem : MonoBehaviour
             DecreaseCorruption(Mathf.Pow(recoverCorruptionSpeed / Corruption, 2));
         }
 
-        if (Corruption == 0)
-        {
-            EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", false);
-        }
-        else
-        {
-            EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", true);
-
-        }
+        //if (Corruption == 0)
+        //{
+        //    EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", false);
+        //}
+        //else
+        //{
+        //    EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", true);
+        //
+        //}
     }
 
     private void AddCorruption(float value)

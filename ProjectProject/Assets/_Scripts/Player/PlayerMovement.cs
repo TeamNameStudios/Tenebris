@@ -15,13 +15,13 @@ public class PlayerMovement : MonoBehaviour
     public bool isFacingRight = true;
     [SerializeField]
     private Player player;
-
-    [SerializeField] private bool blockedRight, blockedLeft;
-
+    [SerializeField]
+    private PlayerHook playerHook;
 
     private void Awake()
     {
         player = GetComponent<Player>();
+        playerHook = GetComponent<PlayerHook>();
     }
 
     private void OnEnable()
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.isDashing)
+        if (player.isDashing || playerHook.isHooked)
         {
             return;
         }
@@ -52,8 +52,16 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            player.velocity.x += acceleration * player.direction.x * Time.deltaTime;
-            player.velocity.x = Math.Clamp(player.velocity.x, -maxVelocity, maxVelocity);
+            if (Math.Abs(player.velocity.x) > maxVelocity) 
+            {
+                player.velocity.x = Mathf.MoveTowards(player.velocity.x, maxVelocity * player.direction.x, deAcceleration * Time.deltaTime);
+            }
+            else
+            {
+                player.velocity.x += acceleration * player.direction.x * Time.deltaTime;
+                player.velocity.x = Math.Clamp(player.velocity.x, -maxVelocity, maxVelocity);
+
+            }
         }
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", player.velocity.x);
     }

@@ -90,7 +90,7 @@ public class Chunk : MapMover
         //terrainContainer.transform.DestroyChildren();
         //platformContainer.transform.DestroyChildren();
 
-        chunk.GetComponentInChildren<Tilemap>().ClearAllTiles();
+        //chunk.GetComponentInChildren<Tilemap>().ClearAllTiles();
         
         if (!isGenerated)
         {

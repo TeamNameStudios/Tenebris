@@ -22,7 +22,7 @@ public class PlayerDash : MonoBehaviour
     GameObject DashEffect;
 
     [SerializeField] private CorruptionSystem corruptionSystem;
-    [SerializeField] private float dashCorruption;
+    [SerializeField] private float dashCorruption; // value added only when the dash starts
 
     private void Awake()
     {
@@ -52,17 +52,14 @@ public class PlayerDash : MonoBehaviour
         EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
         canDash = false;
         GameObject dashEffect = Instantiate(DashEffect,transform.position, DashEffect.transform.rotation);
-
-
         player.isDashing = true;
-        float originalGravity = playerJump.gravity;
-        playerJump.gravity = 0f;
+        //playerJump.gravity = 0f;
         float velocityX = player.velocity.x * dashingPower;
         player.velocity.x = velocityX;
         player.velocity.y = 0f;
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocityX);
         yield return new WaitForSeconds(dashingTime);
-        playerJump.gravity = originalGravity;
+        //playerJump.gravity = playerJump.originalGravity;
         Destroy(dashEffect);
         player.isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);

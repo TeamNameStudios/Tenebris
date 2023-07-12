@@ -10,7 +10,7 @@ public class InputController : Singleton<InputController>
     {
 
         float directionX = Input.GetAxisRaw("Horizontal");
-        float directionY = Input.GetAxisRaw("Horizontal");
+        float directionY = Input.GetAxisRaw("Vertical");
         EventManager<Vector2>.Instance.TriggerEvent("movement", new Vector2(directionX, directionY));
 
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
@@ -34,13 +34,22 @@ public class InputController : Singleton<InputController>
         {
             EventManager<bool>.Instance.TriggerEvent("dash", true);
         }
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             EventManager<bool>.Instance.TriggerEvent("hook", true);
         }
         else if(Input.GetKeyUp(KeyCode.Z))
         {
             EventManager<bool>.Instance.TriggerEvent("hook",false);
+        }
+
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            EventManager<bool>.Instance.TriggerEvent("pause", true);
+        }
+        if (Input.GetKeyUp(KeyCode.O))
+        {
+            EventManager<bool>.Instance.TriggerEvent("pause", false);
         }
     }
    }

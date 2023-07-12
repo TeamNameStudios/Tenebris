@@ -19,7 +19,7 @@ public class TileTerrainGeneration : Singleton<TileTerrainGeneration>
         seed = Random.Range(-500, 500);
 
         for (int x = 0; x < width; x++)
-        {           
+        {
             int height = Mathf.RoundToInt(heightValue * Mathf.PerlinNoise(x / smoothness, seed));
 
             for (int y = 0; y < height; y++)

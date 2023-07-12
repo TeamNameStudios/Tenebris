@@ -3,87 +3,96 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 public class GameController : Singleton<GameController>
 {
-    public static event Action<GameState> OnBeforeStateChanged;
-    public static event Action<GameState> OnAfterStateChanged;
+    private GameState state = GameState.IDLE;
     [SerializeField]
-    private CultistType cultistType;
-    public GameState State { get; private set; }
+    private Player player;
 
-    void Start() => ChangeState(GameState.Idle);
+    [SerializeField]
+    private Shadow shadow;
 
-    public void StartGame()
+    public GameState State { get => state; private set => state = value; }
+
+    private void Start()
     {
-        //AudioSystem.Instance.PlayMusic();
-        ChangeState(GameState.Starting);
+        ChangeState(GameState.STARTING);
     }
-    
-    public void ChangeState(GameState newState)
-    {
-        OnBeforeStateChanged?.Invoke(newState);
 
-        State = newState;
-        switch (newState)
+    private void OnEnable()
+    {
+        EventManager<GameState>.Instance.StartListening("onStateChanged", ChangeState);
+        EventManager<bool>.Instance.StartListening("endedGeneratedMap", SetGameScene);
+        EventManager<bool>.Instance.StartListening("pause", Pause);
+    }
+    private void OnDisable()
+    {
+        EventManager<GameState>.Instance.StopListening("onStateChanged", ChangeState);
+        EventManager<bool>.Instance.StopListening("endedGeneratedMap", SetGameScene);
+        EventManager<bool>.Instance.StartListening("pause", Pause);
+
+    }
+
+    private void Update()
+    {
+        switch(State)
         {
-            case GameState.Idle:
-                HandleIdle();
+            case GameState.IDLE:
                 break;
-            case GameState.Starting:
-                HandleStarting();
+            case GameState.STARTING:
+                EventManager<bool>.Instance.TriggerEvent("onGameStartingState",true);
                 break;
-            case GameState.SpawningPlayer:
-                //HandleSpawningCultist();
+            case GameState.PAUSING:
+                Time.timeScale = 0;
                 break;
-            case GameState.Lose:
-                HandleLose();
+            case GameState.PLAYING:
+                Time.timeScale = 1;
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
+            case GameState.END_LEVEL:
+                break;
+            case GameState.LOSING:
+                break;
         }
-
-        OnAfterStateChanged?.Invoke(newState);
-
-        Debug.Log($"New state: {newState}");
     }
 
-    private void HandleIdle() {
-        Time.timeScale = 0;
-    }
 
-    private void HandleStarting()
+    private void ChangeState(GameState _state)
     {
-        ChangeState(GameState.SpawningPlayer);
+        State = _state;
     }
 
-    //private void HandleSpawningCultist()
-    //{
-    //    CultistController.Instance.SpawnCultist(cultistType);
-    //}
-               
-    private void HandlePlaying()
+
+    private void SetGameScene(bool isGameSceneStarted)
     {
-        Time.timeScale = 1;         
+        Player _player = Instantiate(player, new Vector2(0, 16), Quaternion.identity).GetComponent<Player>();
+        Shadow _shadow = Instantiate(shadow, new Vector2(-40, 0), Quaternion.identity).GetComponent<Shadow>();
+        _shadow.Setup(_player);
+        ChangeState(GameState.PLAYING);
     }
 
-    private void HandleLose()
+
+    void Pause (bool isPausing)
     {
-        Time.timeScale = 0;
+
+        if (isPausing)
+        {
+            ChangeState(GameState.PAUSING);
+        }
+        else
+        {
+            ChangeState(GameState.PLAYING);
+        }
     }
 
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Application.Quit();
-    }
 }
 public enum GameState
 {
-    Idle,
-    Starting,
-    SpawningPlayer,
-    Lose,
+    IDLE,
+    STARTING,
+    PAUSING,
+    PLAYING,
+    END_LEVEL,
+    LOSING,
 }

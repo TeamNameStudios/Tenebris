@@ -16,7 +16,7 @@ public class MainHUD : MonoBehaviour
     private TextMeshPro _pageCount;
     private TextMeshPro _distanceCount;
 
-    public void SetPauseState()
+    public void SetPauseState(int numero)
     {
         pauseState = !pauseState;
 

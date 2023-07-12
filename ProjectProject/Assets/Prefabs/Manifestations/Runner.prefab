@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4616001372284381478}
   - component: {fileID: 1227941107404521552}
   - component: {fileID: 5331987638979432596}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Runner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,8 +102,7 @@ MonoBehaviour:
   CorruptionValue: 20
   DestroyTimer: 5
   velocity: 30
-  leftCorner: {x: -35, y: 16}
-  rightCorner: {x: 35, y: -16}
+  boxSize: {x: 50, y: 32}
   canStart: 0
 --- !u!61 &1227941107404521552
 BoxCollider2D:

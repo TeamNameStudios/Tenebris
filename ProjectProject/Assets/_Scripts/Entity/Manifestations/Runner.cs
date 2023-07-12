@@ -5,14 +5,16 @@ using UnityEngine;
 public class Runner : Manifestation
 {
     [SerializeField] private float velocity;
-    [SerializeField] private Vector2 leftCorner;
-    [SerializeField] private Vector2 rightCorner;
+    [SerializeField] private Vector2 boxSize;
 
     [SerializeField] private bool canStart = false;
 
     private void Update()
     {
-        CanStart();
+        if (!canStart)
+        {
+            CanStart();
+        }
     }
 
     private void FixedUpdate()
@@ -21,15 +23,7 @@ public class Runner : Manifestation
         {
             Vector2 pos = transform.position;
             
-            if (playerDirection.x < 0)
-            {
-                pos.x -= Vector2.right.x * velocity * Time.fixedDeltaTime;
-            }
-            else
-            {
-                float finalVelocity = velocity + playerVelocity;
-                pos.x -= Vector2.right.x * finalVelocity * Time.fixedDeltaTime;
-            }
+            pos.x -= Vector2.right.x * velocity * Time.fixedDeltaTime;
             
             transform.position = pos;
         }
@@ -39,21 +33,24 @@ public class Runner : Manifestation
     {
         if (!canStart)
         {
-            Collider2D collider = Physics2D.OverlapArea(leftCorner, rightCorner);
-
-            if (collider != null && collider.gameObject.CompareTag("Player"))
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0);
+            
+            for (int i = 0; i < colliders.Length; i++)
             {
-                Vector2 pos = transform.position;
-                pos.y = collider.transform.position.y;
-                transform.position = pos;
-                canStart = true;
+                if (colliders[i].GetComponent<Player>())
+                {
+                    Vector2 pos = transform.position;
+                    pos.y = colliders[i].transform.position.y;
+                    transform.position = pos;
+                    canStart = true;
+                }
             }
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine((Vector2)transform.position + leftCorner, (Vector2)transform.position + rightCorner);
-        Gizmos.DrawLine((Vector2)transform.position + leftCorner, new Vector2(transform.position.x + leftCorner.x, transform.position.y + rightCorner.y));
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, new Vector3(boxSize.x, boxSize.y, 0));
     }
 }

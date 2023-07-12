@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -23,9 +24,13 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private PlayerJump playerJump;
+
+    [SerializeField]
+    private PlayerMovement playerMovement;
     private void Awake()
     {
         playerJump = GetComponent<PlayerJump>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void Update()
@@ -38,12 +43,12 @@ public class Player : MonoBehaviour
         //GatherInput();
         RunCollisionChecks();
 
-        //CalculateWalk(); // Horizontal movement
-        //playerJump.CalculateJumpApex(); // Affects fall speed, so calculate before gravity
-        //CalculateGravity(); // Vertical movement
-        //playerJump.CalculateJump(); // Possibly overrides vertical
+        playerMovement.CalculateWalk(); // Horizontal movement
+        playerJump.CalculateJumpApex(); // Affects fall speed, so calculate before gravity
+        CalculateGravity(); // Vertical movement
+        playerJump.CalculateJump(); // Possibly overrides vertical
 
-        //MoveCharacter(); // Actually perform the axis movement
+        MoveCharacter(); // Actually perform the axis movement
     }
 
     [Header("COLLISION")][SerializeField] private Bounds _characterBounds;
@@ -112,18 +117,18 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireCube(transform.position + _characterBounds.center, _characterBounds.size);
 
         // Rays
-        if (!Application.isPlaying)
+        //if (!Application.isPlaying)
+        //{
+        CalculateRayRanged();
+        Gizmos.color = Color.blue;
+        foreach (var range in new List<RayRange> { _raysUp, _raysRight, _raysDown, _raysLeft })
         {
-            CalculateRayRanged();
-            Gizmos.color = Color.blue;
-            foreach (var range in new List<RayRange> { _raysUp, _raysRight, _raysDown, _raysLeft })
+            foreach (var point in EvaluateRayPositions(range))
             {
-                foreach (var point in EvaluateRayPositions(range))
-                {
-                    Gizmos.DrawRay(point, range.Dir * _detectionRayLength);
-                }
+                Gizmos.DrawRay(point, range.Dir * _detectionRayLength);
             }
         }
+        //}
 
         if (!Application.isPlaying) return;
 
@@ -162,7 +167,67 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Move
 
+    [Header("MOVE")]
+    [SerializeField, Tooltip("Raising this value increases collision accuracy at the cost of performance.")]
+    private int _freeColliderIterations = 10;
+
+    // We cast our bounds before moving to avoid future collisions
+    private void MoveCharacter()
+    {
+        Vector2 pos = transform.position + _characterBounds.center;
+        Vector2 move = velocity * Time.deltaTime;
+        Vector2 furthestPoint = pos + move;
+
+        // check furthest movement. If nothing hit, move and don't do extra checks
+        Collider2D hit = Physics2D.OverlapBox(furthestPoint, _characterBounds.size, 0, _groundLayer);
+        if (!hit)
+        {
+            if (velocity.x > 0 && _colRight || velocity.x < 0 && _colLeft)
+            {
+                // Don't walk through walls
+                velocity.x = 0;
+            }
+            EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
+            return;
+        }
+
+        // otherwise increment away from current pos; see what closest position we can move to
+        //Vector2 realPosition = transform.position;
+        //Vector2 position = transform.position;
+        //Vector2 hitPos = hit.transform.position;
+        //Vector2 positionToMoveTo = position;
+     
+        //for (int i = 1; i < _freeColliderIterations; i++)
+        //{
+        //    // increment to check all but furthestPoint - we did that already
+        //    float t = (float)i / _freeColliderIterations;
+        //    Vector2 posToTry = Vector2.Lerp(pos, furthestPoint, t);
+
+        //    if (Physics2D.OverlapBox(posToTry, _characterBounds.size, 0, _groundLayer))
+        //    {
+        //        position = positionToMoveTo;
+
+        //        // We've landed on a corner or hit our head on a ledge. Nudge the player gently
+        //        if (i == 1)
+        //        {
+        //            if (velocity.y < 0) velocity.y = 0;
+        //            Vector2 dir = position - hitPos;
+        //            position += dir.normalized * move.magnitude;
+        //            //Vector2 dir = position - hitPos;
+        //            EventManager<Vector2>.Instance.TriggerEvent("moveWorld", dir);
+        //        }
+
+        //        return;
+        //    }
+
+        //    positionToMoveTo = posToTry;
+        // }
+        //Vector2 differenceToMove = realPosition - position;
+        //EventManager<Vector2>.Instance.TriggerEvent("moveWorld", differenceToMove);
+        #endregion
+    }
 }
 public struct RayRange
 {

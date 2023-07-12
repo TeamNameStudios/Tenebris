@@ -59,8 +59,8 @@ public class Chunk : MapMover
 
     public void Update()
     {
+        base.Update();
         Vector2 pos = transform.position;
-        
         if (pos.x < -60f)
         {
             pos.x += 180f;

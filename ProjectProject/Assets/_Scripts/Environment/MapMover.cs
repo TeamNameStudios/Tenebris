@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MapMover : MonoBehaviour
 {
     public float depth = 1;
     [SerializeField]
-    private float velocity;
+    protected float velocity;
 	
     private void OnEnable()
     {
@@ -15,7 +16,7 @@ public class MapMover : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", changeVelocity);  
+        EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", changeVelocity);
     }
 
     private void changeVelocity(float _velocity)
@@ -23,11 +24,13 @@ public class MapMover : MonoBehaviour
         velocity = _velocity;  
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
         float realVelocity = velocity / depth;
         Vector2 pos = transform.position;
-        pos.x -= realVelocity * Time.fixedDeltaTime;
+        pos.x -= realVelocity * Time.deltaTime;
         transform.position = pos;
     }
+
+ 
 }

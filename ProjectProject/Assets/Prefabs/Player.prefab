@@ -283,11 +283,11 @@ MonoBehaviour:
   jumpVelocity: 50
   groundHeight: 10
   originalGravity: 0
-  gravity: -200
+  gravity: -180
   player: {fileID: 0}
   playerHook: {fileID: 0}
-  _jumpHeight: 30
-  _jumpApexThreshold: 10
+  _jumpHeight: 35
+  _jumpApexThreshold: 25
   _coyoteTimeThreshold: 0.1
   _jumpBuffer: 0.1
   _jumpEndEarlyGravityModifier: 3
@@ -305,8 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b77f7b376864749807551df698c688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 13
-  acceleration: 60
+  maxVelocity: 19.5
+  acceleration: 120
   deAcceleration: 40
   isFacingRight: 1
   player: {fileID: 0}
@@ -447,13 +447,13 @@ MonoBehaviour:
   swingAccellerationSwing: 10
   maxSwingPower: 40
   distanceToCheck: 20
-  jumpPowerAfterSwing: {x: 30, y: 40}
+  jumpPowerAfterSwing: {x: 30, y: 50}
   swingingDirection: {x: 0, y: 0}
   hookableLayer:
     serializedVersion: 2
     m_Bits: 64
   corruptionSystem: {fileID: 0}
-  hookCorruption: 20
+  hookCorruption: 0
 --- !u!114 &2829687767122554904
 MonoBehaviour:
   m_ObjectHideFlags: 0

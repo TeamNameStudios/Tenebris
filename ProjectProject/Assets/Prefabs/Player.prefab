@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1707054387
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1707054387
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -228,6 +228,7 @@ MonoBehaviour:
   JumpingThisFrame: 0
   LandingThisFrame: 0
   playerJump: {fileID: 0}
+  playerMovement: {fileID: 0}
   _characterBounds:
     m_Center: {x: 0, y: 1, z: 0}
     m_Extent: {x: 0.5, y: 1, z: 0}
@@ -246,6 +247,7 @@ MonoBehaviour:
   _minFallSpeed: 80
   _maxFallSpeed: 120
   _fallSpeed: 0
+  _freeColliderIterations: 10
 --- !u!114 &8998615552283208031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,9 +263,9 @@ MonoBehaviour:
   canDash: 1
   isDashing: 0
   dashingPower: 25
-  dashingTime: 0.6
+  dashingTime: 0.4
   dashingCooldown: 0.5
-  playerJump: {fileID: 0}
+  playerJump: {fileID: 649298859899979900}
   player: {fileID: 9164660901016660940}
   playerMovement: {fileID: 0}
   DashEffect: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
@@ -281,11 +283,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f49a49f3e74c7143adc9382994457ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpVelocity: 50
-  groundHeight: 10
+  jumpVelocity: 85
+  groundHeight: 0
   originalGravity: 0
-  gravity: -180
-  player: {fileID: 0}
+  gravity: -400
+  player: {fileID: 9164660901016660940}
   playerHook: {fileID: 0}
   _jumpHeight: 35
   _jumpApexThreshold: 25
@@ -306,11 +308,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b77f7b376864749807551df698c688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 19.5
-  acceleration: 120
-  deAcceleration: 40
+  maxVelocity: 18
+  acceleration: 150
+  deAcceleration: 50
   isFacingRight: 1
-  player: {fileID: 0}
+  player: {fileID: 9164660901016660940}
   playerHook: {fileID: 0}
 --- !u!70 &1133532749736719681
 CapsuleCollider2D:
@@ -366,9 +368,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingLayerID: 1707054387
+  m_SortingLayer: 3
+  m_SortingOrder: 2
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -454,7 +456,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   corruptionSystem: {fileID: 0}
-  hookCorruption: 0
+  hookCorruption: 1
 --- !u!114 &2829687767122554904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,7 +472,7 @@ MonoBehaviour:
   Corruption: 0
   maxCorruption: 100
   corrupted: 0
-  corruptionTime: 5
+  fullyCorruptionTime: 5
   canRecover: 0
   recoverCorruptionWaitTime: 5
   recoverCorruptionSpeed: 3
@@ -545,7 +547,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1707054387
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 0, b: 0.8780918, a: 1}

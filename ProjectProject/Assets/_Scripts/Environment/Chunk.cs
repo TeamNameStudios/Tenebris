@@ -61,19 +61,19 @@ public class Chunk : MapMover
     {
 
         base.Update();
-        Vector2 pos = transform.position;
-        if (pos.x < -60f)
-        {
-            pos.x += 180f;
-            ResetChunk(this);
-        }
-        if (pos.x > 120f)
-        {
-            pos.x -= 180f;
-            isGenerated = false;
-        }
+        //Vector2 pos = transform.position;
+        //if (pos.x < -60f)
+        //{
+        //    pos.x += 180f;
+        //    ResetChunk(this);
+        //}
+        //if (pos.x > 120f)
+        //{
+        //    pos.x -= 180f;
+        //    isGenerated = false;
+        //}
 
-        transform.position = pos;
+        //transform.position = pos;
 
     }
 

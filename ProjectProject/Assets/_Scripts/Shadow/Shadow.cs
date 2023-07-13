@@ -22,8 +22,8 @@ public class Shadow : MapMover
 
     private void Update()
     {
-        if (GameController.Instance.State == GameState.PLAYING)
-        {
+        //if (GameController.Instance.State == GameState.PLAYING)
+        //{
             base.Update();
 
             Vector2 pos = transform.position;
@@ -46,7 +46,7 @@ public class Shadow : MapMover
             {
                 EventManager<float>.Instance.TriggerEvent("Corruption", insideShadowCorruptionValue);
             }
-        }
+        //}
 
     }
 

@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Runner : Manifestation
 {
-    [SerializeField] private float velocity;
+    [SerializeField] private float runnerVelocity;
     [SerializeField] private Vector2 boxSize;
 
     [SerializeField] private bool canStart = false;
+    [SerializeField] private float pursueTime;
+    private bool canPursue = true;
+
+    private Player player;
+    private Vector2 direction;
 
     private void Update()
     {
@@ -21,10 +26,27 @@ public class Runner : Manifestation
     {
         if (canStart)
         {
-            Vector2 pos = transform.position;
-            
-            pos.x -= Vector2.right.x * velocity * Time.fixedDeltaTime;
-            
+            StartCoroutine(PursueCO());
+            Vector3 pos = transform.position;
+
+            if (canPursue)
+            {
+                //float rotAngle = Mathf.Asin((pos.y - player.transform.position.y) / (pos.x - player.transform.position.x));
+                //transform.Rotate(new Vector3(0, 0, rotAngle * Mathf.Rad2Deg));
+
+                pos.x -= Vector2.right.x * runnerVelocity * Time.fixedDeltaTime;
+
+                //direction = new Vector2((Mathf.Sqrt((pos.x - player.transform.position.x) + (pos.y - player.transform.position.y))), 0);
+                //pos.x -= direction.magnitude * runnerVelocity * Time.fixedDeltaTime;
+                pos.y = player.transform.position.y;
+            }
+            else if (!canPursue)
+            {
+                pos.x -= Vector2.right.x * runnerVelocity * Time.fixedDeltaTime;
+                
+                //pos.x -= direction.magnitude * runnerVelocity * Time.fixedDeltaTime;
+            }
+
             transform.position = pos;
         }
     }
@@ -39,6 +61,7 @@ public class Runner : Manifestation
             {
                 if (colliders[i].GetComponent<Player>())
                 {
+                    player = colliders[i].GetComponent<Player>();
                     Vector2 pos = transform.position;
                     pos.y = colliders[i].transform.position.y;
                     transform.position = pos;
@@ -52,5 +75,11 @@ public class Runner : Manifestation
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, new Vector3(boxSize.x, boxSize.y, 0));
+    }
+
+    private IEnumerator PursueCO()
+    {
+        yield return new WaitForSeconds(pursueTime);
+        canPursue = false;
     }
 }

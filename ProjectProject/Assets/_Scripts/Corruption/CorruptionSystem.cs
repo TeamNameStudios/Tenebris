@@ -11,7 +11,7 @@ public class CorruptionSystem : MonoBehaviour
     private Player player;
 
     public bool corrupted = false;
-    [SerializeField] private float corruptionTime;
+    [SerializeField] private float fullyCorruptionTime;
     [SerializeField] private bool canRecover;
     [SerializeField] private float recoverCorruptionWaitTime;
     [SerializeField] private float recoverCorruptionSpeed;
@@ -113,7 +113,7 @@ public class CorruptionSystem : MonoBehaviour
 
     private IEnumerator CorruptionCoroutine()
     {
-        yield return new WaitForSeconds(corruptionTime);
+        yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;
         Corruption = 0;
         EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);

@@ -12,14 +12,17 @@ public abstract class Manifestation : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(AutoDestruction());
-        EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", ChangeVelocity);
-        EventManager<Vector2>.Instance.StartListening("onPlayerChangeDirection", PlayerGoingRight);
+        // NOT NEEDED FOR NOW
+        //StartCoroutine(AutoDestruction());
+        //EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", ChangeVelocity);
+        //EventManager<Vector2>.Instance.StartListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
     private void OnDisable()
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
+        //EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", ChangeVelocity);
+        //EventManager<Vector2>.Instance.StopListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
     private void Update()
@@ -41,5 +44,18 @@ public abstract class Manifestation : MonoBehaviour
     {
         yield return new WaitForSeconds(DestroyTimer);
         ManifestationsFactory.Instance.ReturnObject(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            EventManager<float>.Instance.TriggerEvent("Corruption", CorruptionValue);
+            Debug.Log("COLLIDED!");
+        }
+        else if (collision.gameObject.CompareTag("Shadow"))
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -19,8 +19,9 @@ public class ManifestationsGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) && canSpawn)
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) /*&& canSpawn*/)
         {
+            player = FindAnyObjectByType<Player>().gameObject;
             Vector2 spawnPos = new Vector2(player.transform.position.x + 35, player.transform.position.y);
             ManifestationsFactory.Instance.CreateObject("Runner", spawnPos);
         }

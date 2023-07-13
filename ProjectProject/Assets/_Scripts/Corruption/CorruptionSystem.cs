@@ -11,10 +11,12 @@ public class CorruptionSystem : MonoBehaviour
     private Player player;
 
     public bool corrupted = false;
-    [SerializeField] private float corruptionTime;
+    [SerializeField] private float fullyCorruptionTime;
     [SerializeField] private bool canRecover;
     [SerializeField] private float recoverCorruptionWaitTime;
     [SerializeField] private float recoverCorruptionSpeed;
+
+    private Queue<Coroutine> coroutines = new Queue<Coroutine>();
 
     private void OnEnable()
     {
@@ -52,20 +54,25 @@ public class CorruptionSystem : MonoBehaviour
             DecreaseCorruption(Mathf.Pow(recoverCorruptionSpeed / Corruption, 2));
         }
 
-        if (Corruption == 0)
-        {
-            EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", false);
-        }
-        else
-        {
-            EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", true);
-
-        }
+        //if (Corruption == 0)
+        //{
+        //    EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", false);
+        //}
+        //else
+        //{
+        //    EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", true);
+        //
+        //}
     }
 
     private void AddCorruption(float value)
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
+        if (coroutines.Count != 0)
+        {
+            StopCoroutine(coroutines.Peek());
+            coroutines.Dequeue();
+        }
 
         EventManager<float>.Instance.TriggerEvent("InitCorruptionBar", maxCorruption);
 
@@ -79,14 +86,20 @@ public class CorruptionSystem : MonoBehaviour
             {
                 Corruption += value;
                 canRecover = false;
-                StartCoroutine(CanRecovery());
+                coroutines.Enqueue(StartCoroutine(CanRecovery()));
+                //StartCoroutine(CanRecovery());
             }
 
             EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
 
             if (Corruption >= maxCorruption)
             {
-                StopCoroutine(CanRecovery());
+                //StopCoroutine(CanRecovery());
+                if (coroutines.Count != 0)
+                {
+                    StopCoroutine(coroutines.Peek());
+                    coroutines.Dequeue();
+                }
                 corrupted = true;
             }
 
@@ -113,7 +126,7 @@ public class CorruptionSystem : MonoBehaviour
 
     private IEnumerator CorruptionCoroutine()
     {
-        yield return new WaitForSeconds(corruptionTime);
+        yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;
         Corruption = 0;
         EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);

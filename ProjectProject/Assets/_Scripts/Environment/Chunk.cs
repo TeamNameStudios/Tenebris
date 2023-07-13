@@ -59,6 +59,7 @@ public class Chunk : MapMover
 
     public void Update()
     {
+
         base.Update();
         Vector2 pos = transform.position;
         if (pos.x < -60f)
@@ -73,7 +74,7 @@ public class Chunk : MapMover
         }
 
         transform.position = pos;
-        
+
     }
 
     public void SetPreviousChunk(Chunk previous)

@@ -43,12 +43,12 @@ public class Player : MonoBehaviour
         //GatherInput();
         RunCollisionChecks();
 
-        playerMovement.CalculateWalk(); // Horizontal movement
-        playerJump.CalculateJumpApex(); // Affects fall speed, so calculate before gravity
-        CalculateGravity(); // Vertical movement
-        playerJump.CalculateJump(); // Possibly overrides vertical
+        //playerMovement.CalculateWalk(); // Horizontal movement
+        //playerJump.CalculateJumpApex(); // Affects fall speed, so calculate before gravity
+        //CalculateGravity(); // Vertical movement
+        //playerJump.CalculateJump(); // Possibly overrides vertical
 
-        MoveCharacter(); // Actually perform the axis movement
+        //MoveCharacter(); // Actually perform the axis movement
     }
 
     [Header("COLLISION")][SerializeField] private Bounds _characterBounds;

@@ -16,6 +16,8 @@ public class CorruptionSystem : MonoBehaviour
     [SerializeField] private float recoverCorruptionWaitTime;
     [SerializeField] private float recoverCorruptionSpeed;
 
+    private Queue<Coroutine> coroutines = new Queue<Coroutine>();
+
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
@@ -65,7 +67,12 @@ public class CorruptionSystem : MonoBehaviour
 
     private void AddCorruption(float value)
     {
-        StopAllCoroutines();
+        //StopAllCoroutines();
+        if (coroutines.Count != 0)
+        {
+            StopCoroutine(coroutines.Peek());
+            coroutines.Dequeue();
+        }
 
         EventManager<float>.Instance.TriggerEvent("InitCorruptionBar", maxCorruption);
 
@@ -79,14 +86,20 @@ public class CorruptionSystem : MonoBehaviour
             {
                 Corruption += value;
                 canRecover = false;
-                StartCoroutine(CanRecovery());
+                coroutines.Enqueue(StartCoroutine(CanRecovery()));
+                //StartCoroutine(CanRecovery());
             }
 
             EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
 
             if (Corruption >= maxCorruption)
             {
-                StopCoroutine(CanRecovery());
+                //StopCoroutine(CanRecovery());
+                if (coroutines.Count != 0)
+                {
+                    StopCoroutine(coroutines.Peek());
+                    coroutines.Dequeue();
+                }
                 corrupted = true;
             }
 

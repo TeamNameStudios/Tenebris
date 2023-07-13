@@ -20,15 +20,15 @@ public class Shadow : MapMover
         player = _player;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (GameController.Instance.State == GameState.PLAYING)
         {
-            base.FixedUpdate();
+            base.Update();
 
             Vector2 pos = transform.position;
 
-            pos.x += Vector2.right.x * shadowSpeed * Time.fixedDeltaTime;
+            pos.x += Vector2.right.x * shadowSpeed * Time.deltaTime;
             if (player.transform.position.x - pos.x > 35)
             {
                 pos = Vector2.Lerp(pos, new Vector2(player.transform.position.x - 35f, pos.y), 10f * Time.fixedDeltaTime);

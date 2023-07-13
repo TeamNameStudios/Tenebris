@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BackgroundParallax : MapMover
 {
-    private new void FixedUpdate()
+    private new void Update()
     {
-        base.FixedUpdate();
+        base.Update();
         Vector2 pos = transform.position;
         if (pos.x <= -56)
         {

@@ -94,7 +94,7 @@ public class PlayerHook : MonoBehaviour
             Vector2 hookObjectpos = HookableObject.transform.position;
             lineRenderer.SetPosition(0, hookObjectpos);
             lineRenderer.SetPosition(1, new Vector2(pos.x, pos.y+1));
-            player.velocity.x += swingAccellerationSwing * swingingDirection.x * Time.fixedDeltaTime * 100f;
+            player.velocity.x += swingAccellerationSwing * swingingDirection.x * 100f;
             player.velocity.x = Mathf.Clamp(player.velocity.x, -maxSwingPower, maxSwingPower);
             //pos.y = -Mathf.Sqrt(Mathf.Pow(minDistance, 2)- Mathf.Pow(hookObjectpos.x - pos.x, 2)) + hookObjectpos.y;
             pos.y = Mathf.Lerp(pos.y, hookObjectpos.y, Time.fixedDeltaTime * 2f);

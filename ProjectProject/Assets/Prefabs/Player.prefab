@@ -262,15 +262,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canDash: 1
   isDashing: 0
-  dashingPower: 25
-  dashingTime: 0.4
-  dashingCooldown: 0.5
+  dashingPower: 35
+  dashingTime: 0.27
+  dashingCooldown: 0.34
   playerJump: {fileID: 649298859899979900}
   player: {fileID: 9164660901016660940}
   playerMovement: {fileID: 0}
   DashEffect: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
   corruptionSystem: {fileID: 2829687767122554904}
-  dashCorruption: 2.5
+  dashCorruption: 10
 --- !u!114 &649298859899979900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f49a49f3e74c7143adc9382994457ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpVelocity: 85
+  jumpVelocity: 70
   groundHeight: 0
   originalGravity: 0
   gravity: -400
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVelocity: 18
-  acceleration: 150
+  acceleration: 130
   deAcceleration: 50
   isFacingRight: 1
   player: {fileID: 9164660901016660940}
@@ -472,10 +472,10 @@ MonoBehaviour:
   Corruption: 0
   maxCorruption: 100
   corrupted: 0
-  fullyCorruptionTime: 5
+  fullyCorruptionTime: 7
   canRecover: 0
-  recoverCorruptionWaitTime: 5
-  recoverCorruptionSpeed: 3
+  recoverCorruptionWaitTime: 4
+  recoverCorruptionSpeed: 12.5
 --- !u!1 &9164660901024896197
 GameObject:
   m_ObjectHideFlags: 0

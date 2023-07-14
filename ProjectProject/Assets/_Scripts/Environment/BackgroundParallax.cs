@@ -8,13 +8,13 @@ public class BackgroundParallax : MapMover
     {
         base.Update();
         Vector2 pos = transform.position;
-        if (pos.x <= -56)
+        if (pos.x <= -70)
         {
-            pos.x = 55;
+            pos.x = 69;
         }
-        if (pos.x >= 56)
+        if (pos.x >= 70)
         {
-            pos.x = -55;
+            pos.x = -69;
         }
         transform.position = pos;
 

@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3546137137850017349}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2, y: 2.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,10 +101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CorruptionValue: 20
   DestroyTimer: 5
-  runnerVelocity: 15
+  runnerVelocity: 12
   boxSize: {x: 72.5, y: 32}
   canStart: 0
-  pursueTime: 0.2
+  pursueTime: 1.1
 --- !u!61 &1227941107404521552
 BoxCollider2D:
   m_ObjectHideFlags: 0

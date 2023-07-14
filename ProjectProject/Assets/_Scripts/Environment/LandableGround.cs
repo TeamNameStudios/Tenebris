@@ -5,10 +5,10 @@ using UnityEngine;
 public abstract class LandableGround : MonoBehaviour
 {
     public float groundHeight;
-    private BoxCollider2D collider;
+    private BoxCollider2D boxCollider;
     void Start()
     {
-        collider = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         groundHeight = (transform.position.y + transform.localScale.y / 2);
     }
 

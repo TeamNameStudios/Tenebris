@@ -14,7 +14,7 @@ public class MainHUD : MonoBehaviour
     public List<GameObject> pausePanels;
     public GameObject endLevelPanel;
 
-    private bool pauseState = false;
+    //private bool pauseState = false;
     private TextMeshProUGUI _pageCount;
     private TextMeshProUGUI _distanceCount;
 
@@ -43,7 +43,7 @@ public class MainHUD : MonoBehaviour
     #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
     #else
-        Apllication.Quit();
+        Application.Quit();
     #endif
     }
 

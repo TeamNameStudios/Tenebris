@@ -24,7 +24,7 @@ public class MapMover : MonoBehaviour
         velocity = _velocity;  
     }
 
-    public void Update()
+    public virtual void Update()
     {
         float realVelocity = velocity / depth;
         Vector2 pos = transform.position;

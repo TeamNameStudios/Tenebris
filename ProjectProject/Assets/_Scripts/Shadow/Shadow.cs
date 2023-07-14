@@ -20,7 +20,7 @@ public class Shadow : MapMover
         player = _player;
     }
 
-    private void Update()
+    public override void Update()
     {
         //if (GameController.Instance.State == GameState.PLAYING)
         //{

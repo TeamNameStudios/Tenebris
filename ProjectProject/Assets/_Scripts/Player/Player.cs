@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.U2D.Path.GUIFramework;
+//using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
@@ -169,9 +169,9 @@ public class Player : MonoBehaviour
 
     #region Move
 
-    [Header("MOVE")]
-    [SerializeField, Tooltip("Raising this value increases collision accuracy at the cost of performance.")]
-    private int _freeColliderIterations = 10;
+    //[Header("MOVE")]
+    //[SerializeField, Tooltip("Raising this value increases collision accuracy at the cost of performance.")]
+    //private int _freeColliderIterations = 10;
 
     // We cast our bounds before moving to avoid future collisions
     private void MoveCharacter()

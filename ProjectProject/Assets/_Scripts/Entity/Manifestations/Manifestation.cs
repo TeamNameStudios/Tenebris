@@ -51,7 +51,7 @@ public abstract class Manifestation : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             EventManager<float>.Instance.TriggerEvent("Corruption", CorruptionValue);
-            Debug.Log("COLLIDED!");
+            //Debug.Log("COLLIDED!");
         }
         else if (collision.gameObject.CompareTag("Shadow"))
         {

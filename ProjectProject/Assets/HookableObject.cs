@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class HookableObject : MonoBehaviour
 {
-    public Collider2D collider;
+    public Collider2D hookCollider;
     void Awake()
     {
-        collider = GetComponent<Collider2D>();
+        hookCollider = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame

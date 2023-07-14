@@ -16,35 +16,24 @@ public class CorruptionSystem : MonoBehaviour
     [SerializeField] private float recoverCorruptionWaitTime;
     [SerializeField] private float recoverCorruptionSpeed;
 
-    private Queue<Coroutine> coroutines = new Queue<Coroutine>();
+    //private Queue<Coroutine> coroutines = new Queue<Coroutine>();
+    private Coroutine thisCO;
 
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
+        EventManager<float>.Instance.StartListening("onCollectiblePickup", DecreaseCorruption);
     }
 
     private void OnDisable()
     {
         EventManager<float>.Instance.StopListening("Corruption", AddCorruption);
+        EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
     }
 
     private void Start()
     {
-        player = GetComponent<Player>();
-    }
-
-    private void Update()
-    {
-        if (corrupted)
-        {
-            StartCoroutine(CorruptionCoroutine());
-            //  while he is corrupted we can slow him down, make him unable to use his powers and maybe make the shadow faster
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            AddCorruption(5);
-        }
+        //player = GetComponent<Player>();
     }
 
     private void FixedUpdate()
@@ -68,10 +57,14 @@ public class CorruptionSystem : MonoBehaviour
     private void AddCorruption(float value)
     {
         //StopAllCoroutines();
-        if (coroutines.Count != 0)
+        //if (coroutines.Count != 0)
+        //{
+        //    StopCoroutine(coroutines.Peek());
+        //    coroutines.Dequeue();
+        //}
+        if (thisCO != null)
         {
-            StopCoroutine(coroutines.Peek());
-            coroutines.Dequeue();
+            StopCoroutine(thisCO);
         }
 
         EventManager<float>.Instance.TriggerEvent("InitCorruptionBar", maxCorruption);
@@ -86,8 +79,9 @@ public class CorruptionSystem : MonoBehaviour
             {
                 Corruption += value;
                 canRecover = false;
-                coroutines.Enqueue(StartCoroutine(CanRecovery()));
-                //StartCoroutine(CanRecovery());
+                //coroutines.Enqueue(StartCoroutine(CanRecovery()));
+                
+                thisCO = StartCoroutine(CanRecovery());
             }
 
             EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
@@ -95,14 +89,21 @@ public class CorruptionSystem : MonoBehaviour
             if (Corruption >= maxCorruption)
             {
                 //StopCoroutine(CanRecovery());
-                if (coroutines.Count != 0)
+                
+                //if (coroutines.Count != 0)
+                //{
+                //    StopCoroutine(coroutines.Peek());
+                //    coroutines.Dequeue();
+                //}
+                
+                if (thisCO != null)
                 {
-                    StopCoroutine(coroutines.Peek());
-                    coroutines.Dequeue();
+                    StopCoroutine(thisCO);
                 }
+                
                 corrupted = true;
+                StartCoroutine(CorruptionCoroutine());
             }
-
         }
     }
 

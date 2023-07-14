@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MainHUD : MonoBehaviour
 {
@@ -13,26 +14,26 @@ public class MainHUD : MonoBehaviour
     public List<GameObject> pausePanels;
 
     private bool pauseState = false;
-    private TextMeshPro _pageCount;
-    private TextMeshPro _distanceCount;
+    private TextMeshProUGUI _pageCount;
+    private TextMeshProUGUI _distanceCount;
 
-    public void SetPauseState(int numero)
+    public void SetPauseState(bool state)
     {
-        pauseState = !pauseState;
+        //pauseState = !pauseState;
 
-        if (pauseState)
+        if (state)
         {
             pausePanels[0].SetActive(false);
             pausePanels[1].SetActive(true);
             pauseMenu.SetActive(true);
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
         }
         else
         {
             pausePanels[0].SetActive(true);
             pausePanels[1].SetActive(false);
             pauseMenu.SetActive(false);
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
     }
 
@@ -48,32 +49,39 @@ public class MainHUD : MonoBehaviour
     public void UpdatePageCount(int newPageCount)
     {
         _pageCount.text = newPageCount.ToString();
+       
     }
 
-    public void UpdateDistanceCount(int newDistanceCount)
+    public void UpdateDistanceCount(float newDistanceCount)
     {
         _distanceCount.text = newDistanceCount.ToString();
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        _pageCount = pageCount.GetComponent<TextMeshPro>();
-        _distanceCount = distanceCount.GetComponent<TextMeshPro>();
+        _pageCount = pageCount.GetComponent<TextMeshProUGUI>();
+        _distanceCount = distanceCount.GetComponent<TextMeshProUGUI>();
         pausePanels[0].SetActive(true);
         pausePanels[1].SetActive(false);
         pauseMenu.SetActive(false);
+    }
 
-        EventManager<int>.Instance.StartListening("UpdatePauseState", SetPauseState);
+    private void OnEnable()
+    {
+        EventManager<bool>.Instance.StartListening("pause", SetPauseState);
         EventManager<int>.Instance.StartListening("UpdatePageCount", UpdatePageCount);
-        EventManager<int>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
+        EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
     }
 
     private void OnDisable()
     {
-        EventManager<int>.Instance.StopListening("UpdatePauseState", SetPauseState);
+        EventManager<bool>.Instance.StopListening("pause", SetPauseState);
         EventManager<int>.Instance.StopListening("UpdatePageCount", UpdatePageCount);
-        EventManager<int>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
+        EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
     }
 
-
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }

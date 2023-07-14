@@ -8,13 +8,13 @@ using UnityEngine.UIElements.Experimental;
 public class GameController : Singleton<GameController>
 {
     private GameState state = GameState.IDLE;
+    public GameState State { get => state; private set => state = value; }
     [SerializeField]
     private Player player;
 
     [SerializeField]
     private Shadow shadow;
 
-    public GameState State { get => state; private set => state = value; }
 
     private void Start()
     {

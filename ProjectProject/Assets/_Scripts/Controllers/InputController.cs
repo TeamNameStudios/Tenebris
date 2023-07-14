@@ -13,14 +13,14 @@ public class InputController : Singleton<InputController>
         float directionY = Input.GetAxisRaw("Vertical");
         EventManager<Vector2>.Instance.TriggerEvent("movement", new Vector2(directionX, directionY));
 
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-        {
-            EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
-        }
-        else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
-        {
-            EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
-        }
+        //if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        //{
+        //    EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
+        //}
+        //else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
+        //{
+        //    EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
+        //}
 
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
@@ -34,11 +34,11 @@ public class InputController : Singleton<InputController>
         {
             EventManager<bool>.Instance.TriggerEvent("dash", true);
         }
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             EventManager<bool>.Instance.TriggerEvent("hook", true);
         }
-        else if(Input.GetKeyUp(KeyCode.Z))
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
         {
             EventManager<bool>.Instance.TriggerEvent("hook",false);
         }

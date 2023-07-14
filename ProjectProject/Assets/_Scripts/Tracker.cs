@@ -26,5 +26,10 @@ public class Tracker : MonoBehaviour
         distance = Mathf.Round(0 - transform.position.x) * 0.01f;
         float realDistance = Mathf.Clamp(distance, 0f, float.PositiveInfinity);
         EventManager<float>.Instance.TriggerEvent("UpdateDistanceCount", realDistance);
+
+        if (distance >= 9.70)
+        {
+            EventManager<bool>.Instance.TriggerEvent("onLevelEnded", true);
+        }
     }
 }

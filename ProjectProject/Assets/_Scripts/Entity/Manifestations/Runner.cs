@@ -22,7 +22,7 @@ public class Runner : Manifestation
         }
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (canStart)
         {
@@ -34,7 +34,7 @@ public class Runner : Manifestation
                 //float rotAngle = Mathf.Asin((pos.y - player.transform.position.y) / (pos.x - player.transform.position.x));
                 //transform.Rotate(new Vector3(0, 0, rotAngle * Mathf.Rad2Deg));
 
-                pos.x -= Vector2.right.x * runnerVelocity * Time.fixedDeltaTime;
+                pos.x -= Vector2.right.x * runnerVelocity * Time.deltaTime;
 
                 //direction = new Vector2((Mathf.Sqrt((pos.x - player.transform.position.x) + (pos.y - player.transform.position.y))), 0);
                 //pos.x -= direction.magnitude * runnerVelocity * Time.fixedDeltaTime;
@@ -42,7 +42,7 @@ public class Runner : Manifestation
             }
             else if (!canPursue)
             {
-                pos.x -= Vector2.right.x * runnerVelocity * Time.fixedDeltaTime;
+                pos.x -= Vector2.right.x * runnerVelocity * Time.deltaTime;
                 
                 //pos.x -= direction.magnitude * runnerVelocity * Time.fixedDeltaTime;
             }

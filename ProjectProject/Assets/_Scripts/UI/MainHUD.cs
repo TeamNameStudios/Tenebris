@@ -12,6 +12,7 @@ public class MainHUD : MonoBehaviour
     public GameObject distanceCount;
     public GameObject pauseMenu;
     public List<GameObject> pausePanels;
+    public GameObject endLevelPanel;
 
     private bool pauseState = false;
     private TextMeshProUGUI _pageCount;
@@ -64,6 +65,7 @@ public class MainHUD : MonoBehaviour
         pausePanels[0].SetActive(true);
         pausePanels[1].SetActive(false);
         pauseMenu.SetActive(false);
+        endLevelPanel.SetActive(false);
     }
 
     private void OnEnable()
@@ -71,6 +73,7 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StartListening("pause", SetPauseState);
         EventManager<int>.Instance.StartListening("UpdatePageCount", UpdatePageCount);
         EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
+        EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
     }
 
     private void OnDisable()
@@ -78,10 +81,19 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StopListening("pause", SetPauseState);
         EventManager<int>.Instance.StopListening("UpdatePageCount", UpdatePageCount);
         EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
+        EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
     }
 
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void TempLevelEnd(bool state)
+    {
+        if (state)
+        {
+            endLevelPanel.SetActive(state);
+        }
     }
 }

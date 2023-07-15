@@ -82,7 +82,7 @@ public class PlayerHook : MonoBehaviour
         return nearestHookableObject;
 
     }
-    private void FixedUpdate()
+    private void Update()
     {
         Vector2 pos = transform.position;
         Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos, 20f);

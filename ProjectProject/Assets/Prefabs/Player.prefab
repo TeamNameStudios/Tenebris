@@ -236,8 +236,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _detectorCount: 3
-  _detectionRayLength: 0.1
-  _rayBuffer: 0.1
+  _detectionRayLength: 0.2
+  _rayBuffer: 0.3
   _colUp: 0
   _colRight: 0
   _colDown: 0
@@ -247,7 +247,6 @@ MonoBehaviour:
   _minFallSpeed: 80
   _maxFallSpeed: 120
   _fallSpeed: 0
-  _freeColliderIterations: 10
 --- !u!114 &8998615552283208031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +473,7 @@ MonoBehaviour:
   corrupted: 0
   fullyCorruptionTime: 7
   canRecover: 0
-  recoverCorruptionWaitTime: 4
+  recoverCorruptionWaitTime: 3
   recoverCorruptionSpeed: 12.5
 --- !u!1 &9164660901024896197
 GameObject:

@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
         // Ground
         LandingThisFrame = false;
         var groundedCheck = RunDetection(_raysDown);
+
         if (_colDown && !groundedCheck) _timeLeftGrounded = Time.time; // Only trigger when first leaving
         else if (!_colDown && groundedCheck)
         {
@@ -227,6 +228,16 @@ public class Player : MonoBehaviour
         //Vector2 differenceToMove = realPosition - position;
         //EventManager<Vector2>.Instance.TriggerEvent("moveWorld", differenceToMove);
         #endregion
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            BoxCollider2D boxCollider = collision.GetComponent<BoxCollider2D>();
+            float groundHeight = boxCollider.transform.position.y + boxCollider.size.y;
+            transform.position = new Vector2(0, groundHeight);
+        }
     }
 }
 public struct RayRange

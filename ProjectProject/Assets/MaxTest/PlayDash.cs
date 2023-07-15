@@ -104,7 +104,7 @@ public class PlayDash : PlayContro
         }
     }
 
-    private new void FixedUpdate()
+    private void Update()
     {
         if (dashing)
         {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shadow : MapMover
+public class Shadow : MapMover, IEnemy
 {
     [SerializeField]
     float shadowSpeed = 1.5f;

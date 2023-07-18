@@ -27,10 +27,14 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private PlayerMovement playerMovement;
+
+    private CorruptionSystem corruptionSystem;
+
     private void Awake()
     {
         playerJump = GetComponent<PlayerJump>();
         playerMovement = GetComponent<PlayerMovement>();
+        corruptionSystem = GetComponent<CorruptionSystem>();
     }
 
     private void Update()
@@ -230,13 +234,22 @@ public class Player : MonoBehaviour
         #endregion
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.layer == 3)
+    //    {
+    //        BoxCollider2D boxCollider = collision.GetComponent<BoxCollider2D>();
+    //        float groundHeight = boxCollider.transform.position.y + boxCollider.size.y;
+    //        transform.position = new Vector2(0, groundHeight);
+    //    }
+    //}
+
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 3)
+        if (collision.transform.GetComponent<IEnemy>() != null && corruptionSystem.corrupted && !corruptionSystem.invincibility)
         {
-            BoxCollider2D boxCollider = collision.GetComponent<BoxCollider2D>();
-            float groundHeight = boxCollider.transform.position.y + boxCollider.size.y;
-            transform.position = new Vector2(0, groundHeight);
+            EventManager<GameState>.Instance.TriggerEvent("onGameEnd", GameState.LOSING);
+            Debug.Log("PLAYER DEAD");
         }
     }
 }

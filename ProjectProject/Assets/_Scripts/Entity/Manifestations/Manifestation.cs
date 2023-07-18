@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Manifestation : MonoBehaviour
+public abstract class Manifestation : MonoBehaviour, IEnemy
 {
     [SerializeField] protected float CorruptionValue;
     [SerializeField] protected float DestroyTimer;

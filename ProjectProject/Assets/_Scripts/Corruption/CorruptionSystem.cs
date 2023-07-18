@@ -11,6 +11,8 @@ public class CorruptionSystem : MonoBehaviour
     private Player player;
 
     public bool corrupted = false;
+    public bool invincibility = false;
+
     [SerializeField] private float fullyCorruptionTime;
     [SerializeField] private bool canRecover;
     [SerializeField] private float recoverCorruptionWaitTime;
@@ -101,6 +103,7 @@ public class CorruptionSystem : MonoBehaviour
                     StopCoroutine(thisCO);
                 }
                 
+                invincibility = true;
                 corrupted = true;
                 StartCoroutine(CorruptionCoroutine());
             }
@@ -127,6 +130,8 @@ public class CorruptionSystem : MonoBehaviour
 
     private IEnumerator CorruptionCoroutine()
     {
+        yield return new WaitForSeconds(.5f);
+        invincibility = false;
         yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;
         Corruption = 0;

@@ -13,6 +13,7 @@ public class TempGameController : Singleton<TempGameController>
     {
         EventManager<int>.Instance.StartListening("onCollectiblePickup", AddPage);
         EventManager<bool>.Instance.StartListening("pause", Pause);
+        EventManager<GameState>.Instance.StartListening("onGameEnd", ChangeState);
     }
 
     private void AddPage(int number)
@@ -38,6 +39,7 @@ public class TempGameController : Singleton<TempGameController>
             case GameState.END_LEVEL:
                 break;
             case GameState.LOSING:
+                Time.timeScale = 0;
                 break;
         }
     }

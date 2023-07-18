@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 5343215473335522038}
   - component: {fileID: 1233552883932278963}
   - component: {fileID: 2829687767122554904}
+  - component: {fileID: 2064566472}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -236,7 +237,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _detectorCount: 3
-  _detectionRayLength: 0.2
+  _detectionRayLength: 0.35
   _rayBuffer: 0.3
   _colUp: 0
   _colRight: 0
@@ -475,6 +476,27 @@ MonoBehaviour:
   canRecover: 0
   recoverCorruptionWaitTime: 3
   recoverCorruptionSpeed: 12.5
+--- !u!50 &2064566472
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9164660901016660941}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1 &9164660901024896197
 GameObject:
   m_ObjectHideFlags: 0

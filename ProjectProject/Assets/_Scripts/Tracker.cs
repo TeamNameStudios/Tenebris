@@ -10,7 +10,7 @@ public class Tracker : MonoBehaviour
     private void Update()
     {
         float tempPos = transform.position.x;
-        distance = Mathf.Round(0 - tempPos) * 0.01f;
+        distance = Mathf.RoundToInt(0 - tempPos);
     
         if (distance > maxX)
         {
@@ -19,7 +19,7 @@ public class Tracker : MonoBehaviour
     
         EventManager<float>.Instance.TriggerEvent("UpdateDistanceCount", maxX);
 
-        if (distance >= 10.25f)
+        if (distance >= 1030)
         {
             EventManager<bool>.Instance.TriggerEvent("onLevelEnded", true);
             Time.timeScale = 0;

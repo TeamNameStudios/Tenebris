@@ -22,8 +22,8 @@ public class Shadow : MapMover, IEnemy
 
     public override void Update()
     {
-        //if (GameController.Instance.State == GameState.PLAYING)
-        //{
+        if (TempGameController.Instance.State == GameState.PLAYING)
+        {
             base.Update();
 
             Vector2 pos = transform.position;
@@ -31,7 +31,7 @@ public class Shadow : MapMover, IEnemy
             pos.x += Vector2.right.x * shadowSpeed * Time.deltaTime;
             if (player.transform.position.x - pos.x > 35)
             {
-                pos = Vector2.Lerp(pos, new Vector2(player.transform.position.x - 35f, pos.y), 10f * Time.fixedDeltaTime);
+                pos = Vector2.Lerp(pos, new Vector2(player.transform.position.x - 35f, pos.y), 10f * Time.deltaTime);
             }
 
             transform.position = pos;
@@ -40,13 +40,14 @@ public class Shadow : MapMover, IEnemy
 
             if (distance <= minDistance)
             {
-                EventManager<float>.Instance.TriggerEvent("Corruption", Mathf.Pow((corruptionValue / distance), 2));
+                float corruption = Mathf.Pow((corruptionValue / distance), 2);
+                EventManager<float>.Instance.TriggerEvent("Corruption", corruption);
             }
             else if (transform.position.x > player.transform.position.x)
             {
                 EventManager<float>.Instance.TriggerEvent("Corruption", insideShadowCorruptionValue);
             }
-        //}
+        }
 
     }
 

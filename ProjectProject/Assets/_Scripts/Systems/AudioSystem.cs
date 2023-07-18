@@ -4,7 +4,8 @@ using UnityEngine;
 /// Insanely basic audio system which supports 3D sound.
 /// Ensure you change the 'Sounds' audio source to use 3D spatial blend if you intend to use 3D sounds.
 /// </summary>
-public class AudioSystem : StaticInstance<AudioSystem> {
+public class AudioSystem : StaticInstance<AudioSystem> 
+{
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _soundsSource;
 

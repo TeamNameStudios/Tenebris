@@ -27,8 +27,9 @@ public class MainMenu : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    private void OnEnable()
     {
+        Time.timeScale = 1;
         // as right now, every panel is disabled at start, this way there won't be any trouble on setting the right visibility while developing
         panels.ForEach(p =>
         {

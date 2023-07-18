@@ -248,8 +248,7 @@ public class Player : MonoBehaviour
     {
         if (collision.transform.GetComponent<IEnemy>() != null && corruptionSystem.corrupted && !corruptionSystem.invincibility)
         {
-            EventManager<GameState>.Instance.TriggerEvent("onGameEnd", GameState.LOSING);
-            Debug.Log("PLAYER DEAD");
+            EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
         }
     }
 }

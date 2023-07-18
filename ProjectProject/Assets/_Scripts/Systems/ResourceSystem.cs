@@ -7,7 +7,8 @@ using UnityEngine;
 /// I make this a MonoBehaviour as sometimes I add some debug/development references in the editor.
 /// If you don't feel free to make this a standard class
 /// </summary>
-public class ResourceSystem : StaticInstance<ResourceSystem> {
+public class ResourceSystem : StaticInstance<ResourceSystem>
+{
     #region Platform
         public List<ScriptablePlatform> Platforms { get; private set; }
         private Dictionary<PlatformType, ScriptablePlatform> PlatformsDict;

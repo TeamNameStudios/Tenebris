@@ -67,6 +67,7 @@ public class MainHUD : MonoBehaviour
         pausePanels[1].SetActive(false);
         pauseMenu.SetActive(false);
         endLevelPanel.SetActive(false);
+        TempGameOver(false);
     }
 
     private void OnEnable()
@@ -75,7 +76,7 @@ public class MainHUD : MonoBehaviour
         EventManager<int>.Instance.StartListening("UpdatePageCount", UpdatePageCount);
         EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
-        EventManager<bool>.Instance.StartListening("onGameEnd", TempGameOver);
+        EventManager<bool>.Instance.StartListening("onGameOver", TempGameOver);
     }
 
     private void OnDisable()
@@ -84,7 +85,7 @@ public class MainHUD : MonoBehaviour
         EventManager<int>.Instance.StopListening("UpdatePageCount", UpdatePageCount);
         EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
-        EventManager<bool>.Instance.StopListening("onGameEnd", TempGameOver);
+        EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
     }
 
     public void ReloadScene()
@@ -110,5 +111,10 @@ public class MainHUD : MonoBehaviour
         {
             gameoverPanel.SetActive(false);
         }
+    }
+
+    public void ReloadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

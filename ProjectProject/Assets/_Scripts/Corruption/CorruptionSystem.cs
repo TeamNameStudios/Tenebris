@@ -17,8 +17,8 @@ public class CorruptionSystem : MonoBehaviour
     [SerializeField] private bool canRecover;
     [SerializeField] private float recoverCorruptionWaitTime;
     [SerializeField] private float recoverCorruptionSpeed;
+    [SerializeField] private float invincibilitySeconds;
 
-    //private Queue<Coroutine> coroutines = new Queue<Coroutine>();
     private Coroutine thisCO;
 
     private void OnEnable()
@@ -33,37 +33,16 @@ public class CorruptionSystem : MonoBehaviour
         EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
     }
 
-    private void Start()
-    {
-        //player = GetComponent<Player>();
-    }
-
     private void FixedUpdate()
     {
         if (!corrupted && canRecover)
         {
             DecreaseCorruption(Mathf.Pow(recoverCorruptionSpeed / Corruption, 2));
         }
-
-        //if (Corruption == 0)
-        //{
-        //    EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", false);
-        //}
-        //else
-        //{
-        //    EventManager<bool>.Instance.TriggerEvent("PlayerCorrupted", true);
-        //
-        //}
     }
 
     private void AddCorruption(float value)
     {
-        //StopAllCoroutines();
-        //if (coroutines.Count != 0)
-        //{
-        //    StopCoroutine(coroutines.Peek());
-        //    coroutines.Dequeue();
-        //}
         if (thisCO != null)
         {
             StopCoroutine(thisCO);
@@ -81,7 +60,6 @@ public class CorruptionSystem : MonoBehaviour
             {
                 Corruption += value;
                 canRecover = false;
-                //coroutines.Enqueue(StartCoroutine(CanRecovery()));
                 
                 thisCO = StartCoroutine(CanRecovery());
             }
@@ -90,13 +68,6 @@ public class CorruptionSystem : MonoBehaviour
 
             if (Corruption >= maxCorruption)
             {
-                //StopCoroutine(CanRecovery());
-                
-                //if (coroutines.Count != 0)
-                //{
-                //    StopCoroutine(coroutines.Peek());
-                //    coroutines.Dequeue();
-                //}
                 
                 if (thisCO != null)
                 {
@@ -130,7 +101,7 @@ public class CorruptionSystem : MonoBehaviour
 
     private IEnumerator CorruptionCoroutine()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(invincibilitySeconds);
         invincibility = false;
         yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;

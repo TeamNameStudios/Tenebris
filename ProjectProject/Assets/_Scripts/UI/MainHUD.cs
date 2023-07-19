@@ -15,27 +15,25 @@ public class MainHUD : MonoBehaviour
     public GameObject endLevelPanel;
     public GameObject gameoverPanel;
 
-    //private bool pauseState = false;
+    private bool pauseState = false;
     private TextMeshProUGUI _pageCount;
     private TextMeshProUGUI _distanceCount;
 
     public void SetPauseState(bool state)
     {
-        //pauseState = !pauseState;
+        pauseState = !pauseState;
 
         if (state)
         {
             pausePanels[0].SetActive(false);
             pausePanels[1].SetActive(true);
             pauseMenu.SetActive(true);
-            //Time.timeScale = 0f;
         }
         else
         {
             pausePanels[0].SetActive(true);
             pausePanels[1].SetActive(false);
             pauseMenu.SetActive(false);
-            //Time.timeScale = 1f;
         }
     }
 
@@ -117,4 +115,6 @@ public class MainHUD : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+
 }

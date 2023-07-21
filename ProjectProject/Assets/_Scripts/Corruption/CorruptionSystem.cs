@@ -18,8 +18,15 @@ public class CorruptionSystem : MonoBehaviour
     [SerializeField] private float recoverCorruptionWaitTime;
     [SerializeField] private float recoverCorruptionSpeed;
     [SerializeField] private float invincibilitySeconds;
+    
+    [Tooltip("Used to add a value to the recovered corruption, to not make it start from 0,\nKeep the value REALLY small, example: 0.02f")]
+    [SerializeField] private float recoveryStartingSmoothness;
+    
+    public float elapsedTime = 0;
+    public bool isRecovering = false;
 
-    private Coroutine thisCO;
+    private Coroutine recoveryCO;
+    private Coroutine corruptionCO;
 
     private void OnEnable()
     {
@@ -33,19 +40,33 @@ public class CorruptionSystem : MonoBehaviour
         EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (!corrupted && canRecover)
+        if (!corrupted && canRecover && TempGameController.Instance.State == GameState.PLAYING)
         {
-            DecreaseCorruption(Mathf.Pow(recoverCorruptionSpeed / Corruption, 2));
+            if (Corruption > 0)
+            {
+                isRecovering = true;
+                float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
+                float easeTime = EaseInCubic(normalizedTime);
+                DecreaseCorruption(recoverCorruptionSpeed * easeTime);
+                elapsedTime += Time.deltaTime;
+                Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+            }
+        }
+
+        //temp method to test corruption sys
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            AddCorruption(maxCorruption);
         }
     }
 
     private void AddCorruption(float value)
     {
-        if (thisCO != null)
+        if (recoveryCO != null)
         {
-            StopCoroutine(thisCO);
+            StopCoroutine(recoveryCO);
         }
 
         EventManager<float>.Instance.TriggerEvent("InitCorruptionBar", maxCorruption);
@@ -60,8 +81,9 @@ public class CorruptionSystem : MonoBehaviour
             {
                 Corruption += value;
                 canRecover = false;
+                isRecovering = false;
                 
-                thisCO = StartCoroutine(CanRecovery());
+                recoveryCO = StartCoroutine(CanRecovery());
             }
 
             EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
@@ -69,34 +91,46 @@ public class CorruptionSystem : MonoBehaviour
             if (Corruption >= maxCorruption)
             {
                 
-                if (thisCO != null)
+                if (recoveryCO != null)
                 {
-                    StopCoroutine(thisCO);
+                    StopCoroutine(recoveryCO);
                 }
-                
+
+                isRecovering = false;
                 invincibility = true;
                 corrupted = true;
-                StartCoroutine(CorruptionCoroutine());
+                corruptionCO = StartCoroutine(CorruptionCoroutine());
             }
         }
     }
 
     private void DecreaseCorruption(float value)
     {
-        if (!corrupted)
+        if (Corruption - value <= 0)
         {
-            if (Corruption - value <= 0)
-            {
-                Corruption = 0;
-                // maybe spawn a particle effect ??
-            }
-            else
-            {
-                Corruption -= value;
-            }
-
-            EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
+            Corruption = 0;
+            // maybe spawn a particle effect ??
         }
+        else
+        {
+            Corruption -= value;
+        }
+
+        //stop corruption coroutine and reset corrupted state
+        if (recoveryCO != null)
+        {
+            StopCoroutine(recoveryCO);
+        }
+        
+        if (corruptionCO != null)
+        {
+            StopCoroutine(corruptionCO);
+            corrupted = false;
+            invincibility = false;
+            recoveryCO = StartCoroutine(CanRecovery());
+        }
+        
+        EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
     }
 
     private IEnumerator CorruptionCoroutine()
@@ -105,7 +139,13 @@ public class CorruptionSystem : MonoBehaviour
         invincibility = false;
         yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;
-        Corruption = 0;
+        //Corruption = 0;
+
+        yield return new WaitForSeconds(.2f);
+        canRecover = true;
+        isRecovering = true;
+        elapsedTime = 0;
+
         EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
     }
 
@@ -113,5 +153,22 @@ public class CorruptionSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(recoverCorruptionWaitTime);
         canRecover = true;
+        elapsedTime = 0;
+    }
+
+    private float EaseInCubic(float t)
+    {
+        return t * t * t;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Collectible>())
+        {
+            if (!isRecovering)
+            {
+                canRecover = false;
+            }
+        }
     }
 }

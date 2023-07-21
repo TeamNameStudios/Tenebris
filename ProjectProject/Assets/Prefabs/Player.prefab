@@ -476,8 +476,10 @@ MonoBehaviour:
   fullyCorruptionTime: 7
   canRecover: 0
   recoverCorruptionWaitTime: 3
-  recoverCorruptionSpeed: 12.5
+  recoverCorruptionSpeed: 50
   invincibilitySeconds: 0.5
+  recoveryStartingSmoothness: 0.02
+  elapsedTime: 0
 --- !u!50 &2064566472
 Rigidbody2D:
   serializedVersion: 4

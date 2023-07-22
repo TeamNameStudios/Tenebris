@@ -41,7 +41,14 @@ public class PlayerHook : MonoBehaviour
     LayerMask hookableLayer;
 
     [SerializeField] private CorruptionSystem corruptionSystem;
-    [SerializeField] private float hookCorruption;  // value over time
+    [Tooltip("Value to add only once if the corruptionOverTime box is CHECKED")]
+    [SerializeField] private float hookCorruptionOverTime;
+    [Tooltip("Value to add only once if the corruptionOverTime box is UNCHECKED")]
+    [SerializeField] private float hookCorruptionOnce;
+    [Tooltip("Check this box if the corruption should grow as long as the player is holding the grapple button\nUncheck this box if the corruption should grow only once")]
+    [SerializeField] private bool corruptionOverTime;
+    
+    private bool isHooking = false;
 
     private void Awake()
     {
@@ -90,7 +97,18 @@ public class PlayerHook : MonoBehaviour
 
         if (isHooked && !corruptionSystem.corrupted && HookableObject != null)
         {
-            EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruption);
+            if (!corruptionOverTime)
+            {
+                if (!isHooking)
+                {
+                    EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOnce);
+                    isHooking = true;
+                }
+            }
+            else
+            {
+                EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOverTime);
+            }
             Vector2 hookObjectpos = HookableObject.transform.position;
             lineRenderer.SetPosition(0, hookObjectpos);
             lineRenderer.SetPosition(1, new Vector2(pos.x, pos.y+1));
@@ -103,6 +121,7 @@ public class PlayerHook : MonoBehaviour
             if ((swingingDirection.x > 0 && hookObjectpos.x < pos.x) || (swingingDirection.x < 0 && hookObjectpos.x > pos.x) || corruptionSystem.corrupted)
             {
                 isHooked = false;
+                isHooking = false;
                 JumpAfterSwing();
             }
 

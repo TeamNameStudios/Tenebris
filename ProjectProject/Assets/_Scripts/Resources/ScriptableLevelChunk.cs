@@ -8,6 +8,7 @@ public class ScriptableLevelChunk : ScriptableObject
     public LevelID ID;
     public LevelDifficulty Difficulty;
     public GameObject LevelPrefab;
+    public float BaseProbability;
     public float Probability;
     public List<LevelID> PossibleNeighbour;
 }

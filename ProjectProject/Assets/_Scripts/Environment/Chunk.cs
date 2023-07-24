@@ -6,10 +6,4 @@ using UnityEngine.Tilemaps;
 
 public class Chunk : MapMover
 {
-
-    public void Update()
-    {
-        base.Update();
-    }
-
 }

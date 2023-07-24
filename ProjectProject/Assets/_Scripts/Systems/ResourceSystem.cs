@@ -9,14 +9,9 @@ using UnityEngine;
 /// </summary>
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
-    #region Platform
-        public List<ScriptablePlatform> Platforms { get; private set; }
-        private Dictionary<PlatformType, ScriptablePlatform> PlatformsDict;
-    #endregion
-
-    #region Cultist
-        public List<ScriptableCultist> Cultists { get; private set; }
-        private Dictionary<CultistType, ScriptableCultist> CultistsDict;
+    #region Level
+        public List<ScriptableLevelChunk> LevelChunks { get; private set; }
+        private Dictionary<LevelID, ScriptableLevelChunk> LevelChunksict;
     #endregion
     protected override void Awake()
     {
@@ -26,17 +21,10 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
     private void AssembleResources()
     {
-        Platforms = Resources.LoadAll<ScriptablePlatform>("Platforms").ToList();
-        PlatformsDict = Platforms.ToDictionary(platform =>  platform.Type, platform => platform);
-
-        Cultists = Resources.LoadAll<ScriptableCultist>("Cultists").ToList();
-        CultistsDict = Cultists.ToDictionary(cultist => cultist.Type, cultist => cultist);
+        LevelChunks = Resources.LoadAll<ScriptableLevelChunk>("LevelChunks").ToList();
+        LevelChunksict = LevelChunks.ToDictionary(levelChunk => levelChunk.ID, levelChunk => levelChunk);
     }
 
-    public ScriptablePlatform GetPlatform(PlatformType t) => PlatformsDict[t];
-    public ScriptablePlatform GetRandomPlayer() => Platforms[Random.Range(0, Platforms.Count)];
-
-    public ScriptableCultist GetCultist(CultistType t) => CultistsDict[t];
-    public ScriptableCultist GetRandomCultist() => Cultists[Random.Range(0, Cultists.Count)];
+    public ScriptableLevelChunk GetLevelChunk(LevelID t) => LevelChunksict[t];
 
 }

@@ -17,7 +17,8 @@ public enum LevelID
 {
     QUADRATO,
     CERCHIO,
-    TRIANGOLO
+    TRIANGOLO,
+    RETTANGOLO
 }
 public  enum LevelDifficulty
 {

@@ -11,7 +11,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 {
     #region Level
         public List<ScriptableLevelChunk> LevelChunks { get; private set; }
-        [SerializeField] private Dictionary<LevelID, ScriptableLevelChunk> LevelChunksict = new Dictionary<LevelID, ScriptableLevelChunk>();
+        [SerializeField] public Dictionary<LevelID, ScriptableLevelChunk> LevelChunksict = new Dictionary<LevelID, ScriptableLevelChunk>();
     #endregion
     protected override void Awake()
     {

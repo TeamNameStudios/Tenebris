@@ -16,9 +16,9 @@ public class LevelAssembler : Singleton<LevelAssembler>
  
     private void Start()
     {
-        Instantiate(demoLevel.LevelPrefab, startingPos, Quaternion.identity);
-        lastLevelChunk = demoLevel;
-        possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
+        //Instantiate(demoLevel.LevelPrefab, startingPos, Quaternion.identity);
+        //lastLevelChunk = demoLevel;
+        //possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
     }
 
     private void Update()
@@ -27,7 +27,7 @@ public class LevelAssembler : Singleton<LevelAssembler>
         {
             List<float> probabilities = GetProbabilityList(possibleLevels);
             int index = GetWeightedRandomIndex(probabilities);
-            CreateLevelChunk(possibleLevels[index]);
+            //CreateLevelChunk(possibleLevels[index]);
         }
     }
 
@@ -70,16 +70,22 @@ public class LevelAssembler : Singleton<LevelAssembler>
         return probabilities.Count - 1;
     }
 
-    private void CreateLevelChunk(LevelID _nextLevelID)
+    public void CreateLevelChunk(LevelID _nextLevelID, Transform parentObject, bool newLevel = true)
     {
         ScriptableLevelChunk a = ResourceSystem.Instance.GetLevelChunk(_nextLevelID);
-        Instantiate(a.LevelPrefab);
-        AddProbability(_nextLevelID, probabilityToAdd);
+        GameObject GO =  Instantiate(a.LevelPrefab, parentObject);
+        GO.transform.SetParent(parentObject);
+        Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
         
-        // We change the references with the chunk just spawned
-        lastLevelChunk = a;
-        possibleLevels.Clear();
-        possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
+        if (newLevel)
+        {
+            AddProbability(_nextLevelID, probabilityToAdd);
+            
+            // We change the references with the chunk just spawned
+            lastLevelChunk = a;
+            possibleLevels.Clear();
+            possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
+        }
     }
 
     private void AddProbability(LevelID _nextLevelID, float probabilityToAdd)
@@ -97,5 +103,23 @@ public class LevelAssembler : Singleton<LevelAssembler>
                 ResourceSystem.Instance.GetLevelChunk(levelID).Probability -= probabilityToAdd;
             }
         }
+    }
+
+    public void Setup(Transform parentObject)
+    {
+        GameObject GO = Instantiate(demoLevel.LevelPrefab, parentObject);
+        GO.transform.SetParent(parentObject);
+        lastLevelChunk = demoLevel;
+        possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
+    }
+
+    public LevelID CreateChunk(Transform parentObject)
+    {
+        List<float> probabilities = GetProbabilityList(possibleLevels);
+        int index = GetWeightedRandomIndex(probabilities);
+        LevelID _levelID = possibleLevels[index];
+        CreateLevelChunk(_levelID, parentObject);
+
+        return _levelID;
     }
 }

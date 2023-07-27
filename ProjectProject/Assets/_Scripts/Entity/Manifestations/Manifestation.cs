@@ -25,11 +25,6 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
         //EventManager<Vector2>.Instance.StopListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void ChangeVelocity(float value)
     {
         playerVelocity = value;

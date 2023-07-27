@@ -8,7 +8,7 @@ public class Chunk : MapMover
 {
     [SerializeField] private LevelID lastLevelID;
     [SerializeField] private LevelID currentLevelID;
-    
+
     private void Start()
     {
         LevelAssembler.Instance.Setup(transform);
@@ -29,13 +29,6 @@ public class Chunk : MapMover
 
             ResetChunk();
         }
-        //else if (transform.position.x >= 45)
-        //{
-        //    Vector3 pos = transform.position;
-        //    pos.x = -18;
-        //    transform.position = pos;
-        //    LevelAssembler.Instance.CreateLevelChunk(lastLevelID, transform, false);
-        //}
     }
 
     private void CreateChunk()

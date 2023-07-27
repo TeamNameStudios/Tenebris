@@ -7,19 +7,14 @@ public class ScriptableLevelChunk : ScriptableObject
 {
     public LevelID ID;
     public LevelDifficulty Difficulty;
+    public bool HasManifestation;
     public GameObject LevelPrefab;
+    public float OriginalProbability;
     public float BaseProbability;
     public float Probability;
     public List<LevelID> PossibleNeighbour;
 }
 
-public enum LevelID
-{
-    QUADRATO,
-    CERCHIO,
-    TRIANGOLO,
-    RETTANGOLO
-}
 public  enum LevelDifficulty
 {
     DEMO,

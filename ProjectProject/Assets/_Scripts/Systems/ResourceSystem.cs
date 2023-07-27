@@ -32,7 +32,20 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     {
         foreach (ScriptableLevelChunk level in LevelChunks)
         {
-            level.Probability = level.BaseProbability;
+            level.BaseProbability = level.OriginalProbability;
+            level.Probability = level.OriginalProbability;
+        }
+    }
+
+    public void ChangeBaseProbability(LevelDifficulty difficulty, float newProbability)
+    {
+        for (int i = 0; i < LevelChunks.Count; i++)
+        {
+            if (LevelChunks[i].Difficulty == difficulty)
+            {
+                LevelChunks[i].BaseProbability += newProbability;
+                LevelChunks[i].Probability += newProbability;
+            }
         }
     }
 }

@@ -13,23 +13,6 @@ public class LevelAssembler : Singleton<LevelAssembler>
     [SerializeField] private List<LevelID> possibleLevels = new List<LevelID>();
 
     [SerializeField] private float probabilityToAdd;
- 
-    private void Start()
-    {
-        //Instantiate(demoLevel.LevelPrefab, startingPos, Quaternion.identity);
-        //lastLevelChunk = demoLevel;
-        //possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            List<float> probabilities = GetProbabilityList(possibleLevels);
-            int index = GetWeightedRandomIndex(probabilities);
-            //CreateLevelChunk(possibleLevels[index]);
-        }
-    }
 
     private List<float> GetProbabilityList(List<LevelID> _possibleLevels)
     {
@@ -99,8 +82,9 @@ public class LevelAssembler : Singleton<LevelAssembler>
             }
             else if (levelID == _nextLevelID)
             {
-                // This decrease the probability of the level chunk we just spawned
-                ResourceSystem.Instance.GetLevelChunk(levelID).Probability -= probabilityToAdd;
+                // This resets the probability when we spawn a level
+                ScriptableLevelChunk thisLevel = ResourceSystem.Instance.GetLevelChunk(levelID);
+                thisLevel.Probability = thisLevel.BaseProbability;
             }
         }
     }

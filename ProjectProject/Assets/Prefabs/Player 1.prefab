@@ -264,6 +264,9 @@ MonoBehaviour:
   _grounderRadius: 0.2
   _wallCheckOffset: 0.5
   _wallCheckRadius: 0.05
+  _isAgainstLeftWall: 0
+  _isAgainstRightWall: 0
+  _isAgainstRoof: 0
   IsGrounded: 0
   _timeLeftGrounded: 0
   _fallClamp: -40
@@ -279,6 +282,26 @@ MonoBehaviour:
   _coyoteTimeThreshold: 0.1
   _coyoteUsable: 0
   InputJump: 0
+  Corruption: 0
+  maxCorruption: 0
+  corrupted: 0
+  invincibility: 0
+  fullyCorruptionTime: 0
+  canRecover: 0
+  recoverCorruptionWaitTime: 0
+  recoverCorruptionSpeed: 0
+  invincibilitySeconds: 0
+  recoveryStartingSmoothness: 0
+  elapsedTime: 0
+  isRecovering: 0
+  _dashSpeed: 15
+  dashLength: 1
+  DashEffect: {fileID: 0}
+  isDashing: 0
+  canDash: 1
+  dashTime: 1
+  dashCooldown: 1
+  dashDir: {x: 0, y: 0}
 --- !u!1 &2762329890700432289
 GameObject:
   m_ObjectHideFlags: 0

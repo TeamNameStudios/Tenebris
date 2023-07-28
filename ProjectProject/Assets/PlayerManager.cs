@@ -23,8 +23,12 @@ public class PlayerManager : MonoBehaviour
         RunCollisionChecks();
         CalculateJumpApex();
         CalculateGravity();
-        CalculateJump();
-        CalculateMovement();
+        HandleDashing();
+        if (!isDashing)
+        {
+            CalculateJump();
+            CalculateMovement();
+        }
         PerformMovement();
         ManageCorruption();
     }
@@ -35,6 +39,7 @@ public class PlayerManager : MonoBehaviour
         EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
         EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
         EventManager<float>.Instance.StartListening("onCollectiblePickup", DecreaseCorruption);
+        EventManager<bool>.Instance.StartListening("dash", Dash);
     }
     private void OnDisable()
     {
@@ -42,6 +47,7 @@ public class PlayerManager : MonoBehaviour
         EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
         EventManager<float>.Instance.StopListening("Corruption", AddCorruption);
         EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
+        EventManager<bool>.Instance.StopListening("dash", Dash);
     }
     #region Detection
 
@@ -76,7 +82,7 @@ public class PlayerManager : MonoBehaviour
             IsGrounded = false;
         }
 
-        _isAgainstRoof = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, -_grounderOffset), _grounderRadius, _ground, _groundMask) > 0;
+        _isAgainstRoof = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, -_grounderOffset), _grounderRadius, _upWall, _groundMask) > 0;
 
 
         bool _isAgainstLeftWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-_wallCheckOffset, 0.75f), _wallCheckRadius, _leftWall, _groundMask) > 0;
@@ -136,11 +142,14 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            // Fall
-            velocity.y -= _fallSpeed * Time.deltaTime;
+            if (!isDashing)
+            {
+                // Fall
+                velocity.y -= _fallSpeed * Time.deltaTime;
 
-            // Clamp
-            if (velocity.y < _fallClamp) velocity.y = _fallClamp;
+                // Clamp
+                if (velocity.y < _fallClamp) velocity.y = _fallClamp;
+            }
         }
     }
 
@@ -165,7 +174,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Flip()
     {
-        if (isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
+        if (/*!isDashing &&*/ isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
         {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
@@ -198,7 +207,7 @@ public class PlayerManager : MonoBehaviour
             // Don't walk through walls
             velocity.x = 0;
         }
-        EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
+       
     }
 
     #endregion
@@ -227,7 +236,7 @@ public class PlayerManager : MonoBehaviour
 
     public void CalculateJumpApex()
     {
-        if (!IsGrounded)
+        if (!IsGrounded && !isDashing)
         {
             // Gets stronger the closer to the top of the jump
             _apexPoint = Mathf.InverseLerp(_jumpApexThreshold, 0, Mathf.Abs(velocity.y));
@@ -272,19 +281,20 @@ public class PlayerManager : MonoBehaviour
         Vector2 pos = transform.position;
         pos.y += velocity.y * Time.deltaTime;
         transform.position = pos;
+        EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
     }
     #endregion
 
     #region Corrution
-
-    public float Corruption;
-
+    [Header("CORRUPTION_SYSTEM")]
     [SerializeField]
-   private float maxCorruption;
-
-    public bool corrupted = false;
-    public bool invincibility = false;
-
+    private float Corruption;
+    [SerializeField]
+    private float maxCorruption;
+    [SerializeField]
+    private bool corrupted = false;
+    [SerializeField]
+    private bool invincibility = false;
     [SerializeField] 
     private float fullyCorruptionTime;
     [SerializeField] 
@@ -297,7 +307,8 @@ public class PlayerManager : MonoBehaviour
     private float invincibilitySeconds;
 
     [Tooltip("Used to add a value to the recovered corruption, to not make it start from 0,\nKeep the value REALLY small, example: 0.02f")]
-    [SerializeField] private float recoveryStartingSmoothness;
+    [SerializeField]
+    private float recoveryStartingSmoothness;
 
     public float elapsedTime = 0;
     public bool isRecovering = false;
@@ -435,6 +446,75 @@ public class PlayerManager : MonoBehaviour
     //        EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
     //    }
     //}
-    #endregion  
+    #endregion
+
+
+    #region Dash
+
+    [Header("Dash")][SerializeField]
+    private float _dashSpeed = 15;
+    [SerializeField]
+    private float dashLength = 1;
+    [SerializeField] private GameObject DashEffect;
+
+    [SerializeField] private bool isDashing;
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private Vector2 dashDir;
+
+    private void Dash(bool _isDashing)
+    {
+        if (canDash && !corrupted)
+        {
+            canDash = false;
+            isDashing = _isDashing;
+            dashDir = new Vector2(direction.x, direction.y).normalized;
+            if (dashDir == Vector2.zero) dashDir = isFacingRight ? Vector3.right : Vector3.left;
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
+            _fallSpeed = 0;
+            //GameObject dashEffect = Instantiate(DashEffect, transform.position + Vector3.up, DashEffect.transform.rotation);
+            //float dashDirection = isFacingRight ? Vector2.right.x : Vector2.left.x;
+            //Vector3 localScale = dashEffect.transform.localScale;
+            //localScale.z = dashDirection;
+            //dashEffect.transform.localScale = localScale;
+
+        }
+    }
+
+    private void HandleDashing()
+    {
+        if (isDashing)
+        {
+            velocity = dashDir * _dashSpeed;
+            if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall)
+            {
+                isDashing = false;
+                canDash = true;
+                rb.gravityScale = 1;
+                StartCoroutine(DashingCooldown());
+            }
+
+               StartCoroutine(StopDashing());
+            
+        }
+    }
+
+    private IEnumerator StopDashing()
+    {
+        yield return new WaitForSeconds(dashTime);
+        isDashing = false;
+        rb.gravityScale = 1;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+    private IEnumerator DashingCooldown()
+    {
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
+    #endregion
 }
 

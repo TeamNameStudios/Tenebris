@@ -33,20 +33,16 @@ public class InputController : Singleton<InputController>
             }
             if (Input.GetKey(KeyCode.Space))
             {
-                EventManager<bool>.Instance.TriggerEvent("dash", true);
+                EventManager<bool>.Instance.TriggerEvent("isDashing", true);
             }
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                EventManager<bool>.Instance.TriggerEvent("hook", true);
-            }
-            else if(Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                EventManager<bool>.Instance.TriggerEvent("hook",false);
+                EventManager<bool>.Instance.TriggerEvent("isGrappling", true);
             }
 
 
         }
-        
+
         if (Input.GetKeyUp(KeyCode.Escape) && TempGameController.Instance.State == GameState.PLAYING)
         {
             EventManager<bool>.Instance.TriggerEvent("pause", true);

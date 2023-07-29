@@ -23,8 +23,13 @@ public class PlayerManager : MonoBehaviour
         RunCollisionChecks();
         CalculateJumpApex();
         CalculateGravity();
-        HandleDashing();
-        if (!isDashing)
+        GetHookableObject();
+        HandleGrapple();
+        if (!isGrappling)
+        {
+            HandleDashing();
+        }
+        if (!isDashing && !isGrappling)
         {
             CalculateJump();
             CalculateMovement();
@@ -39,7 +44,8 @@ public class PlayerManager : MonoBehaviour
         EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
         EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
         EventManager<float>.Instance.StartListening("onCollectiblePickup", DecreaseCorruption);
-        EventManager<bool>.Instance.StartListening("dash", Dash);
+        EventManager<bool>.Instance.StartListening("isDashing", Dash);
+        EventManager<bool>.Instance.StartListening("isGrappling", Grappling);
     }
     private void OnDisable()
     {
@@ -47,13 +53,16 @@ public class PlayerManager : MonoBehaviour
         EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
         EventManager<float>.Instance.StopListening("Corruption", AddCorruption);
         EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
-        EventManager<bool>.Instance.StopListening("dash", Dash);
+        EventManager<bool>.Instance.StopListening("isDashing", Dash);
+        EventManager<bool>.Instance.StartListening("isGrappling", Grappling);
     }
     #region Detection
 
     [Header("Detection")]
     [SerializeField] 
     private LayerMask _groundMask;
+    [SerializeField] 
+    private Bounds _characterBounds;
     [SerializeField] 
     private float _grounderOffset = -1, _grounderRadius = 0.2f;
     [SerializeField] 
@@ -69,11 +78,12 @@ public class PlayerManager : MonoBehaviour
     private readonly Collider2D[] _upWall = new Collider2D[1];
     private void RunCollisionChecks()
     {
-        bool grounded = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _grounderOffset), _grounderRadius, _ground, _groundMask) > 0;
+        bool grounded = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
 
         if (!IsGrounded && grounded) 
         {
             IsGrounded = true;
+            isLaunchedState = false;
             _coyoteUsable = true;
         }
         else if (IsGrounded && !grounded)
@@ -82,15 +92,15 @@ public class PlayerManager : MonoBehaviour
             IsGrounded = false;
         }
 
-        _isAgainstRoof = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, -_grounderOffset), _grounderRadius, _upWall, _groundMask) > 0;
+        _isAgainstRoof = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.max.y), _grounderRadius, _upWall, _groundMask) > 0;
 
 
-        bool _isAgainstLeftWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-_wallCheckOffset, 0.75f), _wallCheckRadius, _leftWall, _groundMask) > 0;
-        bool _isAgainstLeftWall2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-_wallCheckOffset, 0), _wallCheckRadius, _leftWall, _groundMask) > 0;
-        bool _isAgainstLeftWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-_wallCheckOffset, -0.75f), _wallCheckRadius, _leftWall, _groundMask) > 0;
-        bool _isAgainstRightWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_wallCheckOffset, 0.75f), _wallCheckRadius, _rightWall, _groundMask) > 0;
-        bool _isAgainstRightWall2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_wallCheckOffset, 0), _wallCheckRadius, _rightWall, _groundMask) > 0;
-        bool _isAgainstRightWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_wallCheckOffset, -0.75f), _wallCheckRadius, _rightWall, _groundMask) > 0;
+        bool _isAgainstLeftWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.max.y / 2), _wallCheckRadius, _leftWall, _groundMask) > 0;
+        bool _isAgainstLeftWall2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.center.y), _wallCheckRadius, _leftWall, _groundMask) > 0;
+        bool _isAgainstLeftWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius, _leftWall, _groundMask) > 0;
+        bool _isAgainstRightWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.max.y / 2), _wallCheckRadius, _rightWall, _groundMask) > 0;
+        bool _isAgainstRightWall2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.center.y), _wallCheckRadius, _rightWall, _groundMask) > 0;
+        bool _isAgainstRightWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius, _rightWall, _groundMask) > 0;
         _isAgainstLeftWall = _isAgainstLeftWall1 || _isAgainstLeftWall2 || _isAgainstLeftWall3;
         _isAgainstRightWall = _isAgainstRightWall1 || _isAgainstRightWall2 || _isAgainstRightWall3;
 
@@ -100,27 +110,31 @@ public class PlayerManager : MonoBehaviour
     private void DrawGrounderGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + new Vector3(0, _grounderOffset), _grounderRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0, _characterBounds.max.y), _grounderRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius);
     }
 
     private void OnDrawGizmos()
     {
         DrawGrounderGizmos();
         DrawWallGizmos();
+        DrawHookableZoneGizmos();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(transform.position + _characterBounds.center, _characterBounds.size);
     }
 
     private void DrawWallGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + new Vector3(-_wallCheckOffset, 0.75f), _wallCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + new Vector3(-_wallCheckOffset, 0), _wallCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + new Vector3(-_wallCheckOffset, -0.75f), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.max.y/2), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.center.y), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.min.y / 2), _wallCheckRadius);
 
-        Gizmos.DrawWireSphere(transform.position + new Vector3(_wallCheckOffset, 0.75f), _wallCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + new Vector3(_wallCheckOffset, 0), _wallCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + new Vector3(_wallCheckOffset, -0.75f), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.max.y / 2), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.center.y), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius);
 
-        Gizmos.DrawWireSphere(transform.position + new Vector3(0, -_grounderOffset), _grounderRadius);
+        
     }
 
     #endregion
@@ -174,7 +188,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Flip()
     {
-        if (/*!isDashing &&*/ isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
+        if (!isDashing && !isGrappling && isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
         {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
@@ -448,15 +462,13 @@ public class PlayerManager : MonoBehaviour
     //}
     #endregion
 
-
     #region Dash
 
-    [Header("Dash")][SerializeField]
+    [Header("DASH")]
+    [SerializeField]
     private float _dashSpeed = 15;
     [SerializeField]
-    private float dashLength = 1;
-    [SerializeField] private GameObject DashEffect;
-
+    private ParticleSystem DashEffect;
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
     [SerializeField] private float dashTime;
@@ -474,11 +486,7 @@ public class PlayerManager : MonoBehaviour
             rb.gravityScale = 0;
             rb.velocity = Vector2.zero;
             _fallSpeed = 0;
-            //GameObject dashEffect = Instantiate(DashEffect, transform.position + Vector3.up, DashEffect.transform.rotation);
-            //float dashDirection = isFacingRight ? Vector2.right.x : Vector2.left.x;
-            //Vector3 localScale = dashEffect.transform.localScale;
-            //localScale.z = dashDirection;
-            //dashEffect.transform.localScale = localScale;
+            DashEffect.Play();
 
         }
     }
@@ -491,8 +499,8 @@ public class PlayerManager : MonoBehaviour
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall)
             {
                 isDashing = false;
-                canDash = true;
                 rb.gravityScale = 1;
+                DashEffect.Stop();
                 StartCoroutine(DashingCooldown());
             }
 
@@ -504,6 +512,7 @@ public class PlayerManager : MonoBehaviour
     private IEnumerator StopDashing()
     {
         yield return new WaitForSeconds(dashTime);
+        DashEffect.Stop();
         isDashing = false;
         rb.gravityScale = 1;
         yield return new WaitForSeconds(dashCooldown);
@@ -515,6 +524,153 @@ public class PlayerManager : MonoBehaviour
         canDash = true;
     }
 
+    #endregion
+
+    #region Grapple
+    [Header("GRAPPLE")]
+    [SerializeField]
+    private bool isGrappling;
+    [SerializeField]
+    private bool isLaunchedState;
+    [SerializeField]
+    private bool canGrapple = true;
+    [SerializeField]
+    private Vector2 grappleDirection;
+    [SerializeField]
+    private Vector2 launchedStateDirection;
+    [SerializeField]
+    private float grappleSpeed;
+    [SerializeField]
+    private HookableObject HookableObject;
+    [SerializeField]
+    private LayerMask hookableLayer;
+    [SerializeField]
+    private Vector2 swingingDirection;
+    [SerializeField]
+    private float chargeGrappleTime;
+
+    [SerializeField]
+    private float grappleZoneDistance;
+
+    private void GetHookableObject()
+    {
+        Vector2 pos = transform.position;
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left; 
+        Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos + direction, grappleZoneDistance);
+        HookableObject = GetNearestHookable(HookableHits);
+
+    }
+
+    public HookableObject GetNearestHookable(Collider2D[] hookableHits)
+    {
+        Vector2 pos = transform.position;
+        HookableObject nearestHookableObject = null;
+        float minDist = Mathf.Infinity;
+        for (int i = 0; i < hookableHits.Length; i++)
+        {
+            HookableObject hookableObject;
+            if (hookableHits[i].TryGetComponent<HookableObject>(out hookableObject))
+            {
+                float dist = Vector3.Distance(hookableObject.transform.position, pos);
+                if (dist < minDist)
+                {
+                    nearestHookableObject = hookableObject;
+                    minDist = dist;
+                }
+            }
+        }
+        return nearestHookableObject;
+    }
+
+    private void DrawHookableZoneGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector2 pos = transform.position;
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+        Gizmos.DrawWireSphere( pos + direction, grappleZoneDistance);
+        if(HookableObject != null)
+        {
+            Vector2 hookObjectpos = HookableObject.transform.position;
+            Gizmos.DrawLine(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y), hookObjectpos);
+            Gizmos.DrawLine(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.center.y), hookObjectpos);
+            Gizmos.DrawLine(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.min.y), hookObjectpos);
+        }
+    }
+
+    private void Grappling(bool _isGrappling)
+    {
+        if (canGrapple && HookableObject != null && !isGrappling)
+        {
+            Vector2 pos = transform.position;
+            Vector2 hookObjectpos = HookableObject.transform.position;
+            swingingDirection = isFacingRight ? Vector2.right : Vector2.left;
+            if ((swingingDirection.x > 0 && hookObjectpos.x < pos.x) || (swingingDirection.x < 0 && hookObjectpos.x > pos.x) || hookObjectpos.y < pos.y)
+            {
+                return;
+            }
+            //RaycastHit2D hit = Physics2D.Raycast(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y), hookObjectpos);
+            //RaycastHit2D hitTop = Physics2D.Raycast(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.center.y), hookObjectpos);
+            //RaycastHit2D hitBottom = Physics2D.Raycast(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.min.y), hookObjectpos);
+            //if (hit != null && !hit.collider.GetComponent<HookableObject>() && !hitTop.collider.GetComponent<HookableObject>() && !hitBottom.collider.GetComponent<HookableObject>())
+            //{
+            //    return;
+            //}
+           
+            isGrappling = _isGrappling;
+            rb.gravityScale = 0;
+            canGrapple = false;
+            StartCoroutine(ChargingGrapple(hookObjectpos,pos));
+        }
+        else if(isGrappling)
+        {
+            rb.gravityScale = 1;
+            isGrappling = false;
+            canGrapple = true;
+        }
+    }
+
+    private void HandleGrapple()
+    {
+        if(HookableObject != null)
+        {
+            Vector2 pos = transform.position;
+            Vector2 hookObjectpos = HookableObject.transform.position;
+            if (isGrappling)
+            {
+                velocity = grappleDirection * grappleSpeed;
+                if ((grappleDirection.x > 0 && hookObjectpos.x < pos.x) || (grappleDirection.x < 0 && hookObjectpos.x > pos.x))
+                {
+                    isLaunchedState = true;
+                    isGrappling = false;
+                    canGrapple = true;
+                    grappleDirection = Vector2.zero;
+                    rb.gravityScale = 1;
+                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x , launchedStateDirection.y);
+                }
+            }
+        }
+
+    }
+
+    private IEnumerator ChargingGrapple(Vector2 hookObjectpos, Vector2 pos)
+    {
+        if (isLaunchedState)
+        {
+            rb.velocity = Vector2.zero;
+            velocity = Vector2.zero;
+            grappleDirection = (hookObjectpos - pos).normalized;
+            yield return new WaitForSeconds(0);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+            velocity = Vector2.zero;
+            yield return new WaitForSeconds(chargeGrappleTime);
+            grappleDirection = (hookObjectpos - pos).normalized;
+
+        }
+      
+    }
     #endregion
 }
 

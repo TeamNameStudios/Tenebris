@@ -25,11 +25,6 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
         //EventManager<Vector2>.Instance.StopListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void ChangeVelocity(float value)
     {
         playerVelocity = value;
@@ -46,7 +41,7 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
         ManifestationsFactory.Instance.ReturnObject(gameObject);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {

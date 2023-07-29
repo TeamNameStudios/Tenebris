@@ -11,12 +11,13 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 {
     #region Level
         public List<ScriptableLevelChunk> LevelChunks { get; private set; }
-        private Dictionary<LevelID, ScriptableLevelChunk> LevelChunksict;
+        [SerializeField] public Dictionary<LevelID, ScriptableLevelChunk> LevelChunksict = new Dictionary<LevelID, ScriptableLevelChunk>();
     #endregion
     protected override void Awake()
     {
         base.Awake();
         AssembleResources();
+        ResetLevelProbability();
     }
 
     private void AssembleResources()
@@ -27,4 +28,24 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
     public ScriptableLevelChunk GetLevelChunk(LevelID t) => LevelChunksict[t];
 
+    public void ResetLevelProbability()
+    {
+        foreach (ScriptableLevelChunk level in LevelChunks)
+        {
+            level.BaseProbability = level.OriginalProbability;
+            level.Probability = level.OriginalProbability;
+        }
+    }
+
+    public void ChangeBaseProbability(LevelDifficulty difficulty, float newProbability)
+    {
+        for (int i = 0; i < LevelChunks.Count; i++)
+        {
+            if (LevelChunks[i].Difficulty == difficulty)
+            {
+                LevelChunks[i].BaseProbability += newProbability;
+                LevelChunks[i].Probability += newProbability;
+            }
+        }
+    }
 }

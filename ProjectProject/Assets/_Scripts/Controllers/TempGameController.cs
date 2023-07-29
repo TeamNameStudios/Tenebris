@@ -35,6 +35,12 @@ public class TempGameController : Singleton<TempGameController>
                 break;
             case GameState.PLAYING:
                 Time.timeScale = 1;
+
+                if(Input.GetKeyDown(KeyCode.P))
+                {
+                    ResourceSystem.Instance.ChangeBaseProbability(LevelDifficulty.EASY, 50);
+                }
+
                 break;
             case GameState.END_LEVEL:
                 break;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDash : MonoBehaviour
+public class OldPlayerDash : MonoBehaviour
 {
     [SerializeField]
     private bool canDash = true;
@@ -15,11 +15,11 @@ public class PlayerDash : MonoBehaviour
     [SerializeField]
     private float dashingCooldown = 1f;
     [SerializeField]
-    private PlayerJump playerJump;
+    private OldPlayerJump playerJump;
     [SerializeField]
-    private Player player;
+    private OldPlayer player;
     [SerializeField]
-    private PlayerMovement playerMovement;  
+    private OldPlayerMovement playerMovement;  
     [SerializeField]
     GameObject DashEffect;
 
@@ -28,9 +28,9 @@ public class PlayerDash : MonoBehaviour
 
     private void Awake()
     {
-        playerJump = GetComponent<PlayerJump>();
-        player = GetComponent<Player>();
-        playerMovement = GetComponent<PlayerMovement>();
+        playerJump = GetComponent<OldPlayerJump>();
+        player = GetComponent<OldPlayer>();
+        playerMovement = GetComponent<OldPlayerMovement>();
         corruptionSystem = GetComponent<CorruptionSystem>();
     }
     private void OnEnable()

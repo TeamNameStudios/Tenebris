@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class OldPlayerMovement : MonoBehaviour
 {
     [SerializeField]
     public float maxVelocity;
@@ -14,14 +14,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public bool isFacingRight = true;
     [SerializeField]
-    private Player player;
+    private OldPlayer player;
     [SerializeField]
-    private PlayerHook playerHook;
+    private OldPlayerHook playerHook;
 
     private void Awake()
     {
-        player = GetComponent<Player>();
-        playerHook = GetComponent<PlayerHook>();
+        player = GetComponent<OldPlayer>();
+        playerHook = GetComponent<OldPlayerHook>();
     }
 
     private void OnEnable()

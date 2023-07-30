@@ -5,7 +5,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class PlayerHook : MonoBehaviour
+public class OldPlayerHook : MonoBehaviour
 {
     [SerializeField]
     private LineRenderer lineRenderer;
@@ -20,11 +20,11 @@ public class PlayerHook : MonoBehaviour
     //[SerializeField]
     //private float maxDistance;
     [SerializeField]
-    private PlayerJump playerJump;
+    private OldPlayerJump playerJump;
     [SerializeField]
-    private PlayerMovement playerMovement;
+    private OldPlayerMovement playerMovement;
     [SerializeField]
-    private Player player;
+    private OldPlayer player;
 
 
     [SerializeField]
@@ -53,9 +53,9 @@ public class PlayerHook : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        playerJump = GetComponent<PlayerJump>();
-        playerMovement = GetComponent<PlayerMovement>();
-        player = GetComponent<Player>();
+        playerJump = GetComponent<OldPlayerJump>();
+        playerMovement = GetComponent<OldPlayerMovement>();
+        player = GetComponent<OldPlayer>();
         corruptionSystem = GetComponent<CorruptionSystem>();
     }
 

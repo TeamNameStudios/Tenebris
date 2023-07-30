@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2762329890619727348}
   - component: {fileID: 2762329890249096686}
   - component: {fileID: 2762329890249096687}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,9 +92,10 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  _grounderOffset: -1.9
+  _characterBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 1, y: 1.9, z: 0}
   _grounderRadius: 0.2
-  _wallCheckOffset: 1
   _wallCheckRadius: 0.05
   _isAgainstLeftWall: 0
   _isAgainstRightWall: 0
@@ -109,31 +110,46 @@ MonoBehaviour:
   maxVelocity: 18
   acceleration: 130
   deAcceleration: 50
-  _jumpHeight: 30
-  _jumpApexThreshold: 10
+  _jumpHeight: 35
+  _jumpApexThreshold: 25
   _coyoteTimeThreshold: 0.1
   _coyoteUsable: 0
   InputJump: 0
   Corruption: 0
-  maxCorruption: 0
+  maxCorruption: 100
   corrupted: 0
   invincibility: 0
-  fullyCorruptionTime: 0
+  fullyCorruptionTime: 7
   canRecover: 0
-  recoverCorruptionWaitTime: 0
-  recoverCorruptionSpeed: 0
-  invincibilitySeconds: 0
-  recoveryStartingSmoothness: 0
+  recoverCorruptionWaitTime: 3
+  recoverCorruptionSpeed: 50
+  invincibilitySeconds: 0.5
+  recoveryStartingSmoothness: 0.02
   elapsedTime: 0
   isRecovering: 0
-  _dashSpeed: 15
-  dashLength: 1
+  _dashSpeed: 35
   DashEffect: {fileID: 1833542237168066859}
   isDashing: 0
   canDash: 1
   dashTime: 1
   dashCooldown: 1
-  dashDir: {x: 0, y: 0}
+  dashCorruption: 10
+  isGrappling: 0
+  isLaunchedState: 0
+  canGrapple: 1
+  grappleDirection: {x: 0, y: 0}
+  launchedStateDirection: {x: 25, y: 25}
+  grappleSpeed: 25
+  HookableObject: {fileID: 0}
+  hookableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  swingingDirection: {x: 0, y: 0}
+  chargeGrappleTime: 1
+  grappleZoneDistance: 20
+  hookCorruptionOverTime: 0.5
+  hookCorruptionOnce: 15
+  corruptionOverTime: 0
 --- !u!212 &2762329890249096686
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -172,8 +188,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1707054387
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 2119917928, guid: 98824b542f74af849add0ca8b94c12da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -265,6 +281,10 @@ PrefabInstance:
     - target: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
       propertyPath: m_Name
       value: DashEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 3319510922096832661, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0b9849335b40a4fb4dde7d53c6cf7a, type: 3}

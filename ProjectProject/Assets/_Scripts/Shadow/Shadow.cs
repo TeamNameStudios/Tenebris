@@ -9,6 +9,7 @@ public class Shadow : MapMover, IEnemy
     [SerializeField]
     private Player player;
 
+
     [SerializeField] private float minDistance;
     [SerializeField] private float corruptionValue;
     [SerializeField] private float insideShadowCorruptionValue;

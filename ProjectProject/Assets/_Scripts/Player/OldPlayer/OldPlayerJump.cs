@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 //using static UnityEditor.PlayerSettings;
 
-public class PlayerJump : MonoBehaviour
+public class OldPlayerJump : MonoBehaviour
 {
     [SerializeField]
     public float jumpVelocity = 20;
@@ -16,13 +16,13 @@ public class PlayerJump : MonoBehaviour
     [SerializeField]
     public float gravity;
     [SerializeField]
-    private Player player;
+    private OldPlayer player;
     [SerializeField]
-    private PlayerHook playerHook;
+    private OldPlayerHook playerHook;
     private void Awake()
     {
-        player = GetComponent<Player>();
-        playerHook = GetComponent<PlayerHook>();
+        player = GetComponent<OldPlayer>();
+        playerHook = GetComponent<OldPlayerHook>();
         originalGravity = gravity;
     }
 

@@ -4,41 +4,76 @@ using UnityEngine;
 
 public class Chaser : Manifestation
 {
-    private bool canStart = false;
+    public enum ChaserState { IDLE, DESCENDING, CHASING, ATTACKING}
+    public ChaserState state = ChaserState.IDLE;
+    
     private bool canPursue = false;
+    private bool canAttack = false;
+
     private Transform player;
     private CapsuleCollider2D capsuleCollider;
 
-    [SerializeField] private float distance;
-    [SerializeField] private float delay;
-    [SerializeField] private float velocity;
-    private List<float> playerPos = new List<float>();
+    [SerializeField] private float minDistance;
+    [SerializeField] private float chaseVelocity;
+    [SerializeField] private float attackVelocity;
+    [SerializeField] private float maxVelocity;
+    [SerializeField] private float pursueTimer;
+
+    private float groundHeight;
+    private Vector3 attackDirection;
 
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+
     }
 
     private void Update()
     {
-        if (player == null)
+        switch (state)
         {
-            FindPlayer();
-        }
-        
-        if (player != null && Mathf.Abs(transform.position.x - player.position.x) >= distance)
-        {
-            // here the chaser should "jump" to the ground
+            case ChaserState.IDLE:
+                
+                FindPlayer();
+                
+                break;
+
+            case ChaserState.DESCENDING:
+                
+                Vector2 pos = transform.position;
+                pos.y = groundHeight + capsuleCollider.size.y / 2;
+                transform.position = pos;
+
+                if(transform.position.y - groundHeight <= 1.2f && Mathf.Abs(transform.position.x - player.position.x) > minDistance)
+                {
+                    state = ChaserState.CHASING;
+                }
+
+                break;
+
+            case ChaserState.CHASING:
+
+                //StartCoroutine(PursueCO());
+                Vector2 position = transform.position;
+                position.x += Vector2.right.x * chaseVelocity * Time.deltaTime;
+                transform.position = position;
+                chaseVelocity += .02f;
+                attackDirection = (player.position - transform.position).normalized;
+
+                if (chaseVelocity >= maxVelocity)
+                {
+                    state = ChaserState.ATTACKING;
+                    attackVelocity = chaseVelocity;
+                }
+
+                break;
             
-            canStart = true;
-        }
-        
-        if (canStart)
-        {
-            // here the chaser should chase the player and replicate his exact movements
-        }
+            case ChaserState.ATTACKING:
 
+                transform.position += attackDirection * attackVelocity * Time.deltaTime;
 
+                break;
+        }
     }
 
     private void FindPlayer()
@@ -51,12 +86,25 @@ public class Chaser : Manifestation
             {
                 Debug.Log("PLAYER DETECTED");
                 player = hits[i].transform;
+                state = ChaserState.DESCENDING;
+            }
+            else
+            {
+                groundHeight = hits[i].point.y;
             }
         }
     }
 
-    private float EaseInQuad(float value)
+    private IEnumerator PursueCO()
     {
-        return value * value;
+        Vector2 pos = transform.position;
+        float distance = Vector2.Distance(pos, player.position);
+        pos.x += Vector2.right.x * chaseVelocity * Time.deltaTime;
+        transform.position = pos;
+        chaseVelocity += .02f;
+        attackDirection = (player.position - transform.position).normalized;
+        yield return new WaitForSeconds(pursueTimer);
+        state = ChaserState.ATTACKING;
+        attackVelocity = chaseVelocity;
     }
 }

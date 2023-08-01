@@ -1,24 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempGameController : Singleton<TempGameController>
 {
     private int pageNumber;
 
-    private GameState state = GameState.PLAYING;
+    private GameState state;
     public GameState State { get => state; private set => state = value; }
+
+    private void Start()
+    {
+        state = GameState.IDLE;
+    }
 
     private void OnEnable()
     {
         EventManager<int>.Instance.StartListening("onCollectiblePickup", AddPage);
         EventManager<bool>.Instance.StartListening("pause", Pause);
         EventManager<GameState>.Instance.StartListening("onPlayerDead", ChangeState);
+        EventManager<int>.Instance.StartListening("onPageLoaded", LoadNumberPage);
+        EventManager<List<PowerUp>>.Instance.StartListening("onPowerUpLoaded", LoadPowerUp);
+
+    }
+
+    private void OnDisable()
+    {
+        EventManager<int>.Instance.StopListening("onCollectiblePickup", AddPage);
+        EventManager<bool>.Instance.StopListening("pause", Pause);
+        EventManager<GameState>.Instance.StopListening("onPlayerDead", ChangeState);
+        EventManager<int>.Instance.StopListening("onPageLoaded", LoadNumberPage);
+        EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", LoadPowerUp);
+
     }
 
     private void AddPage(int number)
     {
         pageNumber += number;
+        EventManager<int>.Instance.TriggerEvent("SavePage", pageNumber);
         EventManager<int>.Instance.TriggerEvent("UpdatePageCount", pageNumber);
     }
 
@@ -27,6 +47,8 @@ public class TempGameController : Singleton<TempGameController>
         switch (State)
         {
             case GameState.IDLE:
+                EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+                ChangeState(GameState.PLAYING);
                 break;
             case GameState.STARTING:
                 break;
@@ -68,4 +90,18 @@ public class TempGameController : Singleton<TempGameController>
             ChangeState(GameState.PLAYING);
         }
     }
+
+    private void LoadNumberPage(int numberOfPages)
+    {
+        pageNumber = numberOfPages;
+        EventManager<int>.Instance.TriggerEvent("UpdatePageCount", pageNumber);
+
+    }
+
+    private void LoadPowerUp(List<PowerUp> powerUpList) {
+        //pageNumber += number;
+        //EventManager<int>.Instance.TriggerEvent("SavePage", pageNumber);
+        //EventManager<int>.Instance.TriggerEvent("UpdatePageCount", pageNumber);
+    }
+
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6897607758324076563}
   - component: {fileID: 6897607758324076562}
   - component: {fileID: 6897607758324076561}
-  - component: {fileID: 6897607758324076560}
   - component: {fileID: 6897607758324076567}
   m_Layer: 7
   m_Name: Lurker
@@ -103,27 +102,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!50 &6897607758324076560
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6897607758324076566}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.0001
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 5
 --- !u!114 &6897607758324076567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +116,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CorruptionValue: 0
   DestroyTimer: 3
-  canDieToShadow: 0
+  canDieToShadow: 1
   fallTime: 2
   fallVelocity: 60

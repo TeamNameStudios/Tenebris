@@ -31,7 +31,7 @@ public class Lurker : Manifestation
 
             case LurkerState.CHASING:
                 Vector2 pos = transform.position;
-                pos.x = player.position.x;
+                pos.x = player.position.x + 1.5f;
                 transform.position = pos;
                 elapsedTime += Time.deltaTime;
 
@@ -48,7 +48,7 @@ public class Lurker : Manifestation
                 if (transform.position.y <= landingPoint)
                 {
                     fallVelocity = 0;
-                    pos.y = landingPoint + capsuleCollider.size.y / 2;
+                    position.y = landingPoint + capsuleCollider.size.y / 2;
                 }
 
                 transform.position = position;

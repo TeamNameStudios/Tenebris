@@ -10,6 +10,8 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
     protected float playerVelocity;
     protected Vector2 playerDirection;
 
+    [SerializeField] protected bool canDieToShadow;
+
     private void OnEnable()
     {
         // NOT NEEDED FOR NOW
@@ -35,10 +37,11 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
         playerDirection = direction;
     }
 
-    private IEnumerator AutoDestruction()
+    protected IEnumerator AutoDestruction()
     {
         yield return new WaitForSeconds(DestroyTimer);
-        ManifestationsFactory.Instance.ReturnObject(gameObject);
+        Destroy(gameObject);
+        //ManifestationsFactory.Instance.ReturnObject(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -46,9 +49,9 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
         if (collision.gameObject.CompareTag("Player"))
         {
             EventManager<float>.Instance.TriggerEvent("Corruption", CorruptionValue);
-            //Debug.Log("COLLIDED!");
+            Debug.Log("COLLIDED!");
         }
-        else if (collision.gameObject.CompareTag("Shadow"))
+        else if (collision.gameObject.CompareTag("Shadow") && canDieToShadow)
         {
             Destroy(gameObject);
         }

@@ -8,7 +8,7 @@ public class InputController : Singleton<InputController>
 
     private void Update()
     {
-        if (TempGameController.Instance.State == GameState.PLAYING)
+        if (GameController.Instance.State == GameState.PLAYING)
         {
             float directionX = Input.GetAxisRaw("Horizontal");
             float directionY = Input.GetAxisRaw("Vertical");
@@ -43,11 +43,11 @@ public class InputController : Singleton<InputController>
 
         }
 
-        if (Input.GetKeyUp(KeyCode.Escape) && TempGameController.Instance.State == GameState.PLAYING)
+        if (Input.GetKeyUp(KeyCode.Escape) && GameController.Instance.State == GameState.PLAYING)
         {
             EventManager<bool>.Instance.TriggerEvent("pause", true);
         }
-        else if (Input.GetKeyUp(KeyCode.Escape) && TempGameController.Instance.State == GameState.PAUSING)
+        else if (Input.GetKeyUp(KeyCode.Escape) && GameController.Instance.State == GameState.PAUSING)
         {
             EventManager<bool>.Instance.TriggerEvent("pause", false);
         }

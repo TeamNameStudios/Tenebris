@@ -24,14 +24,14 @@ public class GameController : Singleton<GameController>
     private void OnEnable()
     {
         EventManager<GameState>.Instance.StartListening("onStateChanged", ChangeState);
-        EventManager<bool>.Instance.StartListening("endedGeneratedMap", SetGameScene);
+        EventManager<bool>.Instance.StartListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StartListening("pause", Pause);
     }
     private void OnDisable()
     {
         EventManager<GameState>.Instance.StopListening("onStateChanged", ChangeState);
-        EventManager<bool>.Instance.StopListening("endedGeneratedMap", SetGameScene);
-        EventManager<bool>.Instance.StartListening("pause", Pause);
+        EventManager<bool>.Instance.StopListening("onMapGenerated", SetGameScene);
+        EventManager<bool>.Instance.StopListening("pause", Pause);
 
     }
 
@@ -42,6 +42,7 @@ public class GameController : Singleton<GameController>
             case GameState.IDLE:
                 break;
             case GameState.STARTING:
+                EventManager<bool>.Instance.TriggerEvent("LoadData", true);
                 EventManager<bool>.Instance.TriggerEvent("onGameStartingState",true);
                 break;
             case GameState.PAUSING:
@@ -53,6 +54,8 @@ public class GameController : Singleton<GameController>
             case GameState.END_LEVEL:
                 break;
             case GameState.LOSING:
+                EventManager<bool>.Instance.TriggerEvent("onGameOver", true);
+                Time.timeScale = 0;
                 break;
         }
     }

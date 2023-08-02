@@ -336,7 +336,7 @@ public class Player : MonoBehaviour
 
     private void ManageCorruption()
     {
-        if (!corrupted && canRecover && TempGameController.Instance.State == GameState.PLAYING)
+        if (!corrupted && canRecover && GameController.Instance.State == GameState.PLAYING)
         {
             if (Corruption > 0)
             {

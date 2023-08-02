@@ -1,62 +1,53 @@
-//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-//using UnityEngine.Tilemaps;
-
-//public class EnvironmentController : Singleton<EnvironmentController>
-//{
-//    [SerializeField]
-//    public int numberOfChunk;
-//    [SerializeField]
-//    public List<Chunk> chunks;
-
-//    public Dictionary<Chunk, Tilemap> tilemapDictionary = new Dictionary<Chunk, Tilemap>();
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 
-//    private void OnEnable()
-//    {
-//        EventManager<bool>.Instance.StartListening("onGameStartingState", GenerateMap);
-//    }
-//    private void OnDisable()
-//    {
-//        EventManager<bool>.Instance.StopListening("onGameStartingState", GenerateMap);
-//    }
-//    void Start()
-//    {
+public class EnvironmentController : Singleton<EnvironmentController>
+{
+    [SerializeField]
+    public int numberOfChunk;
+    [SerializeField]
+    GameObject ChunkContainer;
+    [SerializeField]
+    Chunk chunkPrefab;
+    [SerializeField]
+    public List<Chunk> listChunk = new List<Chunk>();
+    [SerializeField]
+    LevelID firstLevel;
+  
+    private void OnEnable()
+    {
+        EventManager<bool>.Instance.StartListening("onGameStartingState", GenerateChunk);
+    }
+    private void OnDisable()
+    {
+        EventManager<bool>.Instance.StopListening("onGameStartingState", GenerateChunk);
+    }
 
-//        //for (int i = 0; i < numberOfChunk; i++)
-//        //{
-//        //    AddChunk(i); 
-//        //}
-//        //chunks[0].SetPreviousChunk(chunks[chunks.Count - 1]);
-//    }
+    public void GenerateChunk(bool isStarted)
+    {
+        for (int i = 0; i < numberOfChunk; i++)
+        {
+            Chunk Chunk = Instantiate(chunkPrefab,new Vector3(i*chunkPrefab.chunkSize,0,0), Quaternion.identity);
+            Chunk.transform.SetParent(ChunkContainer.transform);
+            BuildChunk(Chunk, i == 0);
+            listChunk.Add(Chunk); 
+        }
+        EventManager<bool>.Instance.TriggerEvent("onMapGenerated", true);
+    }
 
-//    private void AddChunk(int index)
-//    {
+    public void BuildChunk(Chunk Chunk,bool isFirst)
+    {
+        if (isFirst)
+        {
+            Chunk.BuildLevelById(firstLevel);
+        }
+        else
+        {
+            Chunk.BuildLevel();
+        }
+    }
 
-//        Chunk generatedChunk = ChunkGenerator.Instance.CreateChunk(index);
-//        Tilemap tilemap = TileTerrainGeneration.Instance.CreateTilemap(generatedChunk.transform);
-//        tilemapDictionary.Add(generatedChunk, tilemap);
-//        generatedChunk = ChunkGenerator.Instance.GenerateChunk(generatedChunk, index == 0);
-//        //GameObject hookable = Instantiate(ChunkGenerator.Instance.HookablePrefab, new Vector2(60*index,0), Quaternion.identity);
-//        //hookable.transform.SetParent(generatedChunk.transform);
-//        chunks.Add(generatedChunk);
-//        if(chunks.Count > 0) {
-//            generatedChunk.SetPreviousChunk(chunks[index]);
-//        }
-//    }
-
-//    public void GenerateMap(bool isStarted)
-//    {
-//        for (int i = 0; i < numberOfChunk; i++)
-//        {
-//            AddChunk(i);
-//        }
-//        chunks[0].SetPreviousChunk(chunks[chunks.Count - 1]);
-//        EventManager<bool>.Instance.TriggerEvent("endedGeneratedMap",true);
-//    }
-
-
-
-//}
+}

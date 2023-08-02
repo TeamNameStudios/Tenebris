@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class LevelAssembler : Singleton<LevelAssembler>
 {
-    [SerializeField] private ScriptableLevelChunk demoLevel;
-
-    [SerializeField] private Vector3 startingPos = new Vector3(-8, 0, 0);
-
-    [SerializeField] private ScriptableLevelChunk lastLevelChunk;
-
-    [SerializeField] private List<LevelID> possibleLevels = new List<LevelID>();
-
+    private ScriptableLevelChunk lastLevelChunk;
+    private List<LevelID> possibleLevels = new List<LevelID>();
     [SerializeField] private float probabilityToAdd;
 
     private List<float> GetProbabilityList(List<LevelID> _possibleLevels)
@@ -53,22 +47,22 @@ public class LevelAssembler : Singleton<LevelAssembler>
         return probabilities.Count - 1;
     }
 
-    public void CreateLevelChunk(LevelID _nextLevelID, Transform parentObject, bool newLevel = true)
+    public void CreateLevelChunk(LevelID _nextLevelID, Transform parentObject/*, bool newLevel = true*/)
     {
         ScriptableLevelChunk a = ResourceSystem.Instance.GetLevelChunk(_nextLevelID);
         GameObject GO =  Instantiate(a.LevelPrefab, parentObject);
         GO.transform.SetParent(parentObject);
         Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
         
-        if (newLevel)
-        {
+        //if (newLevel)
+        //{
             AddProbability(_nextLevelID, probabilityToAdd);
             
             // We change the references with the chunk just spawned
             lastLevelChunk = a;
             possibleLevels.Clear();
             possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
-        }
+        //}
     }
 
     private void AddProbability(LevelID _nextLevelID, float probabilityToAdd)
@@ -89,13 +83,6 @@ public class LevelAssembler : Singleton<LevelAssembler>
         }
     }
 
-    public void Setup(Transform parentObject)
-    {
-        GameObject GO = Instantiate(demoLevel.LevelPrefab, parentObject);
-        GO.transform.SetParent(parentObject);
-        lastLevelChunk = demoLevel;
-        possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
-    }
 
     public LevelID CreateChunk(Transform parentObject)
     {
@@ -106,4 +93,6 @@ public class LevelAssembler : Singleton<LevelAssembler>
 
         return _levelID;
     }
+
+
 }

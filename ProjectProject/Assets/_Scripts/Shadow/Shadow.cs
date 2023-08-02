@@ -23,7 +23,7 @@ public class Shadow : MapMover, IEnemy
 
     public override void Update()
     {
-        if (TempGameController.Instance.State == GameState.PLAYING)
+        if (GameController.Instance.State == GameState.PLAYING)
         {
             base.Update();
 

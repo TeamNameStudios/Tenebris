@@ -341,7 +341,7 @@ public class Player : MonoBehaviour
                 float easeTime = EaseInCubic(normalizedTime);
                 DecreaseCorruption(recoverCorruptionSpeed * easeTime);
                 elapsedTime += Time.deltaTime;
-                Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
             }
         }
     }
@@ -480,11 +480,13 @@ public class Player : MonoBehaviour
 
     private void Dash(bool _isDashing)
     {
-        if (canDash && !corrupted)
+        if (canDash)
         {
+
             canDash = false;
             isDashing = _isDashing;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
+            Debug.Log("DASHING");
             dashDir = new Vector2(direction.x, direction.y).normalized;
             if (dashDir == Vector2.zero) dashDir = isFacingRight ? Vector3.right : Vector3.left;
             rb.gravityScale = 0;
@@ -507,19 +509,21 @@ public class Player : MonoBehaviour
                 DashEffect.Stop();
                 StartCoroutine(DashingCooldown());
             }
-
-               StartCoroutine(StopDashing());
+            StartCoroutine(StopDashing());
             
         }
     }
 
     private IEnumerator StopDashing()
     {
+        Debug.Log("START STOP DASHING");
         yield return new WaitForSeconds(dashTime);
+        Debug.Log("STOPPING");
         DashEffect.Stop();
         isDashing = false;
         rb.gravityScale = 1;
         yield return new WaitForSeconds(dashCooldown);
+        Debug.Log("END STOP DASHING");
         canDash = true;
     }
     private IEnumerator DashingCooldown()

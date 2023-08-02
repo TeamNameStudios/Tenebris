@@ -12,9 +12,12 @@ public class Lurker : Manifestation
 
     [SerializeField] private float fallTime;
     [SerializeField] private float fallVelocity;
+    [SerializeField] private float upDownVelocity;
+    [SerializeField] private float upDownAmplitude;
 
     private float elapsedTime = 0;
     private float landingPoint;
+    private Vector2 startPos;
 
     private void Awake()
     {
@@ -27,11 +30,14 @@ public class Lurker : Manifestation
         {
             case LurkerState.IDLE:
                 FindPlayer();
+                startPos = transform.position;
                 break;
 
             case LurkerState.CHASING:
                 Vector2 pos = transform.position;
-                pos.x = player.position.x + 1.5f;
+                pos.x = player.position.x + 2.5f;
+                float y = Mathf.PingPong(Time.time * upDownVelocity, upDownAmplitude) * 2;
+                pos.y = y + startPos.y - 4;
                 transform.position = pos;
                 elapsedTime += Time.deltaTime;
 

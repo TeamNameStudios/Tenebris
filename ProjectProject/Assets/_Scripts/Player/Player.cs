@@ -59,13 +59,13 @@ public class Player : MonoBehaviour
     #region Detection
 
     [Header("Detection")]
-    [SerializeField] 
+    [SerializeField]
     private LayerMask _groundMask;
-    [SerializeField] 
+    [SerializeField]
     private Bounds _characterBounds;
-    [SerializeField] 
+    [SerializeField]
     private float _grounderRadius = 0.2f;
-    [SerializeField] 
+    [SerializeField]
     private float _wallCheckRadius = 0.05f;
     [SerializeField]
     private bool _isAgainstLeftWall, _isAgainstRightWall, _isAgainstRoof;
@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
     {
         bool grounded = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
 
-        if (!IsGrounded && grounded) 
+        if (!IsGrounded && grounded)
         {
             IsGrounded = true;
             isLaunchedState = false;
@@ -106,7 +106,7 @@ public class Player : MonoBehaviour
 
     }
 
-   
+
     private void DrawGrounderGizmos()
     {
         Gizmos.color = Color.red;
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
     private void DrawWallGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.max.y/2), _wallCheckRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.max.y / 2), _wallCheckRadius);
         Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.center.y), _wallCheckRadius);
         Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.min.y / 2), _wallCheckRadius);
 
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.center.y), _wallCheckRadius);
         Gizmos.DrawWireSphere(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius);
 
-        
+
     }
 
     #endregion
@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
             // Don't walk through walls
             velocity.x = 0;
         }
-       
+
     }
 
     #endregion
@@ -229,11 +229,11 @@ public class Player : MonoBehaviour
     #region Jump
 
     [Header("JUMPING")]
-    [SerializeField] 
+    [SerializeField]
     public float _jumpHeight = 30;
-    [SerializeField] 
+    [SerializeField]
     public float _jumpApexThreshold = 10f;
-    [SerializeField] 
+    [SerializeField]
     public float _coyoteTimeThreshold = 0.1f;
     [SerializeField]
     public bool _coyoteUsable;
@@ -265,15 +265,15 @@ public class Player : MonoBehaviour
     public void CalculateJump()
     {
         // Jump if: grounded or within coyote threshold || sufficient jump buffer
-        
+
         if (InputJump && IsGrounded || CanUseCoyote && InputJump)
         {
             velocity.y = _jumpHeight;
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
-            
-            
-           
+
+
+
             //JumpingThisFrame = true;
         }
         else
@@ -309,13 +309,13 @@ public class Player : MonoBehaviour
     private bool corrupted = false;
     [SerializeField]
     private bool invincibility = false;
-    [SerializeField] 
+    [SerializeField]
     private float fullyCorruptionTime;
-    [SerializeField] 
+    [SerializeField]
     private bool canRecover;
     [SerializeField]
     private float recoverCorruptionWaitTime;
-    [SerializeField] 
+    [SerializeField]
     private float recoverCorruptionSpeed;
     [SerializeField]
     private float invincibilitySeconds;
@@ -472,18 +472,23 @@ public class Player : MonoBehaviour
     private ParticleSystem DashEffect;
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
-    [SerializeField] private float dashTime;
-    [SerializeField] private float dashCooldown;
-    [SerializeField] private float dashCorruption; // value added only when the dash starts
+    [SerializeField] private float startingDashTime;
+    [SerializeField] private float startingDashCooldown;// value added only when the dash starts
+    [SerializeField] private float dashCorruption; 
 
+    private float dashTime;
+    private float dashCooldown;
     private Vector2 dashDir;
 
     private void Dash(bool _isDashing)
     {
-        if (canDash && !corrupted)
+        if (canDash)
         {
             canDash = false;
             isDashing = _isDashing;
+
+            dashTime = !corrupted ? startingDashTime : startingDashTime*2;
+            dashCooldown = startingDashCooldown;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
             dashDir = new Vector2(direction.x, direction.y).normalized;
             if (dashDir == Vector2.zero) dashDir = isFacingRight ? Vector3.right : Vector3.left;
@@ -499,34 +504,56 @@ public class Player : MonoBehaviour
     {
         if (isDashing)
         {
-            velocity = dashDir * _dashSpeed;
+            velocity = !corrupted ? dashDir * _dashSpeed : dashDir * _dashSpeed /2; 
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall || velocity.y > 0 && _isAgainstRoof || velocity.y < 0 && IsGrounded)
             {
                 isDashing = false;
                 rb.gravityScale = 1;
+                dashTime = 0;
                 DashEffect.Stop();
-                StartCoroutine(DashingCooldown());
+            }
+            if (dashTime >= 0)
+            {
+                dashTime -= Time.deltaTime;
+            }
+            else
+            {
+                isDashing = false;
+                DashEffect.Stop();
+                rb.gravityScale = 1;
+            }
+        }
+        else
+        {
+            if(canDash == false)
+            {
+                if (dashCooldown >= 0)
+                {
+                    dashCooldown -= Time.deltaTime;
+                }
+                else
+                {
+                    canDash = true;
+                }
             }
 
-               StartCoroutine(StopDashing());
-            
         }
     }
 
-    private IEnumerator StopDashing()
-    {
-        yield return new WaitForSeconds(dashTime);
-        DashEffect.Stop();
-        isDashing = false;
-        rb.gravityScale = 1;
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
-    }
-    private IEnumerator DashingCooldown()
-    {
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
-    }
+    //private IEnumerator StopDashing()
+    //{
+    //    yield return new WaitForSeconds(dashTime);
+    //    DashEffect.Stop();
+    //    isDashing = false;
+    //    rb.gravityScale = 1;
+    //    yield return new WaitForSeconds(dashCooldown);
+    //    canDash = true;
+    //}
+    //private IEnumerator DashingCooldown()
+    //{
+    //    yield return new WaitForSeconds(dashCooldown);
+    //    canDash = true;
+    //}
 
     #endregion
 
@@ -566,7 +593,7 @@ public class Player : MonoBehaviour
     private void GetHookableObject()
     {
         Vector2 pos = transform.position;
-        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left; 
+        Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
         Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos + direction, grappleZoneDistance);
         HookableObject = GetNearestHookable(HookableHits);
 
@@ -598,8 +625,8 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Vector2 pos = transform.position;
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-        Gizmos.DrawWireSphere( pos + direction, grappleZoneDistance);
-        if(HookableObject != null)
+        Gizmos.DrawWireSphere(pos + direction, grappleZoneDistance);
+        if (HookableObject != null)
         {
             Vector2 hookObjectpos = HookableObject.transform.position;
             Gizmos.DrawLine(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y), hookObjectpos);
@@ -626,17 +653,17 @@ public class Player : MonoBehaviour
             //{
             //    return;
             //}
-           
+
             isGrappling = _isGrappling;
-            if (!corruptionOverTime)
+            if (!corruptionOverTime && !isLaunchedState)
             {
                 EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOnce);
             }
             rb.gravityScale = 0;
             canGrapple = false;
-            StartCoroutine(ChargingGrapple(hookObjectpos,pos));
+            StartCoroutine(ChargingGrapple(hookObjectpos, pos));
         }
-        else if(isGrappling)
+        else if (isGrappling)
         {
             rb.gravityScale = 1;
             isGrappling = false;
@@ -646,14 +673,14 @@ public class Player : MonoBehaviour
 
     private void HandleGrapple()
     {
-        if(HookableObject != null)
+        if (HookableObject != null)
         {
             Vector2 pos = transform.position;
             Vector2 hookObjectpos = HookableObject.transform.position;
             if (isGrappling)
             {
                 velocity = grappleDirection * grappleSpeed;
-                if (corruptionOverTime)
+                if (corruptionOverTime && !isLaunchedState)
                 {
                     EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOverTime);
                 }
@@ -664,7 +691,7 @@ public class Player : MonoBehaviour
                     canGrapple = true;
                     grappleDirection = Vector2.zero;
                     rb.gravityScale = 1;
-                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x , launchedStateDirection.y);
+                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y);
                 }
             }
         }
@@ -688,7 +715,7 @@ public class Player : MonoBehaviour
             grappleDirection = (hookObjectpos - pos).normalized;
 
         }
-      
+
     }
     #endregion
 }

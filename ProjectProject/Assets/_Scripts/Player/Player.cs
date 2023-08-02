@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         EventManager<float>.Instance.StopListening("Corruption", AddCorruption);
         EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
         EventManager<bool>.Instance.StopListening("isDashing", Dash);
-        EventManager<bool>.Instance.StartListening("isGrappling", Grappling);
+        EventManager<bool>.Instance.StopListening("isGrappling", Grappling);
     }
     #region Detection
 
@@ -103,6 +103,10 @@ public class Player : MonoBehaviour
         bool _isAgainstRightWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius, _rightWall, _groundMask) > 0;
         _isAgainstLeftWall = _isAgainstLeftWall1 || _isAgainstLeftWall2 || _isAgainstLeftWall3;
         _isAgainstRightWall = _isAgainstRightWall1 || _isAgainstRightWall2 || _isAgainstRightWall3;
+        if (isSmokeWallHit)
+        {
+            _isAgainstLeftWall = false;
+        }
 
     }
 
@@ -479,6 +483,7 @@ public class Player : MonoBehaviour
     private float dashTime;
     private float dashCooldown;
     private Vector2 dashDir;
+    private bool isSmokeWallHit;
 
     private void Dash(bool _isDashing)
     {
@@ -486,7 +491,6 @@ public class Player : MonoBehaviour
         {
             canDash = false;
             isDashing = _isDashing;
-
             dashTime = !corrupted ? startingDashTime : startingDashTime*2;
             dashCooldown = startingDashCooldown;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
@@ -508,6 +512,7 @@ public class Player : MonoBehaviour
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall || velocity.y > 0 && _isAgainstRoof || velocity.y < 0 && IsGrounded)
             {
                 isDashing = false;
+                EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
                 rb.gravityScale = 1;
                 dashTime = 0;
                 DashEffect.Stop();
@@ -519,6 +524,7 @@ public class Player : MonoBehaviour
             else
             {
                 isDashing = false;
+                EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
                 DashEffect.Stop();
                 rb.gravityScale = 1;
             }

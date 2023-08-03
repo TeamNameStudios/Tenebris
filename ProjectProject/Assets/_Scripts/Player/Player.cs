@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         bool _isAgainstLeftWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius, _leftWall, _groundMask) > 0;
         bool _isAgainstRightWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.max.y / 2), _wallCheckRadius, _rightWall, _groundMask) > 0;
         bool _isAgainstRightWall2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.center.y), _wallCheckRadius, _rightWall, _groundMask) > 0;
-        bool _isAgainstRightWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.min.y / 2), _wallCheckRadius, _rightWall, _groundMask) > 0;
+        bool _isAgainstRightWall3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.max.x, _characterBounds.min.y / 2), _wallCheckRadius, _rightWall, _groundMask) > 0;
         _isAgainstLeftWall = _isAgainstLeftWall1 || _isAgainstLeftWall2 || _isAgainstLeftWall3;
         _isAgainstRightWall = _isAgainstRightWall1 || _isAgainstRightWall2 || _isAgainstRightWall3;
         if (isSmokeWallHit)
@@ -192,7 +192,7 @@ public class Player : MonoBehaviour
 
     public void Flip()
     {
-        if (!isDashing && !isGrappling && isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
+        if (!isDashing && !isGrappling && isFacingRight && velocity.x < 0f || !isFacingRight && velocity.x > 0f)
         {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;

@@ -1,8 +1,10 @@
 public enum LevelID{
-    QUADRATO,
-    CERCHIO,
-    TRIANGOLO,
-    RETTANGOLO,
-    LIVELLO_1,
-    ProvaSimo,
+QUADRATO,
+CERCHIO,
+TRIANGOLO,
+RETTANGOLO,
+LIVELLO_1,
+ProvaSimo,
+ProvaSimo123,
+CIAOgIO,
 }

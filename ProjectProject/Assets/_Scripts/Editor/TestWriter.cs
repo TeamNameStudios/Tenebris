@@ -13,6 +13,7 @@ public class TestWriter : Editor
     private void OnEnable()
     {
         levelNames = (LevelNames)target;
+        levelNames.levelNames = EditorMethods.ReadToEnum(filePath, fileName);
     }
 
     public override void OnInspectorGUI()
@@ -25,6 +26,11 @@ public class TestWriter : Editor
         if (GUILayout.Button("Save"))
         {
             EditorMethods.WriteToEnum(filePath, fileName, levelNames.levelNames);
+        }
+
+        if (GUILayout.Button("Read"))
+        {
+            levelNames.levelNames = EditorMethods.ReadToEnum(filePath, fileName);
         }
     }
 }

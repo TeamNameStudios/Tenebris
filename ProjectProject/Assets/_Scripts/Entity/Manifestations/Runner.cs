@@ -5,7 +5,7 @@ using UnityEngine;
 public class Runner : Manifestation
 {
     [SerializeField] private float runnerVelocity;
-    [SerializeField] private Vector2 boxSize;
+    [SerializeField] public Vector2 boxSize;
 
     [SerializeField] private bool canStart = false;
     [SerializeField] private float pursueTime;
@@ -17,8 +17,25 @@ public class Runner : Manifestation
     private List<float> playerPos = new List<float>();
     private bool canGo = false;
 
-    private void Update()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
+        canGo = false;
+        player = null;
+        canStart = false;
+        canPursue = true;
+        if (playerPos.Count > 0)
+        {
+            playerPos.Clear();
+        }
+    }
+
+
+    public override void Update()
+    {
+        base.Update();
+
         if (!canStart)
         {
             CanStart();

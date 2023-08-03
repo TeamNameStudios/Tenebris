@@ -16,9 +16,19 @@ public class ChaserNew : Manifestation
     [SerializeField] private float startDistance;
     [Tooltip("This number determines how close the chaser must be to the player before it locks in a direction")]
     [SerializeField] private float attackDistance;
-    [SerializeField] private float chaseVelocity;
+    private float chaseVelocity;
+    [SerializeField] private float startVelocity;
     [Tooltip("Keep this value small, ex. 0.2")]
     [SerializeField] private float velocityAcceleration;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        player = null;
+        state = ChaserState.IDLE;
+        chaseVelocity = startVelocity;
+    }
 
     private void Awake()
     {
@@ -26,8 +36,10 @@ public class ChaserNew : Manifestation
 
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         switch (state)
         {
             case ChaserState.IDLE:

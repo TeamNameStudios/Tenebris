@@ -12,12 +12,24 @@ public class Chaser : Manifestation
     private CapsuleCollider2D capsuleCollider;
 
     [SerializeField] private float minDistance;
-    [SerializeField] private float chaseVelocity;
-    [SerializeField] private float attackVelocity;
+    private float chaseVelocity;
+    [SerializeField] private float startVelocity;
+    private float attackVelocity;
     [SerializeField] private float maxVelocity;
+    [Tooltip("Keep this value small, ex. 0.02")]
+    [SerializeField] private float velocityAcceleration;
 
     private float groundHeight;
     private Vector3 attackDirection;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        player = null;
+        state = ChaserState.IDLE;
+        chaseVelocity = startVelocity;
+    }
 
     private void Awake()
     {
@@ -25,8 +37,10 @@ public class Chaser : Manifestation
 
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         switch (state)
         {
             case ChaserState.IDLE:
@@ -58,7 +72,7 @@ public class Chaser : Manifestation
                 Vector2 position = transform.position;
                 position.x += Vector2.right.x * chaseVelocity * Time.deltaTime;
                 transform.position = position;
-                chaseVelocity += .02f;
+                chaseVelocity += velocityAcceleration;
 
                 if (chaseVelocity >= maxVelocity)
                 {

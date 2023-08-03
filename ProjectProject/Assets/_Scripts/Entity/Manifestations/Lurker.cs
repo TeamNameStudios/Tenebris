@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Lurker : Manifestation
 {
-    private enum LurkerState { IDLE, CHASING, FALLING}
-    private LurkerState state = LurkerState.IDLE;
+    public enum LurkerState { IDLE, CHASING, FALLING}
+    public LurkerState state = LurkerState.IDLE;
     
     private Transform player;
     private CapsuleCollider2D capsuleCollider;
 
     [SerializeField] private float fallTime;
-    [SerializeField] private float fallVelocity;
+    private float fallVelocity;
+    [SerializeField] private float startFallVelocity;
     [SerializeField] private float upDownVelocity;
     [SerializeField] private float upDownAmplitude;
 
@@ -19,13 +20,25 @@ public class Lurker : Manifestation
     private float landingPoint;
     private Vector2 startPos;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        state = LurkerState.IDLE;
+        player = null;
+        elapsedTime = 0;
+        fallVelocity = startFallVelocity;
+    }
+
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         switch (state)
         {
             case LurkerState.IDLE:

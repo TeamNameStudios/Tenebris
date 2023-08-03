@@ -110,19 +110,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7330310480564105284}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51bcc4b9abaaae54dbe23359e8540bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depth: 1
+  velocity: 0
   CorruptionValue: 50
   DestroyTimer: 2
   canDieToShadow: 0
   state: 0
   minDistance: 25
-  chaseVelocity: 8
-  attackVelocity: 30
+  startVelocity: 8
   maxVelocity: 30
+  velocityAcceleration: 0.02
 --- !u!114 &1762022931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,16 +132,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7330310480564105284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1eb84855c2e792643bce15e4f0d278c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depth: 1
+  velocity: 0
   CorruptionValue: 50
   DestroyTimer: 2
   canDieToShadow: 0
   state: 0
   startDistance: 30
   attackDistance: 15
-  chaseVelocity: 7
+  startVelocity: 0
   velocityAcceleration: 0.07

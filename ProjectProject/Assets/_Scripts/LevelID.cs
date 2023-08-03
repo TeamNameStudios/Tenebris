@@ -1,7 +1,8 @@
 public enum LevelID{
-QUADRATO = 0,
-CERCHIO = 1,
-TRIANGOLO = 2,
-RETTANGOLO = 3,
-LIVELLO_1 = 4,
+    QUADRATO,
+    CERCHIO,
+    TRIANGOLO,
+    RETTANGOLO,
+    LIVELLO_1,
+    ProvaSimo,
 }

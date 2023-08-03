@@ -78,7 +78,7 @@ public class LevelAssembler : Singleton<LevelAssembler>
             {
                 // This resets the probability when we spawn a level
                 ScriptableLevelChunk thisLevel = ResourceSystem.Instance.GetLevelChunk(levelID);
-                thisLevel.Probability = thisLevel.BaseProbability;
+                thisLevel.Probability = thisLevel.InGameProbability;
             }
         }
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Manifestation : MonoBehaviour, IEnemy
+public abstract class Manifestation : MapMover, IEnemy
 {
     [SerializeField] protected float CorruptionValue;
     [SerializeField] protected float DestroyTimer;
@@ -12,16 +12,18 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
 
     [SerializeField] protected bool canDieToShadow;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         // NOT NEEDED FOR NOW
         //StartCoroutine(AutoDestruction());
         //EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", ChangeVelocity);
         //EventManager<Vector2>.Instance.StartListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         //StopAllCoroutines();
         //EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", ChangeVelocity);
         //EventManager<Vector2>.Instance.StopListening("onPlayerChangeDirection", PlayerGoingRight);
@@ -40,8 +42,8 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
     protected IEnumerator AutoDestruction()
     {
         yield return new WaitForSeconds(DestroyTimer);
-        Destroy(gameObject);
-        //ManifestationsFactory.Instance.ReturnObject(gameObject);
+        //Destroy(gameObject);
+        ManifestationsFactory.Instance.ReturnObject(gameObject);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -53,7 +55,8 @@ public abstract class Manifestation : MonoBehaviour, IEnemy
         }
         else if (collision.gameObject.CompareTag("Shadow") && canDieToShadow)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            ManifestationsFactory.Instance.ReturnObject(gameObject);
         }
     }
 }

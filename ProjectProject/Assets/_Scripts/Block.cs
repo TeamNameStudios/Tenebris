@@ -7,11 +7,13 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
+    private SpriteRenderer spriteRenderer;
     
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         boxCollider.usedByComposite = true;
         gameObject.layer = 3;
+        spriteRenderer.sortingLayerName = "Platforms";
     }
 }

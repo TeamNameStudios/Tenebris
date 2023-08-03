@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 3546137137850017348}
   - component: {fileID: 4616001372284381478}
   - component: {fileID: 1227941107404521552}
-  - component: {fileID: 5331987638979432596}
+  - component: {fileID: -4769727307613177729}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3546137137850017347
 Transform:
   m_ObjectHideFlags: 0
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b982c5b556f2ea4c8cf8874361a6da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  depth: 1
+  velocity: 0
   CorruptionValue: 20
   DestroyTimer: 5
   canDieToShadow: 1
@@ -133,7 +135,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &5331987638979432596
+--- !u!50 &-4769727307613177729
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0

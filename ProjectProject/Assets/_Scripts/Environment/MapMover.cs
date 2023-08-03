@@ -9,12 +9,12 @@ public class MapMover : MonoBehaviour
     [SerializeField]
     protected float velocity;
 	
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy",changeVelocity);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", changeVelocity);
     }

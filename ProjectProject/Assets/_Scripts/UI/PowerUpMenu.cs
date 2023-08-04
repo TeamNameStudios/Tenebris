@@ -36,25 +36,28 @@ public class PowerUpMenu : MonoBehaviour
 
     public void OnDisable()
     {
-        EventManager<int>.Instance.StartListening("onTotalPageLoaded", ManageTotalPage);
-        EventManager<List<PowerUp>>.Instance.StartListening("onPowerUpLoaded", ManagePowerUp);
+        EventManager<int>.Instance.StopListening("onTotalPageLoaded", ManageTotalPage);
+        EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", ManagePowerUp);
     }
     public void BuyPowerUp(int ButtonId)
     {
         ShopButton buttonClicked = buttonList[ButtonId];
-        EventManager<List<PowerUp>>.Instance.TriggerEvent("SavePowerUp", new List<PowerUp>());
         if (buttonClicked.pageCost < totalPages)
         {
-            totalPages = totalPages - buttonClicked.pageCost;
-            EventManager<int>.Instance.TriggerEvent("SaveTotalPage", totalPages);
+
             List<PowerUp> newList = new List<PowerUp>();
             for(int i = 0; i < actualPowerUps.Count; i++)
             {
-                if (actualPowerUps[i].ID == buttonClicked.id)
+                if (actualPowerUps[i].ID == buttonClicked.id && actualPowerUps[i].Level < 5)
                 {
                     newList.Add(new PowerUp(actualPowerUps[i].ID, actualPowerUps[i].Level + 1));
+                    totalPages = totalPages - buttonClicked.pageCost;
+                    EventManager<int>.Instance.TriggerEvent("SaveTotalPage", totalPages);
                 }
-                newList.Add(actualPowerUps[i]);
+                else
+                {
+                    newList.Add(actualPowerUps[i]);
+                }
             }
             EventManager<List<PowerUp>>.Instance.TriggerEvent("SavePowerUp", newList);
         }
@@ -72,8 +75,8 @@ public class PowerUpMenu : MonoBehaviour
         }
     }
 
-    private void ManageTotalPage(int totalPages) {
-        totalPages = totalPages;
+    private void ManageTotalPage(int _totalPages) {
+        totalPages = _totalPages;
         TotalPagesUI.text = totalPages+"";
     }
 }

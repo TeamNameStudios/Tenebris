@@ -157,11 +157,9 @@ public class SerializablePowerUp
 {
     public PowerUpEnum ID;
     public int Level;
-    public int PageCost;
     public SerializablePowerUp(PowerUp powerUp)
     {
         ID = powerUp.ID;
         Level = powerUp.Level;
-        //PageCost = powerUp.PageCost;
     }
 }

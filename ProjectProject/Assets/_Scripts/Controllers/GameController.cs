@@ -42,7 +42,6 @@ public class GameController : Singleton<GameController>
             case GameState.IDLE:
                 break;
             case GameState.STARTING:
-                EventManager<bool>.Instance.TriggerEvent("LoadData", true);
                 EventManager<bool>.Instance.TriggerEvent("onGameStartingState",true);
                 break;
             case GameState.PAUSING:
@@ -72,6 +71,7 @@ public class GameController : Singleton<GameController>
         Player _player = Instantiate(player, new Vector2(0, 16), Quaternion.identity).GetComponent<Player>();
         Shadow _shadow = Instantiate(shadow, new Vector2(-40, 0), Quaternion.identity).GetComponent<Shadow>();
         _shadow.Setup(_player);
+        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }
 

@@ -127,7 +127,7 @@ MonoBehaviour:
   recoveryStartingSmoothness: 0.02
   elapsedTime: 0
   isRecovering: 0
-  _dashSpeed: 35
+  dashSpeed: 35
   DashEffect: {fileID: 1833542237168066859}
   isDashing: 0
   canDash: 1
@@ -138,7 +138,8 @@ MonoBehaviour:
   isLaunchedState: 0
   canGrapple: 1
   grappleDirection: {x: 0, y: 0}
-  launchedStateDirection: {x: 25, y: 25}
+  launchedStateDirection: {x: 1, y: 1}
+  launchedSpeed: 50
   grappleSpeed: 25
   HookableObject: {fileID: 0}
   hookableLayer:

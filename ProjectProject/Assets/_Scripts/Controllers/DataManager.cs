@@ -8,6 +8,14 @@ public class DataManager : Singleton<DataManager>
 {
     private string _powerUpListFileName = "/power-up.dat";
 
+    private void Start()
+    {
+        if (!File.Exists(@"" + Application.persistentDataPath + _powerUpListFileName))
+        {
+            InitPowerUpFile();
+        }
+            
+    }
     private void OnEnable()
     {
         EventManager<int>.Instance.StartListening("SavePage", SavePages);
@@ -28,6 +36,7 @@ public class DataManager : Singleton<DataManager>
     public void LoadData(bool loading)
     {
         LoadPages();
+        LoadTotalPages();
         LoadPowerUp();
     }
 
@@ -98,6 +107,23 @@ public class DataManager : Singleton<DataManager>
         writer.Close();
     }
 
+    private void InitPowerUpFile()
+    {
+        List<PowerUpEnum> enumList = ResourceSystem.Instance.GetInitsPowerUp();
+        List<SerializablePowerUp> listSerializedPowerUp = new List<SerializablePowerUp>();
+        for (int i = 0; i < enumList.Count; i++)
+        {
+            SerializablePowerUp serializedPowerUp = new SerializablePowerUp(new PowerUp(enumList[i],1));
+            listSerializedPowerUp.Add(serializedPowerUp);
+        }
+
+        SerializableList<SerializablePowerUp> listObj = new SerializableList<SerializablePowerUp>(listSerializedPowerUp);
+        string json = JsonUtility.ToJson(listObj);
+        StreamWriter writer = new StreamWriter(Application.persistentDataPath + _powerUpListFileName);
+        writer.WriteLine(json);
+        writer.Close();
+    }
+
     public void LoadPowerUp()
     {
         // Read from file the json string
@@ -131,34 +157,9 @@ public class SerializablePowerUp
 {
     public PowerUpEnum ID;
     public int Level;
-    public int PageCost;
     public SerializablePowerUp(PowerUp powerUp)
     {
         ID = powerUp.ID;
         Level = powerUp.Level;
-        PageCost = powerUp.PageCost;
-    }
-}
-
-public enum PowerUpEnum
-{
-
-}
-
-public class PowerUp
-{
-    public PowerUpEnum ID;
-    public int Level;
-    public int PageCost;
-    public PowerUp(PowerUpEnum _ID, int _Level, int _PageCost) { 
-        ID = _ID;
-        Level = _Level;
-        PageCost = _PageCost;
-    }
-    public PowerUp(SerializablePowerUp serializablePowerUp)
-    {
-        ID = serializablePowerUp.ID;
-        Level = serializablePowerUp.Level;
-        PageCost = serializablePowerUp.PageCost;
     }
 }

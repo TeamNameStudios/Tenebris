@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
     }
     private void Update()
     {
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
         EventManager<float>.Instance.StartListening("onCollectiblePickup", DecreaseCorruption);
         EventManager<bool>.Instance.StartListening("isDashing", Dash);
         EventManager<bool>.Instance.StartListening("isGrappling", Grappling);
+        EventManager<List<PowerUp>>.Instance.StartListening("onPowerUpLoaded", PowerUpManager);
     }
     private void OnDisable()
     {
@@ -55,6 +58,7 @@ public class Player : MonoBehaviour
         EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
         EventManager<bool>.Instance.StopListening("isDashing", Dash);
         EventManager<bool>.Instance.StopListening("isGrappling", Grappling);
+        EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", PowerUpManager);
     }
     #region Detection
 
@@ -471,7 +475,7 @@ public class Player : MonoBehaviour
 
     [Header("DASH")]
     [SerializeField]
-    private float _dashSpeed = 15;
+    private float dashSpeed = 15;
     [SerializeField]
     private ParticleSystem DashEffect;
     [SerializeField] private bool isDashing;
@@ -508,7 +512,7 @@ public class Player : MonoBehaviour
     {
         if (isDashing)
         {
-            velocity = !corrupted ? dashDir * _dashSpeed : dashDir * _dashSpeed /2; 
+            velocity = !corrupted ? dashDir * dashSpeed  : dashDir * dashSpeed / 2; 
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall || velocity.y > 0 && _isAgainstRoof || velocity.y < 0 && IsGrounded)
             {
                 isDashing = false;
@@ -575,6 +579,8 @@ public class Player : MonoBehaviour
     private Vector2 grappleDirection;
     [SerializeField]
     private Vector2 launchedStateDirection;
+    [SerializeField]
+    private float launchedSpeed;
     [SerializeField]
     private float grappleSpeed;
     [SerializeField]
@@ -697,7 +703,7 @@ public class Player : MonoBehaviour
                     canGrapple = true;
                     grappleDirection = Vector2.zero;
                     rb.gravityScale = 1;
-                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y);
+                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
                 }
             }
         }
@@ -723,6 +729,55 @@ public class Player : MonoBehaviour
         }
 
     }
+    #endregion
+
+    #region PowerUpManager 
+
+    private void PowerUpManager(List<PowerUp> powerUps)
+    {
+        for(int i = 0; i < powerUps.Count; i++)
+        {
+            switch(powerUps[i].ID) {
+                case PowerUpEnum.DASH_SPEED:
+                    {
+                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+                        dashSpeed = dashSpeed + (dashSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                    }
+                    break;
+                case PowerUpEnum.DASH_COOLDOWN:
+                    {
+                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+                        startingDashCooldown = startingDashCooldown - (startingDashCooldown * scriptablePowerUp.PowerUpPercentage / 100);
+                    }
+                    break;
+                case PowerUpEnum.DASH_CORRUPTION_USAGE:
+                    {
+                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+                        dashCorruption = dashCorruption - (dashCorruption * scriptablePowerUp.PowerUpPercentage / 100);
+                    }
+                    break;
+                case PowerUpEnum.GRAPPLE_SPEED:
+                    {
+                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+                        grappleSpeed = grappleSpeed + (grappleSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                    }
+                    break;
+                case PowerUpEnum.GRAPPLE_LAUNCH_SPEED:
+                    {
+                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+                        launchedSpeed = launchedSpeed + (launchedSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                    }
+                    break;
+                case PowerUpEnum.GRAPPLE_CORRUPTION_USAGE:
+                    {
+                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+                        hookCorruptionOnce = hookCorruptionOnce - (hookCorruptionOnce * scriptablePowerUp.PowerUpPercentage / 100);
+                    }
+                    break;
+            }
+        }
+    }
+
     #endregion
 }
 

@@ -9,7 +9,7 @@ public abstract class ManifestationTrigger : MonoBehaviour
     private void Start()
     {
         //Instantiate(GO, transform.position, Quaternion.identity);
-        ManifestationsFactory.Instance.CreateObject(GO.name, transform.position, Quaternion.identity);
+        //ManifestationsFactory.Instance.CreateObject(GO.name, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

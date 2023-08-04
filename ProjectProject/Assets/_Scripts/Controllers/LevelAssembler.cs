@@ -52,7 +52,7 @@ public class LevelAssembler : Singleton<LevelAssembler>
         ScriptableLevelChunk a = ResourceSystem.Instance.GetLevelChunk(_nextLevelID);
         GameObject GO =  Instantiate(a.LevelPrefab, parentObject);
         GO.transform.SetParent(parentObject);
-        Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
+        //Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
         
         //if (newLevel)
         //{

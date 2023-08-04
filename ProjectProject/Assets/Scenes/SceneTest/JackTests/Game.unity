@@ -2979,7 +2979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1020192352}
   - component: {fileID: 1020192354}
-  - component: {fileID: 1020192353}
+  - component: {fileID: 1020192355}
   m_Layer: 0
   m_Name: CorruptionBarVertical
   m_TagString: Untagged
@@ -3010,20 +3010,6 @@ RectTransform:
   m_AnchoredPosition: {x: -7.4139404, y: -12.521896}
   m_SizeDelta: {x: 151.9563, y: 28.1721}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1020192353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020192351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46fd1326e01b9844093bbefc4f1bc877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  corruptionSlider: {fileID: 1020192354}
-  maxCorruptionBar: 0
 --- !u!114 &1020192354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3075,6 +3061,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1020192355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020192351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 736b198347276bf4cadad51397fc3bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptionSlider: {fileID: 1020192354}
+  maxCorruptionBar: 0
 --- !u!1 &1109467745
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     public Vector2 direction = Vector2.zero;
 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -36,6 +37,16 @@ public class Player : MonoBehaviour
         }
         PerformMovement();
         ManageCorruption();
+
+        if (corrupted)
+        {
+            Debug.Log("CORRUPTED");
+        }
+
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            AddCorruption(maxCorruption);
+        }
     }
 
     private void OnEnable()
@@ -345,10 +356,11 @@ public class Player : MonoBehaviour
                 float easeTime = EaseInCubic(normalizedTime);
                 DecreaseCorruption(recoverCorruptionSpeed * easeTime);
                 elapsedTime += Time.deltaTime;
-                Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
             }
         }
     }
+
     private void AddCorruption(float value)
     {
         if (recoveryCO != null)
@@ -374,8 +386,8 @@ public class Player : MonoBehaviour
             }
 
             EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
-
-            if (Corruption >= maxCorruption)
+            
+            if (Corruption >= maxCorruption && !corrupted)
             {
 
                 if (recoveryCO != null)
@@ -427,7 +439,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;
 
-        yield return new WaitForSeconds(.2f);
+        //yield return new WaitForSeconds(.2f);
         canRecover = true;
         isRecovering = true;
         elapsedTime = 0;
@@ -463,6 +475,7 @@ public class Player : MonoBehaviour
         if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility)
         {
             EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+            Debug.Log("DEAD");
         }
     }
     #endregion
@@ -513,6 +526,7 @@ public class Player : MonoBehaviour
             {
                 isDashing = false;
                 EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
+                EventManager<float>.Instance.TriggerEvent("Corruption", 0);
                 rb.gravityScale = 1;
                 dashTime = 0;
                 DashEffect.Stop();
@@ -525,6 +539,7 @@ public class Player : MonoBehaviour
             {
                 isDashing = false;
                 EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
+                EventManager<float>.Instance.TriggerEvent("Corruption", 0);
                 DashEffect.Stop();
                 rb.gravityScale = 1;
             }

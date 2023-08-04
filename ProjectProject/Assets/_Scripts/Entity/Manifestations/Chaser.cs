@@ -11,11 +11,16 @@ public class Chaser : Manifestation
     private Transform player;
     private CapsuleCollider2D capsuleCollider;
 
+    [Tooltip("Distance to cover before the chaser starts chasing the player")]
     [SerializeField] private float minDistance;
     private float chaseVelocity;
+    [Tooltip("Starting velocity of the chaser")]
     [SerializeField] private float startVelocity;
-    private float attackVelocity;
+    [Tooltip("Velocity of the chaser's attack")]
+    [SerializeField] private float attackVelocity;
     [SerializeField] private float maxVelocity;
+    [Tooltip("How close the chaser must get to the player before attacking it")]
+    [SerializeField] private float attackDistance;
     [Tooltip("Keep this value small, ex. 0.02")]
     [SerializeField] private float velocityAcceleration;
 
@@ -74,7 +79,14 @@ public class Chaser : Manifestation
                 transform.position = position;
                 chaseVelocity += velocityAcceleration;
 
-                if (chaseVelocity >= maxVelocity)
+                //if (chaseVelocity >= maxVelocity)
+                //{
+                //    attackDirection = (player.position - transform.position).normalized;
+                //    attackVelocity = chaseVelocity + 10;
+                //    state = ChaserState.ATTACKING;
+                //}
+                
+                if (Mathf.Abs(transform.position.x - player.position.x) <= attackDistance)
                 {
                     attackDirection = (player.position - transform.position).normalized;
                     attackVelocity = chaseVelocity + 10;

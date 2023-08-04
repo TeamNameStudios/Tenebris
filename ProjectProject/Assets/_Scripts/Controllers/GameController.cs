@@ -24,6 +24,7 @@ public class GameController : Singleton<GameController>
     private void OnEnable()
     {
         EventManager<GameState>.Instance.StartListening("onStateChanged", ChangeState);
+        EventManager<GameState>.Instance.StartListening("onPlayerDead", ChangeState);
         EventManager<bool>.Instance.StartListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StartListening("pause", Pause);
     }
@@ -32,6 +33,8 @@ public class GameController : Singleton<GameController>
         EventManager<GameState>.Instance.StopListening("onStateChanged", ChangeState);
         EventManager<bool>.Instance.StopListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StopListening("pause", Pause);
+        EventManager<GameState>.Instance.StopListening("onPlayerDead", ChangeState);
+
 
     }
 
@@ -70,8 +73,8 @@ public class GameController : Singleton<GameController>
     private void SetGameScene(bool isGameSceneStarted)
     {
         Player _player = Instantiate(player, new Vector2(0, 16), Quaternion.identity).GetComponent<Player>();
-        Shadow _shadow = Instantiate(shadow, new Vector2(-40, 0), Quaternion.identity).GetComponent<Shadow>();
-        _shadow.Setup(_player);
+        //Shadow _shadow = Instantiate(shadow, new Vector2(-40, 0), Quaternion.identity).GetComponent<Shadow>();
+        //_shadow.Setup(_player);
         ChangeState(GameState.PLAYING);
     }
 

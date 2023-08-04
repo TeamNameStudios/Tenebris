@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -10,8 +11,13 @@ using UnityEngine;
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
     #region Level
-        public List<ScriptableLevelChunk> LevelChunks { get; private set; }
-        [SerializeField] public Dictionary<LevelID, ScriptableLevelChunk> LevelChunksict = new Dictionary<LevelID, ScriptableLevelChunk>();
+    public List<ScriptableLevelChunk> LevelChunks { get; private set; }
+    [SerializeField] public Dictionary<LevelID, ScriptableLevelChunk> LevelChunksDict = new Dictionary<LevelID, ScriptableLevelChunk>();
+    #endregion
+
+    #region PowerUp
+    public List<ScriptablePowerUp> PowerUps { get; private set; }
+    public List<ScriptablePowerUp> InitPowerUps { get; private set; }
     #endregion
     protected override void Awake()
     {
@@ -23,10 +29,11 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     private void AssembleResources()
     {
         LevelChunks = Resources.LoadAll<ScriptableLevelChunk>("LevelChunks").ToList();
-        LevelChunksict = LevelChunks.ToDictionary(levelChunk => levelChunk.ID, levelChunk => levelChunk);
+        LevelChunksDict = LevelChunks.ToDictionary(levelChunk => levelChunk.ID, levelChunk => levelChunk);
+        PowerUps = Resources.LoadAll<ScriptablePowerUp>("PowerUps").ToList();
     }
 
-    public ScriptableLevelChunk GetLevelChunk(LevelID t) => LevelChunksict[t];
+    public ScriptableLevelChunk GetLevelChunk(LevelID t) => LevelChunksDict[t];
 
     public void ResetLevelProbability()
     {
@@ -48,4 +55,24 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
             }
         }
     }
+
+    public ScriptablePowerUp GetPowerUp(PowerUpEnum id, int Level) {
+            return PowerUps.Find((powerUp) =>
+            {
+                return powerUp.ID == id && powerUp.Level == Level;
+            });
+    }
+
+    public List<PowerUpEnum> GetInitsPowerUp()
+    {
+       List<PowerUpEnum> powerUpEnums = new List<PowerUpEnum>();
+        foreach (var powerUp in PowerUps)
+        {
+            if (!powerUpEnums.Contains(powerUp.ID)){
+                powerUpEnums.Add(powerUp.ID);
+            }
+            
+        }
+        return powerUpEnums;
+    }   
 }

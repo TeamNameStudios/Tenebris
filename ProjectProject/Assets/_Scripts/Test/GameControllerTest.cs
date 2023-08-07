@@ -18,4 +18,12 @@ public class GameControllerTest : MonoBehaviour
         LevelAssembler.Instance.CreateLevelChunk(levelID_ONE, chunk_ONE);
         LevelAssembler.Instance.CreateLevelChunk(levelID_TWO, chunk_TWO);
     }
+
+    private void Update()
+    {
+        if(GameController.Instance.State == GameState.STARTING)
+        {
+            EventManager<bool>.Instance.TriggerEvent("onMapGenerated", true);
+        }
+    }
 }

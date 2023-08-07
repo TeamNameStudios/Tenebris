@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManifestationsFactory : Helper.MonoSingleton<ManifestationsFactory>
+public class ManifestationsFactory : Singleton<ManifestationsFactory>
 {
     public int poolSize;
     public GameObject[] prefabs;

@@ -94,7 +94,7 @@ public class Lurker : Manifestation
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.down);
         for (int i = 0; i < hits.Length; i++)
         {
-            if (!hits[i].transform.GetComponent<Player>() && !hits[i].transform.GetComponent<Manifestation>())
+            if (!hits[i].transform.GetComponent<Player>() && !hits[i].transform.GetComponent<Manifestation>() && !hits[i].transform.GetComponent<Collectible>())
             {
                 return hits[i].point.y;
             }

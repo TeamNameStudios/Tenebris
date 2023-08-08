@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
     private void Update()
     {
         RunCollisionChecks();
@@ -38,14 +39,23 @@ public class Player : MonoBehaviour
         PerformMovement();
         ManageCorruption();
 
-        if (corrupted)
+
+        if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
         {
-            Debug.Log("CORRUPTED");
+            // play clip walking on grass
+        }
+        else if (isDashing)
+        {
+            // play dash clip
+        }
+        else if (isGrappling)
+        {
+            // play grapple clip
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (InputJump)
         {
-            AddCorruption(maxCorruption);
+            // play jump clip
         }
     }
 

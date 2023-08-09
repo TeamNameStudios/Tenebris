@@ -43,19 +43,26 @@ public class Player : MonoBehaviour
         if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
         {
             // play clip walking on grass
+            EventManager<bool>.Instance.TriggerEvent("onRunning", true);
         }
-        else if (isDashing)
+        else
         {
-            // play dash clip
+            EventManager<bool>.Instance.TriggerEvent("onRunning", false);
         }
-        else if (isGrappling)
+        
+        if (isDashing)
         {
-            // play grapple clip
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", DashingClip);
+        }
+
+        if (isGrappling)
+        {
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", GrapplingClip);
         }
 
         if (InputJump)
         {
-            // play jump clip
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", JumpingClip);
         }
     }
 
@@ -748,6 +755,14 @@ public class Player : MonoBehaviour
         }
 
     }
+    #endregion
+
+    #region Audio
+    [Header("AUDIO CLIPS")]
+    [SerializeField] private AudioClip RunningClip;
+    [SerializeField] private AudioClip DashingClip;
+    [SerializeField] private AudioClip JumpingClip;
+    [SerializeField] private AudioClip GrapplingClip;
     #endregion
 }
 

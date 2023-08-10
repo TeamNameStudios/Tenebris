@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
+    
     private void Update()
     {
         RunCollisionChecks();
@@ -48,21 +48,6 @@ public class Player : MonoBehaviour
         else
         {
             EventManager<bool>.Instance.TriggerEvent("onRunning", false);
-        }
-        
-        if (isDashing)
-        {
-            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", DashingClip);
-        }
-
-        if (isGrappling)
-        {
-            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", GrapplingClip);
-        }
-
-        if (InputJump)
-        {
-            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", JumpingClip);
         }
     }
 
@@ -303,6 +288,7 @@ public class Player : MonoBehaviour
             velocity.y = _jumpHeight;
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayJumpClip", JumpingClip);
 
 
 
@@ -519,6 +505,8 @@ public class Player : MonoBehaviour
     {
         if (canDash)
         {
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", DashingClip);
+
             canDash = false;
             isDashing = _isDashing;
             dashTime = !corrupted ? startingDashTime : startingDashTime*2;
@@ -677,6 +665,7 @@ public class Player : MonoBehaviour
     {
         if (canGrapple && HookableObject != null && !isGrappling)
         {
+
             Vector2 pos = transform.position;
             Vector2 hookObjectpos = HookableObject.transform.position;
             swingingDirection = isFacingRight ? Vector2.right : Vector2.left;
@@ -693,9 +682,11 @@ public class Player : MonoBehaviour
             //}
 
             isGrappling = _isGrappling;
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", GrapplingClip);
             if (!corruptionOverTime && !isLaunchedState)
             {
                 EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOnce);
+
             }
             rb.gravityScale = 0;
             canGrapple = false;
@@ -717,6 +708,7 @@ public class Player : MonoBehaviour
             Vector2 hookObjectpos = HookableObject.transform.position;
             if (isGrappling)
             {
+                
                 velocity = grappleDirection * grappleSpeed;
                 if (corruptionOverTime && !isLaunchedState)
                 {
@@ -759,7 +751,6 @@ public class Player : MonoBehaviour
 
     #region Audio
     [Header("AUDIO CLIPS")]
-    [SerializeField] private AudioClip RunningClip;
     [SerializeField] private AudioClip DashingClip;
     [SerializeField] private AudioClip JumpingClip;
     [SerializeField] private AudioClip GrapplingClip;

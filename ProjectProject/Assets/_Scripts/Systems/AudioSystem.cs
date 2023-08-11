@@ -11,12 +11,14 @@ public class AudioSystem : StaticInstance<AudioSystem>
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource[] _soundsSources;
     [SerializeField] private AudioSource _runningSource;
-
     [SerializeField] private AudioSource _jumpSource;
+    [SerializeField] private AudioSource _corruptedSource;
+
 
     private void OnEnable()
     {
         EventManager<bool>.Instance.StartListening("onRunning", PlayRunningEffect);
+        EventManager<bool>.Instance.StartListening("onFullyCorrupted", PlayCorruptionffect);
         EventManager<AudioClip>.Instance.StartListening("onPlayClip", PlayClip);
         EventManager<AudioClip>.Instance.StartListening("onPlayJumpClip", PlayJumpClip);
     }
@@ -24,6 +26,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
     private void OnDisable()
     {
         EventManager<bool>.Instance.StopListening("onRunning", PlayRunningEffect);
+        EventManager<bool>.Instance.StopListening("onFullyCorrupted", PlayCorruptionffect);
         EventManager<AudioClip>.Instance.StopListening("onPlayClip", PlayClip);
         EventManager<AudioClip>.Instance.StopListening("onPlayJumpClip", PlayJumpClip);
     }
@@ -45,6 +48,19 @@ public class AudioSystem : StaticInstance<AudioSystem>
     //{
     //    _soundsSource.PlayOneShot(clip, vol);
     //}
+    
+    public void PlayClip(AudioClip clip)
+    {
+        for (int i = 0; i < _soundsSources.Length; i++)
+        {
+            if (!_soundsSources[i].isPlaying)
+            {
+                _soundsSources[i].volume = .5f;
+                _soundsSources[i].PlayOneShot(clip);
+                break;
+            }
+        }
+    }
 
     public void PlayRunningEffect(bool canPlay)
     {       
@@ -61,24 +77,27 @@ public class AudioSystem : StaticInstance<AudioSystem>
         }
     }
 
-    public void PlayClip(AudioClip clip)
-    {
-        for (int i = 0; i < _soundsSources.Length; i++)
-        {
-            if (!_soundsSources[i].isPlaying)
-            {
-                _soundsSources[i].volume = .5f;
-                _soundsSources[i].PlayOneShot(clip);
-                break;
-            }
-        }
-    }
 
     public void PlayJumpClip(AudioClip clip)
     {
         if (!_jumpSource.isPlaying)
         {
             _jumpSource.PlayOneShot(clip);
+        }
+    }
+
+    public void PlayCorruptionffect(bool canPlay)
+    {
+        if (canPlay)
+        {
+            if (!_corruptedSource.isPlaying)
+            {
+                _corruptedSource.Play();
+            }
+        }
+        else
+        {
+            _corruptedSource.Stop();
         }
     }
 }

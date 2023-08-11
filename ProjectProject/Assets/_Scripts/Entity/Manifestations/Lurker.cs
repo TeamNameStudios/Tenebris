@@ -77,15 +77,22 @@ public class Lurker : Manifestation
 
     private void FindPlayer()
     {
-        RaycastHit2D[] hits = Physics2D.CapsuleCastAll(transform.position, capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
+        //RaycastHit2D[] hits = Physics2D.CapsuleCastAll(transform.position, capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
 
-        for (int i = 0; i < hits.Length; i++)
+        //for (int i = 0; i < hits.Length; i++)
+        //{
+        //    if (hits[i].transform.GetComponent<Player>())
+        //    {
+        //        player = hits[i].transform;
+        //        state = LurkerState.CHASING;
+        //    }
+        //}
+
+        RaycastHit2D hit = Physics2D.CapsuleCast(transform.position - new Vector3 (0, 2, 0), capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
+        if (hit.transform.GetComponent<Player>())
         {
-            if (hits[i].transform.GetComponent<Player>())
-            {
-                player = hits[i].transform;
-                state = LurkerState.CHASING;
-            }
+            player = hit.transform;
+            state = LurkerState.CHASING;
         }
     }
 

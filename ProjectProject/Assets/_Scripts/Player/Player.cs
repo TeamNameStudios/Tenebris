@@ -49,6 +49,23 @@ public class Player : MonoBehaviour
         {
             EventManager<bool>.Instance.TriggerEvent("onRunning", false);
         }
+        
+        EventManager<bool>.Instance.TriggerEvent("onFullyCorrupted", corrupted);
+
+        if (corrupted)
+        {
+            if (!corruptionPS.isPlaying)
+            {
+                corruptionPS.Play();
+            }
+        }
+        else
+        {
+            if (corruptionPS.isPlaying)
+            {
+                corruptionPS.Stop();
+            }
+        }
     }
 
     private void OnEnable()
@@ -337,6 +354,8 @@ public class Player : MonoBehaviour
     private float recoverCorruptionSpeed;
     [SerializeField]
     private float invincibilitySeconds;
+    [SerializeField]
+    private ParticleSystem corruptionPS;
 
     [Tooltip("Used to add a value to the recovered corruption, to not make it start from 0,\nKeep the value REALLY small, example: 0.02f")]
     [SerializeField]
@@ -754,6 +773,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip DashingClip;
     [SerializeField] private AudioClip JumpingClip;
     [SerializeField] private AudioClip GrapplingClip;
+    [SerializeField] private AudioClip CorruptedClip;
     #endregion
 }
 

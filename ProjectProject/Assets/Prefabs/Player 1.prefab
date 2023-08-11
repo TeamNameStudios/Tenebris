@@ -122,25 +122,25 @@ MonoBehaviour:
   fullyCorruptionTime: 7
   canRecover: 0
   recoverCorruptionWaitTime: 3
-  recoverCorruptionSpeed: 50
+  recoverCorruptionSpeed: 5
   invincibilitySeconds: 0.5
   recoveryStartingSmoothness: 0.02
   elapsedTime: 0
   isRecovering: 0
-  dashSpeed: 35
+  dashSpeed: 50
   DashEffect: {fileID: 1833542237168066859}
   isDashing: 0
   canDash: 1
   startingDashTime: 1
   startingDashCooldown: 1
-  dashCorruption: 10
+  dashCorruption: 20
   isGrappling: 0
   isLaunchedState: 0
   canGrapple: 1
   grappleDirection: {x: 0, y: 0}
   launchedStateDirection: {x: 1, y: 1}
-  launchedSpeed: 50
-  grappleSpeed: 25
+  launchedSpeed: 30
+  grappleSpeed: 35
   HookableObject: {fileID: 0}
   hookableLayer:
     serializedVersion: 2
@@ -149,7 +149,7 @@ MonoBehaviour:
   chargeGrappleTime: 0
   grappleZoneDistance: 20
   hookCorruptionOverTime: 0.5
-  hookCorruptionOnce: 15
+  hookCorruptionOnce: 25
   corruptionOverTime: 0
 --- !u!212 &2762329890249096686
 SpriteRenderer:

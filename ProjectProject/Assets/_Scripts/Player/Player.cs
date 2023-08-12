@@ -68,6 +68,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (!landingPS.isPlaying)
+            {
+                landingPS.Play();
+            }
+        }
+    }
+
     private void OnEnable()
     {
         EventManager<Vector2>.Instance.StartListening("movement", Move);
@@ -86,6 +97,8 @@ public class Player : MonoBehaviour
         EventManager<bool>.Instance.StopListening("isDashing", Dash);
         EventManager<bool>.Instance.StopListening("isGrappling", Grappling);
     }
+
+    
     #region Detection
 
     [Header("Detection")]
@@ -187,6 +200,7 @@ public class Player : MonoBehaviour
         {
             // Move out of the ground
             if (velocity.y < 0) velocity.y = 0;
+
         }
         else
         {
@@ -273,6 +287,7 @@ public class Player : MonoBehaviour
     public bool _coyoteUsable;
     private float _apexPoint; // Becomes 1 at the apex of a jump
 
+
     [SerializeField]
     private bool CanUseCoyote => _coyoteUsable && !IsGrounded && _timeLeftGrounded + _coyoteTimeThreshold > Time.time;
     [SerializeField]
@@ -305,7 +320,13 @@ public class Player : MonoBehaviour
             velocity.y = _jumpHeight;
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
+            
             EventManager<AudioClip>.Instance.TriggerEvent("onPlayJumpClip", JumpingClip);
+
+            if (landingPS.isPlaying)
+            {
+                landingPS.Stop();
+            }
 
 
 
@@ -334,7 +355,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region Corrution
+    #region Corruption
     [Header("CORRUPTION_SYSTEM")]
     [SerializeField]
     private float Corruption;
@@ -354,8 +375,7 @@ public class Player : MonoBehaviour
     private float recoverCorruptionSpeed;
     [SerializeField]
     private float invincibilitySeconds;
-    [SerializeField]
-    private ParticleSystem corruptionPS;
+
 
     [Tooltip("Used to add a value to the recovered corruption, to not make it start from 0,\nKeep the value REALLY small, example: 0.02f")]
     [SerializeField]
@@ -490,7 +510,10 @@ public class Player : MonoBehaviour
                 canRecover = false;
             }
         }
+
+
     }
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -507,8 +530,7 @@ public class Player : MonoBehaviour
     [Header("DASH")]
     [SerializeField]
     private float _dashSpeed = 15;
-    [SerializeField]
-    private ParticleSystem DashEffect;
+
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
     [SerializeField] private float startingDashTime;
@@ -773,7 +795,17 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip DashingClip;
     [SerializeField] private AudioClip JumpingClip;
     [SerializeField] private AudioClip GrapplingClip;
-    [SerializeField] private AudioClip CorruptedClip;
     #endregion
+
+    #region ParticleSystem
+    [Header("PARTICLE EFFECTS")]
+    [SerializeField]
+    private ParticleSystem DashEffect;
+    [SerializeField]
+    private ParticleSystem corruptionPS;
+    [SerializeField]
+    private ParticleSystem landingPS;
+    #endregion
+
 }
 

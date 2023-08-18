@@ -54,4 +54,8 @@ ROLevel32,
 ROLevel33,
 ROLevel34,
 ROLevel35,
+ROLevel36,
+ROLevel37,
+ROLevel39,
+ROLevel40,
 }

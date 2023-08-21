@@ -61,6 +61,11 @@ public class GameController : Singleton<GameController>
                 Time.timeScale = 0;
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            ResourceSystem.Instance.RemoveNeighbourByDifficulty(LevelDifficulty.HARD);
+        }
     }
 
 

@@ -19,7 +19,7 @@ public class ScriptableLevelChunk : ScriptableObject
 
 public  enum LevelDifficulty
 {
-    DEMO,
+    //DEMO,
     EASY,
     MEDIUM,
     HARD,

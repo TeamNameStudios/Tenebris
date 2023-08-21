@@ -10,15 +10,16 @@ public class Chunk : MapMover
     private LevelID currentLevelID;
     [SerializeField] 
     public float chunkSize;
-
+    [SerializeField]
+    public float chunkOffset;
     public override void Update()
     {
         base.Update();
 
-        if (transform.position.x <= -(chunkSize+16))
+        if (transform.position.x <= -(chunkSize+ chunkOffset))
         {
             Vector3 pos = transform.position;
-            pos.x = (chunkSize * (EnvironmentController.Instance.numberOfChunk-1)) -16;
+            pos.x = (chunkSize * (EnvironmentController.Instance.numberOfChunk-1)) - chunkOffset;
             transform.position = pos;
             // here I should get the ID of the current level
       

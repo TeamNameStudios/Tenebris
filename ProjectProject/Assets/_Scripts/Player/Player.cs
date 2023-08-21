@@ -113,6 +113,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _grounderRadius = 0.2f;
     [SerializeField]
+    private float groundOffset = 0.2f;
+    [SerializeField]
     private float _wallCheckRadius = 0.05f;
     [SerializeField]
     private bool _isAgainstLeftWall, _isAgainstRightWall, _isAgainstRoof;
@@ -125,8 +127,11 @@ public class Player : MonoBehaviour
     private readonly Collider2D[] _upWall = new Collider2D[1];
     private void RunCollisionChecks()
     {
-        bool grounded = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
-
+        bool grounded1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(groundOffset, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
+        bool grounded2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
+        bool grounded3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-groundOffset, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
+        
+        bool grounded = grounded1 || grounded2 || grounded3;
         if (!IsGrounded && grounded)
         {
             IsGrounded = true;
@@ -139,8 +144,10 @@ public class Player : MonoBehaviour
             IsGrounded = false;
         }
 
-        _isAgainstRoof = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.max.y), _grounderRadius, _upWall, _groundMask) > 0;
-
+        bool _isAgainstRoof1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(groundOffset, _characterBounds.max.y), _grounderRadius, _upWall, _groundMask) > 0;
+        bool _isAgainstRoof2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.max.y), _grounderRadius, _upWall, _groundMask) > 0;
+        bool _isAgainstRoof3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-groundOffset, _characterBounds.max.y), _grounderRadius, _upWall, _groundMask) > 0;
+        _isAgainstRoof = _isAgainstRoof1 || _isAgainstRoof2 || _isAgainstRoof3;
 
         bool _isAgainstLeftWall1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.max.y / 2), _wallCheckRadius, _leftWall, _groundMask) > 0;
         bool _isAgainstLeftWall2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(_characterBounds.min.x, _characterBounds.center.y), _wallCheckRadius, _leftWall, _groundMask) > 0;
@@ -161,8 +168,14 @@ public class Player : MonoBehaviour
     private void DrawGrounderGizmos()
     {
         Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + new Vector3(groundOffset, _characterBounds.max.y), _grounderRadius);
         Gizmos.DrawWireSphere(transform.position + new Vector3(0, _characterBounds.max.y), _grounderRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(-groundOffset, _characterBounds.max.y), _grounderRadius);
+
+
+        Gizmos.DrawWireSphere(transform.position + new Vector3(groundOffset, _characterBounds.min.y), _grounderRadius);
         Gizmos.DrawWireSphere(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius);
+        Gizmos.DrawWireSphere(transform.position + new Vector3(-groundOffset, _characterBounds.min.y), _grounderRadius);
     }
 
     private void OnDrawGizmos()
@@ -556,7 +569,7 @@ public class Player : MonoBehaviour
             dashTime = !corrupted ? startingDashTime : startingDashTime*2;
             dashCooldown = startingDashCooldown;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
-            dashDir = new Vector2(direction.x, direction.y).normalized;
+            dashDir = new Vector2(direction.x, 0);
             if (dashDir == Vector2.zero) dashDir = isFacingRight ? Vector3.right : Vector3.left;
             rb.gravityScale = 0;
             rb.velocity = Vector2.zero;

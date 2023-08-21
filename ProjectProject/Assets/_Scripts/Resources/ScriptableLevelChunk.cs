@@ -14,6 +14,7 @@ public class ScriptableLevelChunk : ScriptableObject
     public float InGameProbability;
     public float Probability;
     public List<LevelID> PossibleNeighbour;
+    public List<LevelID> InGamePossibleNeighbour;
 }
 
 public  enum LevelDifficulty

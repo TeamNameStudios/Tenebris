@@ -52,7 +52,7 @@ public class LevelAssembler : Singleton<LevelAssembler>
         ScriptableLevelChunk a = ResourceSystem.Instance.GetLevelChunk(_nextLevelID);
         GameObject GO =  Instantiate(a.LevelPrefab, parentObject);
         GO.transform.SetParent(parentObject);
-        Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
+        //Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
         
         //if (newLevel)
         //{
@@ -61,7 +61,7 @@ public class LevelAssembler : Singleton<LevelAssembler>
             // We change the references with the chunk just spawned
             lastLevelChunk = a;
             possibleLevels.Clear();
-            possibleLevels = new List<LevelID>(lastLevelChunk.PossibleNeighbour);
+            possibleLevels = new List<LevelID>(lastLevelChunk.InGamePossibleNeighbour);
         //}
     }
 
@@ -89,7 +89,9 @@ public class LevelAssembler : Singleton<LevelAssembler>
         List<float> probabilities = GetProbabilityList(possibleLevels);
         int index = GetWeightedRandomIndex(probabilities);
         LevelID _levelID = possibleLevels[index];
+        
         CreateLevelChunk(_levelID, parentObject);
+
 
         return _levelID;
     }

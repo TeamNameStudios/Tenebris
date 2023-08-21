@@ -51,6 +51,7 @@ public abstract class Manifestation : MapMover, IEnemy
         if (collision.gameObject.CompareTag("Player"))
         {
             EventManager<float>.Instance.TriggerEvent("Corruption", CorruptionValue);
+            EventManager<bool>.Instance.TriggerEvent("onHit", true);
             Debug.Log("COLLIDED!");
         }
         else if (collision.gameObject.CompareTag("Shadow") && canDieToShadow)

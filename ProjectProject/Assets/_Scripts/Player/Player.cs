@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     public Vector2 direction = Vector2.zero;
 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         
     }
+    
     private void Update()
     {
         RunCollisionChecks();
@@ -38,6 +40,45 @@ public class Player : MonoBehaviour
         }
         PerformMovement();
         ManageCorruption();
+
+
+        if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
+        {
+            // play clip walking on grass
+            EventManager<bool>.Instance.TriggerEvent("onRunning", true);
+        }
+        else
+        {
+            EventManager<bool>.Instance.TriggerEvent("onRunning", false);
+        }
+        
+        EventManager<bool>.Instance.TriggerEvent("onFullyCorrupted", corrupted);
+
+        if (corrupted)
+        {
+            if (!corruptionPS.isPlaying)
+            {
+                corruptionPS.Play();
+            }
+        }
+        else
+        {
+            if (corruptionPS.isPlaying)
+            {
+                corruptionPS.Stop();
+            }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            if (!landingPS.isPlaying)
+            {
+                landingPS.Play();
+            }
+        }
     }
 
     private void OnEnable()
@@ -60,6 +101,8 @@ public class Player : MonoBehaviour
         EventManager<bool>.Instance.StopListening("isGrappling", Grappling);
         EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", PowerUpManager);
     }
+
+    
     #region Detection
 
     [Header("Detection")]
@@ -161,6 +204,7 @@ public class Player : MonoBehaviour
         {
             // Move out of the ground
             if (velocity.y < 0) velocity.y = 0;
+
         }
         else
         {
@@ -247,6 +291,7 @@ public class Player : MonoBehaviour
     public bool _coyoteUsable;
     private float _apexPoint; // Becomes 1 at the apex of a jump
 
+
     [SerializeField]
     private bool CanUseCoyote => _coyoteUsable && !IsGrounded && _timeLeftGrounded + _coyoteTimeThreshold > Time.time;
     [SerializeField]
@@ -279,6 +324,13 @@ public class Player : MonoBehaviour
             velocity.y = _jumpHeight;
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
+            
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayJumpClip", JumpingClip);
+
+            if (landingPS.isPlaying)
+            {
+                landingPS.Stop();
+            }
 
 
 
@@ -307,7 +359,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region Corrution
+    #region Corruption
     [Header("CORRUPTION_SYSTEM")]
     [SerializeField]
     private float Corruption;
@@ -327,6 +379,7 @@ public class Player : MonoBehaviour
     private float recoverCorruptionSpeed;
     [SerializeField]
     private float invincibilitySeconds;
+
 
     [Tooltip("Used to add a value to the recovered corruption, to not make it start from 0,\nKeep the value REALLY small, example: 0.02f")]
     [SerializeField]
@@ -349,10 +402,11 @@ public class Player : MonoBehaviour
                 float easeTime = EaseInCubic(normalizedTime);
                 DecreaseCorruption(recoverCorruptionSpeed * easeTime);
                 elapsedTime += Time.deltaTime;
-                Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
             }
         }
     }
+
     private void AddCorruption(float value)
     {
         if (recoveryCO != null)
@@ -378,8 +432,8 @@ public class Player : MonoBehaviour
             }
 
             EventManager<float>.Instance.TriggerEvent("UpdateCorruptionBar", Corruption);
-
-            if (Corruption >= maxCorruption)
+            
+            if (Corruption >= maxCorruption && !corrupted)
             {
 
                 if (recoveryCO != null)
@@ -431,7 +485,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(fullyCorruptionTime);
         corrupted = false;
 
-        yield return new WaitForSeconds(.2f);
+        //yield return new WaitForSeconds(.2f);
         canRecover = true;
         isRecovering = true;
         elapsedTime = 0;
@@ -460,13 +514,17 @@ public class Player : MonoBehaviour
                 canRecover = false;
             }
         }
+
+
     }
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility)
         {
             EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+            Debug.Log("DEAD");
         }
     }
     #endregion
@@ -476,8 +534,6 @@ public class Player : MonoBehaviour
     [Header("DASH")]
     [SerializeField]
     private float dashSpeed = 15;
-    [SerializeField]
-    private ParticleSystem DashEffect;
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
     [SerializeField] private float startingDashTime;
@@ -493,6 +549,8 @@ public class Player : MonoBehaviour
     {
         if (canDash)
         {
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", DashingClip);
+
             canDash = false;
             isDashing = _isDashing;
             dashTime = !corrupted ? startingDashTime : startingDashTime*2;
@@ -517,6 +575,7 @@ public class Player : MonoBehaviour
             {
                 isDashing = false;
                 EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
+                EventManager<float>.Instance.TriggerEvent("Corruption", 0);
                 rb.gravityScale = 1;
                 dashTime = 0;
                 DashEffect.Stop();
@@ -529,6 +588,7 @@ public class Player : MonoBehaviour
             {
                 isDashing = false;
                 EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
+                EventManager<float>.Instance.TriggerEvent("Corruption", 0);
                 DashEffect.Stop();
                 rb.gravityScale = 1;
             }
@@ -651,6 +711,7 @@ public class Player : MonoBehaviour
     {
         if (canGrapple && HookableObject != null && !isGrappling)
         {
+
             Vector2 pos = transform.position;
             Vector2 hookObjectpos = HookableObject.transform.position;
             swingingDirection = isFacingRight ? Vector2.right : Vector2.left;
@@ -667,9 +728,11 @@ public class Player : MonoBehaviour
             //}
 
             isGrappling = _isGrappling;
+            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", GrapplingClip);
             if (!corruptionOverTime && !isLaunchedState)
             {
                 EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOnce);
+
             }
             rb.gravityScale = 0;
             canGrapple = false;
@@ -691,6 +754,7 @@ public class Player : MonoBehaviour
             Vector2 hookObjectpos = HookableObject.transform.position;
             if (isGrappling)
             {
+                
                 velocity = grappleDirection * grappleSpeed;
                 if (corruptionOverTime && !isLaunchedState)
                 {
@@ -730,6 +794,7 @@ public class Player : MonoBehaviour
 
     }
     #endregion
+
 
     #region PowerUpManager 
 
@@ -779,5 +844,25 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    #region Audio
+    [Header("AUDIO CLIPS")]
+    [SerializeField] private AudioClip DashingClip;
+    [SerializeField] private AudioClip JumpingClip;
+    [SerializeField] private AudioClip GrapplingClip;
+    #endregion
+
+    #region ParticleSystem
+    [Header("PARTICLE EFFECTS")]
+    [SerializeField]
+    private ParticleSystem DashEffect;
+    [SerializeField]
+    private ParticleSystem corruptionPS;
+    [SerializeField]
+    private ParticleSystem landingPS;
+    [SerializeField]
+    private ParticleSystem DashCooldownPS;
+    #endregion
+
 }
 

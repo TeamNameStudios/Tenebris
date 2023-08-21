@@ -84,6 +84,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
         }
     }
 
+    // TO DO: REFACTOR W/ FIND
     public void RemoveNeighbourByDifficulty(LevelDifficulty difficulty)
     {
         foreach (ScriptableLevelChunk level in LevelChunks)

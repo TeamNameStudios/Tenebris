@@ -805,6 +805,8 @@ public class Player : MonoBehaviour
     private ParticleSystem corruptionPS;
     [SerializeField]
     private ParticleSystem landingPS;
+    [SerializeField]
+    private ParticleSystem DashCooldownPS;
     #endregion
 
 }

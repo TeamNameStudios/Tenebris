@@ -16,7 +16,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     #endregion
 
     #region Level
-    public List<ScriptableLevelChunk> LevelChunks { get; private set; }
+    [SerializeField] public List<ScriptableLevelChunk> LevelChunks { get; private set; }
     [SerializeField]
     public Dictionary<LevelID, ScriptableLevelChunk> LevelChunksDict = new Dictionary<LevelID, ScriptableLevelChunk>();
 
@@ -146,5 +146,5 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
             
         }
         return powerUpEnums;
-    }   
+    }
 }

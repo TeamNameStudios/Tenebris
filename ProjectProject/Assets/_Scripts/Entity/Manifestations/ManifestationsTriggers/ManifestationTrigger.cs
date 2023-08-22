@@ -6,7 +6,7 @@ public abstract class ManifestationTrigger : MonoBehaviour
 {
     [SerializeField] protected GameObject GO;
 
-    private void Start()
+    protected virtual void Start()
     {
         //Instantiate(GO, transform.position, Quaternion.identity);
         ManifestationsFactory.Instance.CreateObject(GO.name, transform.position, Quaternion.identity);

@@ -20,6 +20,8 @@ public class Lurker : Manifestation
     private float landingPoint;
     private Vector2 startPos;
 
+    private Animator animator;
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -33,6 +35,7 @@ public class Lurker : Manifestation
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        animator = GetComponent<Animator>();
     }
 
     public override void Update()
@@ -44,6 +47,10 @@ public class Lurker : Manifestation
             case LurkerState.IDLE:
                 FindPlayer();
                 startPos = transform.position;
+                if (destructionCO != null)
+                {
+                    StopCoroutine(destructionCO);
+                }
                 break;
 
             case LurkerState.CHASING:
@@ -68,6 +75,7 @@ public class Lurker : Manifestation
                 {
                     fallVelocity = 0;
                     position.y = landingPoint + capsuleCollider.size.y / 2;
+                    destructionCO = StartCoroutine(AutoDestruction());
                 }
 
                 transform.position = position;

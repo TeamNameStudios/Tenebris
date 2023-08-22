@@ -12,6 +12,8 @@ public abstract class Manifestation : MapMover, IEnemy
 
     [SerializeField] protected bool canDieToShadow;
 
+    protected Coroutine destructionCO;
+
     protected override void OnEnable()
     {
         base.OnEnable();

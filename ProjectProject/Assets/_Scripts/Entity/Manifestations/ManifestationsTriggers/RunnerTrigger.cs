@@ -38,6 +38,7 @@ public class RunnerTrigger : ManifestationTrigger
         if (GO != null)
         {
             Gizmos.DrawWireCube(transform.position, boxSize);
+            Gizmos.DrawLine(transform.position, new Vector3(spawnPosX, transform.position.y, 0));
         }   
     }
 }

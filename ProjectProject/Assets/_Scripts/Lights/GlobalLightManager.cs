@@ -30,5 +30,4 @@ public class GlobalLightManager : MonoBehaviour
             GlobalLight.SetActive(true);
         }
     }
-
 }

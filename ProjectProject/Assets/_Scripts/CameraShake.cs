@@ -7,14 +7,20 @@ public class CameraShake : Singleton<CameraShake>
     [SerializeField] private float duration;
     [SerializeField] private float magnitude;
 
+    private Coroutine shakeCO;
+
     private void OnEnable()
     {
         EventManager<bool>.Instance.StartListening("onHit", Shake);
+        EventManager<bool>.Instance.StartListening("onGameOver", StopShake);
+        EventManager<bool>.Instance.StartListening("pause", StopShake);
     }
 
     private void OnDisable()
     {
         EventManager<bool>.Instance.StopListening("onHit", Shake);
+        EventManager<bool>.Instance.StopListening("onGameOver", StopShake);
+        EventManager<bool>.Instance.StopListening("pause", StopShake);
     }
 
     private IEnumerator ShakeCO()
@@ -38,6 +44,11 @@ public class CameraShake : Singleton<CameraShake>
 
     private void Shake(bool value)
     {
-        StartCoroutine(ShakeCO());
+        shakeCO = StartCoroutine(ShakeCO());
     }
+
+    private void StopShake(bool value)
+    {
+        StopCoroutine(shakeCO);
+    }    
 }

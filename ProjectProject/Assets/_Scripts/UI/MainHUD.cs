@@ -88,6 +88,7 @@ public class MainHUD : MonoBehaviour
 
     public void ReloadScene()
     {
+        EventManager<bool>.Instance.TriggerEvent("onSceneReload", true);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -113,6 +114,7 @@ public class MainHUD : MonoBehaviour
 
     public void ReloadMainMenu()
     {
+        EventManager<bool>.Instance.TriggerEvent("onSceneReload", true);
         SceneManager.LoadScene("MainMenu");
     }
 

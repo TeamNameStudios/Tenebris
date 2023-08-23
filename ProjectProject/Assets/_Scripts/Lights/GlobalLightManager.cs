@@ -1,11 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GlobalLightManager : MonoBehaviour
 {
-    [SerializeField] GameObject GlobalLight;
+    [SerializeField] GameObject GlobalLightBackground;
+    [SerializeField] GameObject GlobalLightLevel;
     [SerializeField] GameObject GlobalLightCorrupted;
+    [SerializeField] GameObject MoonGlobalLight;
+
+    [SerializeField] GameObject Moon;
+    [SerializeField] GameObject CorruptedMoon;
+
+    private void Awake()
+    {
+        Moon.SetActive(true);
+        CorruptedMoon.SetActive(false);
+    }
 
     private void OnEnable()
     {
@@ -21,13 +34,21 @@ public class GlobalLightManager : MonoBehaviour
     {
         if (value)
         {
-            GlobalLight.SetActive(false);
+            Moon.SetActive(false);
+            MoonGlobalLight.SetActive(false);
+            GlobalLightBackground.SetActive(false);
+            GlobalLightLevel.SetActive(false);
             GlobalLightCorrupted.SetActive(true);
+            CorruptedMoon.SetActive(true);
         }
         else
         {
+            CorruptedMoon.SetActive(false);
             GlobalLightCorrupted.SetActive(false);
-            GlobalLight.SetActive(true);
+            GlobalLightLevel.SetActive(true);
+            GlobalLightBackground.SetActive(true);
+            Moon.SetActive(true);
+            MoonGlobalLight.SetActive(true);
         }
     }
 }

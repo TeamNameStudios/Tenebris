@@ -262,7 +262,7 @@ public class Helper
         }
     }
 
-    IEnumerator WaitCoroutine(float _time)
+    public IEnumerator WaitCoroutine(float _time)
     {
         yield return new WaitForSeconds(_time);
     }

@@ -49,6 +49,10 @@ public class CameraShake : Singleton<CameraShake>
 
     private void StopShake(bool value)
     {
-        StopCoroutine(shakeCO);
+        if (shakeCO != null)
+        {
+            StopCoroutine(shakeCO);
+            transform.position = new Vector3(0, 0, -10);
+        }
     }    
 }

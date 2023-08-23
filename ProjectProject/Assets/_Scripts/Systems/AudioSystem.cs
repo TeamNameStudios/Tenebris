@@ -53,7 +53,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
     {
         for (int i = 0; i < _soundsSources.Length; i++)
         {
-            if (!_soundsSources[i].isPlaying)
+            if (!_soundsSources[i].isPlaying && GameController.Instance.state == GameState.PLAYING)
             {
                 _soundsSources[i].volume = .5f;
                 _soundsSources[i].PlayOneShot(clip);
@@ -64,7 +64,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     public void PlayRunningEffect(bool canPlay)
     {       
-        if (canPlay)
+        if (canPlay && GameController.Instance.state == GameState.PLAYING)
         {
             if (!_runningSource.isPlaying)
             {
@@ -80,7 +80,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     public void PlayJumpClip(AudioClip clip)
     {
-        if (!_jumpSource.isPlaying)
+        if (!_jumpSource.isPlaying && GameController.Instance.state == GameState.PLAYING)
         {
             _jumpSource.PlayOneShot(clip);
         }
@@ -88,7 +88,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     public void PlayCorruptionffect(bool canPlay)
     {
-        if (canPlay)
+        if (canPlay && GameController.Instance.state == GameState.PLAYING)
         {
             if (!_corruptedSource.isPlaying)
             {

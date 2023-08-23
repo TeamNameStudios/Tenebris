@@ -15,6 +15,19 @@ public class ScriptableLevelChunk : ScriptableObject
     public float Probability;
     public List<LevelID> PossibleNeighbour;
     public List<LevelID> InGamePossibleNeighbour;
+
+    public void AutoPopulate()
+    {
+        foreach (ScriptableLevelChunk level in ResourceSystem.Instance.LevelChunks)
+        {
+            PossibleNeighbour.Add(level.ID);
+        }
+    }
+
+    public void ClearList()
+    {
+        PossibleNeighbour.Clear();
+    }
 }
 
 public  enum LevelDifficulty

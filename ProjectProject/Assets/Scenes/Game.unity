@@ -3239,6 +3239,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   corruptionSlider: {fileID: 1020192354}
   maxCorruptionBar: 0
+--- !u!1 &1043984689 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6816980569271280806, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
+  m_PrefabInstance: {fileID: 7915074819403847074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1043984691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043984689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488aac1f78db2db43b1e6e9ac5b3661d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1109467745
 GameObject:
   m_ObjectHideFlags: 0
@@ -5807,6 +5824,10 @@ PrefabInstance:
     - target: {fileID: 3367258516827847847, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
       propertyPath: m_Name
       value: GlobalLightManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6816980569271280806, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}

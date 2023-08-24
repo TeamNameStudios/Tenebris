@@ -84,12 +84,6 @@ public class Runner : Manifestation
     //    }
     //}
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, new Vector3(boxSize.x, boxSize.y, 0));
-    }
-
     private IEnumerator PursueCO()
     {
         playerPos.Add(player.transform.position.y);

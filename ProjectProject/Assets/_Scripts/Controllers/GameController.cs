@@ -60,11 +60,6 @@ public class GameController : Singleton<GameController>
                 Time.timeScale = 0;
                 break;
         }
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            ResourceSystem.Instance.RemoveNeighbourByDifficulty(LevelDifficulty.HARD);
-        }
     }
 
 
@@ -78,8 +73,8 @@ public class GameController : Singleton<GameController>
     {
         Player _player = Instantiate(player, new Vector2(0, 16), Quaternion.identity).GetComponent<Player>();
         //Shadow _shadow = Instantiate(shadow, new Vector2(-40, 0), Quaternion.identity).GetComponent<Shadow>();
-        //_shadow.Setup(_player);
-        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+        //shadow.Setup(player);
+        //EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }
 

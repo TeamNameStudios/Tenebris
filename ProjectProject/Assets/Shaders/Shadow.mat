@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fog_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: eff4dda0bb248894a90a013829978afa, type: 3}
+  m_Name: Shadow
+  m_Shader: {fileID: -6465566751694194690, guid: 560061a39e02fad4890f4a7a160056b9, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -38,26 +38,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FogSize: 15
-    - _FogSize2: 5
-    - _QueueControl: 0
-    - _QueueOffset: 0
+    - _Size: 1
     m_Colors:
-    - _Color: {r: 2.670157, g: 2.670157, b: 2.670157, a: 1}
-    - _Color2: {r: 0.24705882, g: 0.45882353, b: 0.48235294, a: 1}
-    - _FogSpeed: {r: 0.5, g: 0, b: 0, a: 0}
-    - _FogSpeed2: {r: 0.5, g: 0, b: 0, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Speed: {r: 20, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &512239494353832982
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5

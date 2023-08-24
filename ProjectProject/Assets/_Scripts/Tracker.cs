@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tracker : MonoBehaviour
+public class Tracker : Singleton<Tracker>
 {
     [SerializeField] public float distance;
     private float maxX = -Mathf.Infinity;
@@ -11,6 +11,14 @@ public class Tracker : MonoBehaviour
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", Move);
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        distance = 0;
+        transform.position = new Vector3(0, 0, 0);
     }
 
     private void Update()
@@ -30,7 +38,7 @@ public class Tracker : MonoBehaviour
     {
         velocity = _velocity;
         Vector2 pos = transform.position;
-        pos.x -= velocity;
+        pos.x -= _velocity;
         transform.position = pos;
     }
 

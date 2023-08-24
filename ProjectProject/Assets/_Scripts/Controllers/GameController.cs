@@ -15,6 +15,7 @@ public class GameController : Singleton<GameController>
     [SerializeField]
     private Shadow shadow;
 
+    [SerializeField] GameObject tracker;
 
     private void Start()
     {
@@ -74,6 +75,7 @@ public class GameController : Singleton<GameController>
         Player _player = Instantiate(player, new Vector2(0, 16), Quaternion.identity).GetComponent<Player>();
         Shadow _shadow = Instantiate(shadow, new Vector2(-40, 13), Quaternion.identity).GetComponent<Shadow>();
         shadow.Setup(player);
+        //Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
         //EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }

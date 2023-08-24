@@ -6,6 +6,12 @@ public class Tracker : MonoBehaviour
 {
     [SerializeField] public float distance;
     private float maxX = -Mathf.Infinity;
+    private float velocity;
+
+    private void OnEnable()
+    {
+        EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", Move);
+    }
 
     private void Update()
     {
@@ -18,12 +24,14 @@ public class Tracker : MonoBehaviour
         }
     
         EventManager<float>.Instance.TriggerEvent("UpdateDistanceCount", maxX);
+    }
 
-        if (distance >= 1030)
-        {
-            EventManager<bool>.Instance.TriggerEvent("onLevelEnded", true);
-            Time.timeScale = 0;
-        }
+    private void Move(float _velocity)
+    {
+        velocity = _velocity;
+        Vector2 pos = transform.position;
+        pos.x -= velocity;
+        transform.position = pos;
     }
 
     // DISTANCE UPDATED REAL TIME

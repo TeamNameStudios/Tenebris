@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
         bool grounded1 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(groundOffset, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
         bool grounded2 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(0, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
         bool grounded3 = Physics2D.OverlapCircleNonAlloc(transform.position + new Vector3(-groundOffset, _characterBounds.min.y), _grounderRadius, _ground, _groundMask) > 0;
-        
+
         bool grounded = grounded1 || grounded2 || grounded3;
         if (!IsGrounded && grounded)
         {

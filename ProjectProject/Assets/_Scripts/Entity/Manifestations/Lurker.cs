@@ -97,10 +97,13 @@ public class Lurker : Manifestation
         //}
 
         RaycastHit2D hit = Physics2D.CapsuleCast(transform.position - new Vector3 (0, 2, 0), capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
-        if (hit.transform.GetComponent<Player>())
+        if (hit.transform != null)
         {
-            player = hit.transform;
-            state = LurkerState.CHASING;
+            if (hit.transform.GetComponent<Player>())
+            {
+                player = hit.transform;
+                state = LurkerState.CHASING;
+            }
         }
     }
 

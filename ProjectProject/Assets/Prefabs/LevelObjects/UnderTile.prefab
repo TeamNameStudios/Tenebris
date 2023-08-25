@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4639313237924625955}
   - component: {fileID: 2518491373832711750}
   - component: {fileID: 4498310953346075086}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UnderTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 1633803711
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.13581344, g: 0.13759866, b: 0.26415092, a: 1}
+  m_Sprite: {fileID: -379582201, guid: e539f4a71f6f3f94b9c9cd9360807842, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: ef7428f4bfdd6161
-  m_LightCookieSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_LightCookieSprite: {fileID: -379582201, guid: e539f4a71f6f3f94b9c9cd9360807842, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
@@ -148,16 +148,16 @@ MonoBehaviour:
   m_Vertices:
   - position: {x: -0.5, y: 0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 1}
+    uv: {x: 0.29166666, y: 0.90625}
   - position: {x: 0.5, y: -0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 1, y: 0}
+    uv: {x: 0.375, y: 0.78125}
   - position: {x: 0.5, y: 0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 1, y: 1}
+    uv: {x: 0.375, y: 0.90625}
   - position: {x: -0.5, y: -0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0, y: 0}
+    uv: {x: 0.29166666, y: 0.78125}
   - position: {x: 0, y: 0, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}

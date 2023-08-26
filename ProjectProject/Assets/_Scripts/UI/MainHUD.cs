@@ -14,10 +14,12 @@ public class MainHUD : MonoBehaviour
     public List<GameObject> pausePanels;
     public GameObject endLevelPanel;
     public GameObject gameoverPanel;
+    public GameObject timerCount;
 
     private bool pauseState = false;
     private TextMeshProUGUI _pageCount;
     private TextMeshProUGUI _distanceCount;
+    private TextMeshProUGUI _timerCount;
 
     public void SetPauseState(bool state)
     {
@@ -61,6 +63,7 @@ public class MainHUD : MonoBehaviour
     {
         _pageCount = pageCount.GetComponent<TextMeshProUGUI>();
         _distanceCount = distanceCount.GetComponent<TextMeshProUGUI>();
+        _timerCount = timerCount.GetComponent<TextMeshProUGUI>();
         pausePanels[0].SetActive(true);
         pausePanels[1].SetActive(false);
         pauseMenu.SetActive(false);
@@ -75,6 +78,7 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StartListening("onGameOver", TempGameOver);
+        EventManager<float>.Instance.StartListening("onTimer", UpdateTimer);
     }
 
     private void OnDisable()
@@ -84,6 +88,7 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
+        EventManager<float>.Instance.StopListening("onTimer", UpdateTimer);
     }
 
     public void ReloadScene()
@@ -118,5 +123,8 @@ public class MainHUD : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-
+    private void UpdateTimer(float time)
+    {
+        _timerCount.text = time.ToString();
+    }
 }

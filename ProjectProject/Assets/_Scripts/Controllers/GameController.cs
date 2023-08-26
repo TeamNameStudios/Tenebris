@@ -17,6 +17,10 @@ public class GameController : Singleton<GameController>
 
     [SerializeField] GameObject tracker;
 
+    private float runTime;
+    private float timeScale;
+    private int pageNumber;
+
     private void Start()
     {
         ChangeState(GameState.STARTING);
@@ -24,6 +28,7 @@ public class GameController : Singleton<GameController>
 
     private void OnEnable()
     {
+        EventManager<int>.Instance.StartListening("onCollectiblePickup", AddPage);
         EventManager<GameState>.Instance.StartListening("onStateChanged", ChangeState);
         EventManager<GameState>.Instance.StartListening("onPlayerDead", ChangeState);
         EventManager<bool>.Instance.StartListening("onMapGenerated", SetGameScene);
@@ -31,6 +36,7 @@ public class GameController : Singleton<GameController>
     }
     private void OnDisable()
     {
+        EventManager<int>.Instance.StopListening("onCollectiblePickup", AddPage);
         EventManager<GameState>.Instance.StopListening("onStateChanged", ChangeState);
         EventManager<bool>.Instance.StopListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StopListening("pause", Pause);
@@ -46,13 +52,25 @@ public class GameController : Singleton<GameController>
             case GameState.IDLE:
                 break;
             case GameState.STARTING:
+                runTime = 0;
+                timeScale = 1;
+                pageNumber = 0;
                 EventManager<bool>.Instance.TriggerEvent("onGameStartingState",true);
                 break;
             case GameState.PAUSING:
                 Time.timeScale = 0;
                 break;
             case GameState.PLAYING:
-                Time.timeScale = 1;
+                if (Input.GetKeyDown(KeyCode.Insert))
+                {
+                    timeScale = 2;
+                    Debug.Log("FASTER");
+                }
+
+                
+                
+                EventManager<float>.Instance.TriggerEvent("onTimer", runTime);
+                Time.timeScale = timeScale;
                 break;
             case GameState.END_LEVEL:
                 break;
@@ -72,10 +90,10 @@ public class GameController : Singleton<GameController>
 
     private void SetGameScene(bool isGameSceneStarted)
     {
-        Player _player = Instantiate(player, new Vector2(0, 16), Quaternion.identity).GetComponent<Player>();
+        Player _player = Instantiate(player, new Vector2(0, 30), Quaternion.identity).GetComponent<Player>();
         Shadow _shadow = Instantiate(shadow, new Vector2(-40, 13), Quaternion.identity).GetComponent<Shadow>();
         shadow.Setup(player);
-        //Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
         //EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }
@@ -92,6 +110,13 @@ public class GameController : Singleton<GameController>
         {
             ChangeState(GameState.PLAYING);
         }
+    }
+
+    private void AddPage(int number)
+    {
+        pageNumber += number;
+        EventManager<int>.Instance.TriggerEvent("SavePage", pageNumber);
+        EventManager<int>.Instance.TriggerEvent("UpdatePageCount", pageNumber);
     }
 
 }

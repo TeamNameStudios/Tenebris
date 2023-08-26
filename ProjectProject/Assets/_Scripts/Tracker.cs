@@ -23,6 +23,10 @@ public class Tracker : Singleton<Tracker>
 
     private void Update()
     {
+        Vector2 pos = transform.position;
+        pos.x -= velocity;
+        transform.position = pos;
+
         float tempPos = transform.position.x;
         distance = Mathf.RoundToInt(0 - tempPos);
     
@@ -37,9 +41,7 @@ public class Tracker : Singleton<Tracker>
     private void Move(float _velocity)
     {
         velocity = _velocity;
-        Vector2 pos = transform.position;
-        pos.x -= _velocity;
-        transform.position = pos;
+
     }
 
     // DISTANCE UPDATED REAL TIME

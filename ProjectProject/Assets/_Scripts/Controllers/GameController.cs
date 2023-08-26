@@ -18,11 +18,18 @@ public class GameController : Singleton<GameController>
     [SerializeField] GameObject tracker;
 
     private float runTime;
-    private float timeScale;
+    [SerializeField] private float timeScale;
     [SerializeField]
     private int pageNumber;
     [SerializeField]
     private int totalPage;
+
+    [SerializeField] private bool trueForSeconds;
+    [SerializeField] private float seconds;
+    [SerializeField] private float minutes;
+    [SerializeField] private float timeScaleIncrement;
+
+
     private void Start()
     {
         ChangeState(GameState.STARTING);
@@ -63,16 +70,17 @@ public class GameController : Singleton<GameController>
             case GameState.PAUSING:
                 Time.timeScale = 0;
                 break;
+            
             case GameState.PLAYING:
-                if (Input.GetKeyDown(KeyCode.Insert))
-                {
-                    timeScale = 2;
-                    Debug.Log("FASTER");
-                }
+                
                 runTime += Time.unscaledDeltaTime;
-                EventManager<float>.Instance.TriggerEvent("onTimer", runTime);
+                TimeSpan time = TimeSpan.FromSeconds(runTime);
+                EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
+                //ManageRun(time);
                 Time.timeScale = timeScale;
+
                 break;
+
             case GameState.END_LEVEL:
                 break;
             case GameState.LOSING:
@@ -93,8 +101,8 @@ public class GameController : Singleton<GameController>
     private void SetGameScene(bool isGameSceneStarted)
     {
         Player _player = Instantiate(player, new Vector2(0, 30), Quaternion.identity).GetComponent<Player>();
-        Shadow _shadow = Instantiate(shadow, new Vector2(-40, 13), Quaternion.identity).GetComponent<Shadow>();
-        shadow.Setup(player);
+        //Shadow _shadow = Instantiate(shadow, new Vector2(-40, 13), Quaternion.identity).GetComponent<Shadow>();
+        //shadow.Setup(player);
         Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
@@ -126,6 +134,51 @@ public class GameController : Singleton<GameController>
         totalPage = _totalPage;
     }
 
+    #region RUN MANAGER
+
+    private bool hasIncremented = false;
+    
+    private void ManageRun(TimeSpan timeSpan)
+    {
+        if (trueForSeconds)
+        {
+            ManageRunBySeconds(timeSpan);
+        }
+        else
+        {
+            ManageRunByMinutes(timeSpan);
+        }
+    }
+
+
+    private void ManageRunBySeconds(TimeSpan timeSpan)
+    {
+        if (timeSpan.Minutes % minutes == 0 && !hasIncremented)
+        {
+            EventManager<bool>.Instance.TriggerEvent("onIncrementSpeed", true);
+            hasIncremented = true;
+            Debug.Log("Incremented time scale with seconds of " + timeScaleIncrement);
+        }
+        else if (timeSpan.Seconds % seconds != 0 && hasIncremented)
+        {
+            hasIncremented = false;
+        }
+    }
+
+    private void ManageRunByMinutes(TimeSpan timeSpan)
+    {
+        if (timeSpan.Minutes % minutes == 0 && !hasIncremented)
+        {
+            EventManager<bool>.Instance.TriggerEvent("onIncrementSpeed", true);
+            hasIncremented = true;
+            Debug.Log("Incremented time scale with minutes of " + timeScaleIncrement);
+        }
+        else if (timeSpan.Minutes % seconds != 0 && hasIncremented)
+        {
+            hasIncremented = false;
+        }
+    }
+    #endregion
 }
 public enum GameState
 {

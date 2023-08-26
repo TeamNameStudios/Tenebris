@@ -419,7 +419,7 @@ public class Player : MonoBehaviour
                 float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
                 float easeTime = EaseInCubic(normalizedTime);
                 DecreaseCorruption(recoverCorruptionSpeed * easeTime);
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.unscaledDeltaTime;
                 //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
             }
         }

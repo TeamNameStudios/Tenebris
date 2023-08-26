@@ -52,7 +52,10 @@ public class Shadow : MapMover, IEnemy
 
     }
 
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + minDistance, transform.position.y, transform.position.z));
+    }
 
 
 }

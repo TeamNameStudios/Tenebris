@@ -72,7 +72,7 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StartListening("onGameOver", TempGameOver);
-        EventManager<float>.Instance.StartListening("onTimer", UpdateTimer);
+        EventManager<TimeSpan>.Instance.StartListening("onTimer", UpdateTimer);
     }
 
     private void OnDisable()
@@ -82,13 +82,13 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
-        EventManager<float>.Instance.StopListening("onTimer", UpdateTimer);
+        EventManager<TimeSpan>.Instance.StopListening("onTimer", UpdateTimer);
     }
-    public void UpdateTimer(float timer)
+    public void UpdateTimer(TimeSpan timer)
     {
-        TimeSpan time = TimeSpan.FromSeconds(timer);
 
-        _timerCount.text = time.ToString(@"mm\:ss");
+
+        _timerCount.text = timer.ToString(@"mm\:ss");
     }
     public void ReloadScene()
     {

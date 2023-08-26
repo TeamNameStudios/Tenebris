@@ -6,7 +6,8 @@ public class Tracker : Singleton<Tracker>
 {
     [SerializeField] public float distance;
     private float maxX = -Mathf.Infinity;
-    private float velocity;
+    private float actualDistance;
+    private float playerDistance;
 
     private void OnEnable()
     {
@@ -16,19 +17,15 @@ public class Tracker : Singleton<Tracker>
     protected override void Awake()
     {
         base.Awake();
-        
+        playerDistance = 0;
         distance = 0;
         transform.position = new Vector3(0, 0, 0);
     }
 
     private void Update()
     {
-        Vector2 pos = transform.position;
-        pos.x -= velocity;
-        transform.position = pos;
-
-        float tempPos = transform.position.x;
-        distance = Mathf.RoundToInt(0 - tempPos);
+        playerDistance += actualDistance;
+        distance = Mathf.RoundToInt(playerDistance);
     
         if (distance > maxX)
         {
@@ -40,7 +37,7 @@ public class Tracker : Singleton<Tracker>
 
     private void Move(float _velocity)
     {
-        velocity = _velocity;
+        actualDistance = _velocity * Time.deltaTime;
 
     }
 

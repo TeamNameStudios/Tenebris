@@ -6,13 +6,13 @@ public class Spikes : MonoBehaviour, IEnemy
 {
     [SerializeField] private float spikeCorruption;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         EventManager<bool>.Instance.TriggerEvent("onHit", true);
         EventManager<float>.Instance.TriggerEvent("Corruption", spikeCorruption);
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         EventManager<float>.Instance.TriggerEvent("Corruption", spikeCorruption);
     }

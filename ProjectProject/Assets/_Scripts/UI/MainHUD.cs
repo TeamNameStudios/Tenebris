@@ -18,7 +18,7 @@ public class MainHUD : MonoBehaviour
     private bool pauseState = false;
     private TextMeshProUGUI _pageCount;
     private TextMeshProUGUI _distanceCount;
-
+    private TextMeshProUGUI _timerCount;
     public void SetPauseState(bool state)
     {
         pauseState = !pauseState;
@@ -57,6 +57,7 @@ public class MainHUD : MonoBehaviour
         _distanceCount.text = newDistanceCount.ToString();
     }
 
+
     private void Start()
     {
         _pageCount = pageCount.GetComponent<TextMeshProUGUI>();
@@ -85,7 +86,12 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
     }
+    public void UpdateTimer(float timer)
+    {
+        TimeSpan time = TimeSpan.FromSeconds(timer);
 
+        _timerCount.text = time.ToString(@"mm\:ss");
+    }
     public void ReloadScene()
     {
         EventManager<bool>.Instance.TriggerEvent("onSceneReload", true);

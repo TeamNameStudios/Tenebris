@@ -68,6 +68,11 @@ public class Player : MonoBehaviour
                 corruptionPS.Stop();
             }
         }
+        if(transform.position.y < -20)
+        {
+            EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+        }
+       
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

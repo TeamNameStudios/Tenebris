@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5683540404322176636}
   - component: {fileID: -3423971761975836807}
   - component: {fileID: 4869814179214859835}
-  - component: {fileID: 1699453740507272142}
+  - component: {fileID: 8125906014889700483}
   m_Layer: 0
   m_Name: 1 Page Necronomicon
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1203352643919912216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5203, y: 2.5203, z: 2.5203}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7965594629524036599}
@@ -75,10 +75,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1707054387
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 0.98926556, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a83ac87754790d643af74e0e56fd97e0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -125,8 +125,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &1699453740507272142
-PolygonCollider2D:
+--- !u!58 &8125906014889700483
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -139,20 +139,8 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.28866667}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0, y: 0.5773587}
-      - {x: -0.5, y: -0.28866667}
-      - {x: 0.5, y: -0.28866667}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!1 &1804706183759146074
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +167,7 @@ Transform:
   m_GameObject: {fileID: 1804706183759146074}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 773481911375096372}
@@ -201,12 +189,12 @@ MonoBehaviour:
   m_LightType: 2
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.977568, g: 0.9811321, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.5
   m_LightVolumeIntensity: 0.05
   m_LightVolumeIntensityEnabled: 1
   m_ApplyToSortingLayers: 00000000bfdd61613395bf65ef7428f4
-  m_LightCookieSprite: {fileID: 7482667652216324306, guid: 674eded4e0f55254db86abb95a4d79ca, type: 3}
+  m_LightCookieSprite: {fileID: 21300000, guid: a83ac87754790d643af74e0e56fd97e0, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
@@ -219,19 +207,64 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_Vertices:
-  - position: {x: 0.5, y: -0.28866667, z: 0}
+  - position: {x: 0.16, y: 0.16, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 1, y: 0}
-  - position: {x: 0, y: 0.57852083, z: 0}
+    uv: {x: 1, y: 1}
+  - position: {x: 0.15, y: -0.09, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.5, y: 0.8671875}
-  - position: {x: -0.5, y: -0.28866667, z: 0}
+    uv: {x: 0.96875, y: 0.21875}
+  - position: {x: 0.16, y: 0, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 1, y: 0.5}
+  - position: {x: 0.05, y: -0.15, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0.65625, y: 0.03124997}
+  - position: {x: -0.06, y: 0.16, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0.3125, y: 1}
+  - position: {x: -0.08, y: -0.15, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0.25, y: 0.03124997}
+  - position: {x: -0.13, y: 0.13, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0.09375, y: 0.90625}
+  - position: {x: -0.13, y: -0.14, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0.09375, y: 0.0625}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  m_Triangles: 020001000000
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  m_Triangles: 070006000500040005000600030005000400000003000400010003000000020001000000
   m_LocalBounds:
-    m_Center: {x: 0, y: 0.14492708, z: 0}
-    m_Extent: {x: 0.5, y: 0.43359375, z: 0}
+    m_Center: {x: 0.015000001, y: 0.004999995, z: 0}
+    m_Extent: {x: 0.145, y: 0.155, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

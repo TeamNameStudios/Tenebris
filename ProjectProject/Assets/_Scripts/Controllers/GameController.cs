@@ -53,10 +53,9 @@ public class GameController : Singleton<GameController>
     {
         switch(State)
         {
-            case GameState.IDLE:
-                break;
+            case GameState.IDLE: 
             case GameState.STARTING:
-                
+                runTime = 0;
                 timeScale = 1;
                 pageNumber = 0;
                 EventManager<bool>.Instance.TriggerEvent("onGameStartingState",true);

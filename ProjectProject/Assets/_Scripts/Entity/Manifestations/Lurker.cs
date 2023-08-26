@@ -116,8 +116,12 @@ public class Lurker : Manifestation
             {
                 return hits[i].point.y;
             }
+            //else if (!hits[i].transform.GetComponent<Player>() && !hits[i].transform.GetComponent<Manifestation>() && !hits[i].transform.GetComponent<Collectible>() && hits[i].transform.gameObject.layer != 3)
+            //{
+                
+            //}
         }
 
-        return 0;
+        return -50;
     }
 }

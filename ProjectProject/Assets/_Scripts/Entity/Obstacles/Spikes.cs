@@ -9,6 +9,7 @@ public class Spikes : MonoBehaviour, IEnemy
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EventManager<bool>.Instance.TriggerEvent("onHit", true);
+        EventManager<float>.Instance.TriggerEvent("Corruption", spikeCorruption);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

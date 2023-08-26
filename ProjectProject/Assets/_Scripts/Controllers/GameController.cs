@@ -61,13 +61,6 @@ public class GameController : Singleton<GameController>
                 Time.timeScale = 0;
                 break;
             case GameState.PLAYING:
-                if (Input.GetKeyDown(KeyCode.Insert))
-                {
-                    timeScale = 2;
-                    Debug.Log("FASTER");
-                }
-
-                
                 
                 EventManager<float>.Instance.TriggerEvent("onTimer", runTime);
                 Time.timeScale = timeScale;

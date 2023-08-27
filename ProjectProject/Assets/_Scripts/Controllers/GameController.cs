@@ -97,12 +97,16 @@ public class GameController : Singleton<GameController>
         State = _state;
     }
 
-
+    [SerializeField]
+    private bool SpawnShadow;
     private void SetGameScene(bool isGameSceneStarted)
     {
         Player _player = Instantiate(player, new Vector2(0, 30), Quaternion.identity).GetComponent<Player>();
-        //Shadow _shadow = Instantiate(shadow, new Vector2(-40, 13), Quaternion.identity).GetComponent<Shadow>();
-        //shadow.Setup(player);
+        if (SpawnShadow)
+        {
+            Shadow _shadow = Instantiate(shadow, new Vector2(-40, 13), Quaternion.identity).GetComponent<Shadow>();
+            shadow.Setup(player);
+        }
         Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);

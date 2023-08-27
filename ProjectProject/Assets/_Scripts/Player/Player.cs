@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         
     }
     
@@ -40,38 +41,11 @@ public class Player : MonoBehaviour
         }
         PerformMovement();
         ManageCorruption();
+        ManageAnimation();
+        ManageParticle();
+        ManageDead();
 
-
-        if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
-        {
-            // play clip walking on grass
-            EventManager<bool>.Instance.TriggerEvent("onRunning", true);
-        }
-        else
-        {
-            EventManager<bool>.Instance.TriggerEvent("onRunning", false);
-        }
-        
-        EventManager<bool>.Instance.TriggerEvent("onFullyCorrupted", corrupted);
-
-        if (corrupted)
-        {
-            if (!corruptionPS.isPlaying)
-            {
-                corruptionPS.Play();
-            }
-        }
-        else
-        {
-            if (corruptionPS.isPlaying)
-            {
-                corruptionPS.Stop();
-            }
-        }
-        if(transform.position.y < -20)
-        {
-            EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
-        }
+  
        
     }
 
@@ -107,7 +81,14 @@ public class Player : MonoBehaviour
         EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", PowerUpManager);
     }
 
-    
+    private void ManageDead() {
+
+        if (transform.position.y < -20)
+        {
+            EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+        }
+    }
+
     #region Detection
 
     [Header("Detection")]
@@ -555,7 +536,12 @@ public class Player : MonoBehaviour
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
     [SerializeField] private float startingDashTime;
+
     [SerializeField] private float startingDashCooldown;// value added only when the dash starts
+    //[Tooltip("Using dashRatio won't consider the startingDashTime and calculate the length of the dash independently")]
+    [SerializeField] private float dashRatio;
+    [SerializeField] private bool useDashRatio;
+    [SerializeField] private float dashTimeRatio;
     [SerializeField] private float dashCorruption; 
 
     private float dashTime;
@@ -565,13 +551,23 @@ public class Player : MonoBehaviour
 
     private void Dash(bool _isDashing)
     {
+
         if (canDash)
         {
             EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", DashingClip);
 
             canDash = false;
             isDashing = _isDashing;
-            dashTime = !corrupted ? startingDashTime : startingDashTime*2;
+            if (useDashRatio)
+            {
+                dashTimeRatio = dashRatio / dashSpeed;
+                dashTime = !corrupted ? dashTimeRatio : dashRatio / 2 / dashSpeed;
+            }
+            else
+            {
+                dashTime = startingDashTime;
+            }
+           
             dashCooldown = startingDashCooldown;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
             dashDir = new Vector2(direction.x, 0);
@@ -588,7 +584,7 @@ public class Player : MonoBehaviour
     {
         if (isDashing)
         {
-            velocity = !corrupted ? dashDir * dashSpeed  : dashDir * dashSpeed / 2; 
+            velocity = !corrupted ? dashDir * dashSpeed  : dashDir * dashSpeed + new Vector2(-dashDir.x* 5,0); 
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall || velocity.y > 0 && _isAgainstRoof || velocity.y < 0 && IsGrounded)
             {
                 isDashing = false;
@@ -598,17 +594,18 @@ public class Player : MonoBehaviour
                 dashTime = 0;
                 DashEffect.Stop();
             }
-            if (dashTime >= 0)
+            if (dashTime > 0)
             {
                 dashTime -= Time.deltaTime;
-            }
-            else
-            {
-                isDashing = false;
-                EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
-                EventManager<float>.Instance.TriggerEvent("Corruption", 0);
-                DashEffect.Stop();
-                rb.gravityScale = 1;
+                if(dashTime <= 0)
+                {
+                    isDashing = false;
+                    velocity.x = 0;
+                    EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
+                    EventManager<float>.Instance.TriggerEvent("Corruption", 0);
+                    DashEffect.Stop();
+                    rb.gravityScale = 1;
+                }
             }
         }
         else
@@ -694,13 +691,18 @@ public class Player : MonoBehaviour
         Vector2 pos = transform.position;
         HookableObject nearestHookableObject = null;
         float minDist = Mathf.Infinity;
+        Vector2 direction = isFacingRight? Vector2.right: Vector2.left;
+
         for (int i = 0; i < hookableHits.Length; i++)
         {
+
             HookableObject hookableObject;
             if (hookableHits[i].TryGetComponent<HookableObject>(out hookableObject))
             {
-                float dist = Vector3.Distance(hookableObject.transform.position, pos);
-                if (dist < minDist)
+                Vector2 hookObjectPos = hookableObject.transform.position;
+                float dist = Vector3.Distance(hookObjectPos, pos);
+
+                if (dist < minDist && (direction.x > 0 && hookObjectPos.x > pos.x) || (direction.x < 0 && hookObjectPos.x < pos.x))
                 {
                     nearestHookableObject = hookableObject;
                     minDist = dist;
@@ -725,11 +727,19 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    //[SerializeField]
+    //bool hitGrapple;
+    //[SerializeField]
+    //bool hitBottomGrapple;
+    //[SerializeField]
+    //bool hitTopGrapple;
     private void Grappling(bool _isGrappling)
     {
         if (canGrapple && HookableObject != null && !isGrappling)
         {
 
+            //hitGrapple = hitTopGrapple = hitBottomGrapple = false;
             Vector2 pos = transform.position;
             Vector2 hookObjectpos = HookableObject.transform.position;
             swingingDirection = isFacingRight ? Vector2.right : Vector2.left;
@@ -737,10 +747,42 @@ public class Player : MonoBehaviour
             {
                 return;
             }
-            //RaycastHit2D hit = Physics2D.Raycast(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y), hookObjectpos);
-            //RaycastHit2D hitTop = Physics2D.Raycast(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.center.y), hookObjectpos);
-            //RaycastHit2D hitBottom = Physics2D.Raycast(pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.min.y), hookObjectpos);
-            //if (hit != null && !hit.collider.GetComponent<HookableObject>() && !hitTop.collider.GetComponent<HookableObject>() && !hitBottom.collider.GetComponent<HookableObject>())
+            Vector2 hitPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
+            Vector2 hitTopPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
+            Vector2 hitBottomPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
+            float distanceHit = Vector2.Distance(hitPoint, hookObjectpos);
+            float distanceTopHit = Vector2.Distance(hitPoint, hookObjectpos);
+            float distanceBottomHit = Vector2.Distance(hitPoint, hookObjectpos);
+            RaycastHit2D[] hit = Physics2D.RaycastAll(hitPoint, hookObjectpos, distanceHit,_groundMask);
+            RaycastHit2D[] hitTop = Physics2D.RaycastAll(hitTopPoint, hookObjectpos, distanceTopHit, _groundMask);
+            RaycastHit2D[] hitBottom = Physics2D.RaycastAll(hitBottomPoint, hookObjectpos, distanceBottomHit, _groundMask);
+
+            //for(int i = 0; i < hit.Length; i++)
+            //{
+            //    if(hit[i].collider != null && hitGrapple)
+            //    {
+            //        hitGrapple = true;
+            //    }
+              
+            //}
+            //for (int i = 0; i < hitTop.Length; i++)
+            //{
+            //    if (hitTop[i].collider != null && hitTopGrapple)
+            //    {
+            //        hitTopGrapple = true;
+            //    }
+
+
+            //}
+            //for (int i = 0; i < hitBottom.Length; i++)
+            //{
+            //    if (hitBottom[i].collider != null && hitBottomGrapple)
+            //    {
+            //        hitBottomGrapple = true;
+            //    }
+
+            //}
+            //if (hitGrapple || hitTopGrapple || hitBottomGrapple)
             //{
             //    return;
             //}
@@ -787,6 +829,18 @@ public class Player : MonoBehaviour
                     rb.gravityScale = 1;
                     velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
                 }
+            }
+        }
+        else
+        {
+            if (isGrappling)
+            {
+                isLaunchedState = true;
+                isGrappling = false;
+                canGrapple = true;
+                grappleDirection = Vector2.zero;
+                rb.gravityScale = 1;
+                velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
             }
         }
 
@@ -880,6 +934,71 @@ public class Player : MonoBehaviour
     private ParticleSystem landingPS;
     [SerializeField]
     private ParticleSystem DashCooldownPS;
+
+
+    private void ManageParticle()
+    {
+        if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
+        {
+            // play clip walking on grass
+            EventManager<bool>.Instance.TriggerEvent("onRunning", true);
+        }
+        else
+        {
+            EventManager<bool>.Instance.TriggerEvent("onRunning", false);
+        }
+
+        EventManager<bool>.Instance.TriggerEvent("onFullyCorrupted", corrupted);
+
+        if (corrupted)
+        {
+            if (!corruptionPS.isPlaying)
+            {
+                corruptionPS.Play();
+            }
+        }
+        else
+        {
+            if (corruptionPS.isPlaying)
+            {
+                corruptionPS.Stop();
+            }
+        }
+    }
+    #endregion
+
+    #region Animation
+
+    Animator anim;
+    private static readonly int IdleAnimValue = Animator.StringToHash("Idle");
+    private static readonly int WalkAnimValue = Animator.StringToHash("Walk");
+    private static readonly int JumpAnimValue = Animator.StringToHash("Jump");
+    private static readonly int FallAnimValue = Animator.StringToHash("Fall");
+    private static readonly int LandAnimValue = Animator.StringToHash("Land");
+    private static readonly int DashAnimValue = Animator.StringToHash("Dash");
+    private static readonly int GrappleAnimValue = Animator.StringToHash("Grapple");
+    private int currentAnimationState;
+    private float lockedTill;
+    private void ManageAnimation()
+    {
+        int state = GetAnimationState();
+        if (state == currentAnimationState) return;
+        anim.CrossFade(state, 0, 0);
+        currentAnimationState = state;
+    }
+
+    private int GetAnimationState()
+    {
+        if (Time.time < lockedTill) return currentAnimationState;
+        if (IsGrounded) return velocity.x == 0 ? IdleAnimValue : WalkAnimValue;
+        return velocity.y > 0 ? JumpAnimValue : FallAnimValue;
+    }
+
+    private int LockState(int state,float lockTime)
+    {
+        lockedTill = Time.time + lockTime;
+        return state;
+    }
     #endregion
 
 }

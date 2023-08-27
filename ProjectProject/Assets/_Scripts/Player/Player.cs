@@ -20,7 +20,9 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        
+        lineRenderer = GetComponent<LineRenderer>();
+
+
     }
     
     private void Update()
@@ -28,7 +30,10 @@ public class Player : MonoBehaviour
         RunCollisionChecks();
         CalculateJumpApex();
         CalculateGravity();
-        GetHookableObject();
+        if (!isGrappling)
+        {
+            GetHookableObject();
+        }
         HandleGrapple();
         if (!isGrappling)
         {
@@ -677,6 +682,10 @@ public class Player : MonoBehaviour
     [Tooltip("Check this box if the corruption should grow as long as the player is holding the grapple button\nUncheck this box if the corruption should grow only once")]
     [SerializeField] private bool corruptionOverTime;
 
+    [SerializeField]
+    private LineRenderer lineRenderer;
+    [SerializeField]
+    Transform tentacleStartingPoint;
     private void GetHookableObject()
     {
         Vector2 pos = transform.position;
@@ -796,6 +805,7 @@ public class Player : MonoBehaviour
             }
             rb.gravityScale = 0;
             canGrapple = false;
+            lineRenderer.enabled = true;
             StartCoroutine(ChargingGrapple(hookObjectpos, pos));
         }
         else if (isGrappling)
@@ -803,6 +813,7 @@ public class Player : MonoBehaviour
             rb.gravityScale = 1;
             isGrappling = false;
             canGrapple = true;
+            lineRenderer.enabled = false;
         }
     }
 
@@ -812,6 +823,8 @@ public class Player : MonoBehaviour
         {
             Vector2 pos = transform.position;
             Vector2 hookObjectpos = HookableObject.transform.position;
+            lineRenderer.SetPosition(0, tentacleStartingPoint.position);
+            lineRenderer.SetPosition(1, hookObjectpos);
             if (isGrappling)
             {
                 
@@ -827,6 +840,7 @@ public class Player : MonoBehaviour
                     canGrapple = true;
                     grappleDirection = Vector2.zero;
                     rb.gravityScale = 1;
+                    lineRenderer.enabled = false;
                     velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
                 }
             }
@@ -835,6 +849,7 @@ public class Player : MonoBehaviour
         {
             if (isGrappling)
             {
+                lineRenderer.enabled = false;
                 isLaunchedState = true;
                 isGrappling = false;
                 canGrapple = true;

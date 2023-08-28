@@ -118,6 +118,5 @@ public class Chaser : Manifestation
     private void LevelUp(bool value)
     {
         startVelocity += startVelocityIncrement;
-        Debug.Log("Incremented " + gameObject.name + " speed by " + startVelocityIncrement);
     }
 }

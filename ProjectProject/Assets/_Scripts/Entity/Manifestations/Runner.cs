@@ -109,6 +109,5 @@ public class Runner : Manifestation
     private void LevelUp(bool value)
     {
         runnerVelocity += runnerVelocityIncrement;
-        Debug.Log("Incremented " + gameObject.name + " speed by " + runnerVelocityIncrement);
     }
 }

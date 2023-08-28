@@ -16,6 +16,11 @@ public class Shadow : MapMover, IEnemy
     [SerializeField] private float corruptionValue;
     [SerializeField] private float insideShadowCorruptionValue;
 
+    [SerializeField] private float maxDistance = 35;
+    [SerializeField] private float changeMaxDistanceTimer;
+    private bool canChange = true;
+
+
     // Update is called once per frame
 
     protected override void OnEnable()
@@ -36,12 +41,19 @@ public class Shadow : MapMover, IEnemy
         {
             base.Update();
 
+            if (canChange)
+            {
+                canChange = false;
+                maxDistance = Random.Range(25, 35);
+                StartCoroutine(ChangeMaxDistance());
+            }
+
             Vector2 pos = transform.position;
 
             pos.x += Vector2.right.x * shadowSpeed * Time.deltaTime;
-            if (player.transform.position.x - pos.x > 35)
+            if (player.transform.position.x - pos.x > maxDistance)
             {
-                pos = Vector2.Lerp(pos, new Vector2(player.transform.position.x - 35f, pos.y), 10f * Time.deltaTime);
+                pos = Vector2.Lerp(pos, new Vector2(player.transform.position.x - maxDistance, pos.y), 10f * Time.deltaTime);
             }
 
             transform.position = pos;
@@ -68,7 +80,6 @@ public class Shadow : MapMover, IEnemy
     private void LevelUp(bool value)
     {
         shadowSpeed += shadowSpeedIncrement;
-        Debug.Log("Incremented " + gameObject.name + " speed by " + shadowSpeedIncrement);
     }
 
     private void OnDrawGizmos()
@@ -76,5 +87,9 @@ public class Shadow : MapMover, IEnemy
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + minDistance, transform.position.y, transform.position.z));
     }
 
-
+    private IEnumerator ChangeMaxDistance()
+    {
+        yield return new WaitForSeconds(changeMaxDistanceTimer);
+        canChange = true;
+    }
 }

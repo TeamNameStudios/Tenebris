@@ -9,9 +9,19 @@ public class Tracker : Singleton<Tracker>
     private float actualDistance;
     private float playerDistance;
 
+    public float bestDistance;
+    [SerializeField] GameObject bestDistanceMarker;
+
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", Move);
+        EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
+    }
+
+    private void OnDisable()
+    {
+        EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", Move);
+        EventManager<float>.Instance.StopListening("onBestDistanceLoaded", LoadBestDistance);
     }
 
     protected override void Awake()
@@ -33,12 +43,28 @@ public class Tracker : Singleton<Tracker>
         }
     
         EventManager<float>.Instance.TriggerEvent("UpdateDistanceCount", maxX);
+
+
+        if (GameController.Instance.state == GameState.LOSING)
+        {
+            if (maxX > bestDistance)
+            {
+                bestDistance = maxX;
+            }
+
+            EventManager<float>.Instance.TriggerEvent("SaveBestDistance", bestDistance);
+        }
+
     }
 
     private void Move(float _velocity)
     {
         actualDistance = _velocity * Time.deltaTime;
+    }
 
+    private void LoadBestDistance(float _bestDistance)
+    {
+        bestDistance = _bestDistance;
     }
 
     // DISTANCE UPDATED REAL TIME

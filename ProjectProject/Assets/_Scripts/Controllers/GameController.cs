@@ -161,7 +161,6 @@ public class GameController : Singleton<GameController>
         {
             EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
             hasIncremented = true;
-            Debug.Log("Incremented time scale with seconds of " + timeScaleIncrement);
         }
         else if (timeSpan.Seconds % seconds != 0 && hasIncremented)
         {
@@ -175,7 +174,6 @@ public class GameController : Singleton<GameController>
         {
             EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
             hasIncremented = true;
-            Debug.Log("Incremented time scale with minutes of " + timeScaleIncrement);
         }
         else if (timeSpan.Minutes % minutes != 0 && hasIncremented)
         {

@@ -290,8 +290,6 @@ public class Player : MonoBehaviour
     {
         maxVelocity += maxVelocityIncrement;
         acceleration += accelerationIncrement;
-        Debug.Log("Incremented " + gameObject.name + " max velocity by " + maxVelocityIncrement);
-        Debug.Log("Incremented " + gameObject.name + " acceleration by " + accelerationIncrement);
     }
 
     #endregion

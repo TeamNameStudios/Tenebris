@@ -130,6 +130,5 @@ public class Lurker : Manifestation
     private void LevelUp(bool value)
     {
         startFallVelocity += startFallVelocityIncrement;
-        Debug.Log("Incremented " + gameObject.name + " speed by " + startFallVelocityIncrement);
     }
 }

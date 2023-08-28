@@ -20,7 +20,7 @@ public class DataManager : Singleton<DataManager>
     {
         EventManager<int>.Instance.StartListening("SavePage", SavePages);
         EventManager<int>.Instance.StartListening("SaveTotalPage", SaveTotalPages);
-        EventManager<int>.Instance.StartListening("SaveBestDistance", SaveBestDistance);
+        EventManager<float>.Instance.StartListening("SaveBestDistance", SaveBestDistance);
         EventManager<List<PowerUp>>.Instance.StartListening("SavePowerUp", SavePowerUp);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
     }
@@ -28,7 +28,7 @@ public class DataManager : Singleton<DataManager>
     {
         EventManager<int>.Instance.StopListening("SavePage", SavePages);
         EventManager<int>.Instance.StopListening("SaveTotalPage", SaveTotalPages);
-        EventManager<int>.Instance.StopListening("SaveBestDistance", SaveBestDistance);
+        EventManager<float>.Instance.StopListening("SaveBestDistance", SaveBestDistance);
         EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
     }
@@ -38,6 +38,7 @@ public class DataManager : Singleton<DataManager>
         LoadPages();
         LoadTotalPages();
         LoadPowerUp();
+        LoadBestDistance();
     }
 
     public void SavePages(int count)
@@ -69,18 +70,20 @@ public class DataManager : Singleton<DataManager>
         EventManager<int>.Instance.TriggerEvent("onTotalPageLoaded", numberOfPages);
     }
 
-    public void SaveBestDistance(int count)
+    public void SaveBestDistance(float count)
     {
         if (count < 0)
             return;
-        PlayerPrefs.SetInt("BestDistance", count);
+        Debug.Log(count);
+        PlayerPrefs.SetFloat("BestDistance", count);
         PlayerPrefs.Save();
     }
 
     public void LoadBestDistance()
     {
-        int bestDistance = PlayerPrefs.GetInt("BestDistance", 0);
-        EventManager<int>.Instance.TriggerEvent("onBestDistanceLoaded", bestDistance);
+        float bestDistance = PlayerPrefs.GetFloat("BestDistance", 0);
+        Debug.Log(bestDistance);
+        EventManager<float>.Instance.TriggerEvent("onBestDistanceLoaded", bestDistance);
     }
 
     #region POWERUPS

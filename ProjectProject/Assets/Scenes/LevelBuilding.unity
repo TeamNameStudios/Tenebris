@@ -648,6 +648,15 @@ MonoBehaviour:
   state: 0
   player: {fileID: 2762329890619727348, guid: d4672854833c7144594e5ee46c01d076, type: 3}
   shadow: {fileID: 5528758643422967396, guid: 13586eec1304c1149b75574bf93a79fc, type: 3}
+  tracker: {fileID: 0}
+  timeScale: 0
+  pageNumber: 0
+  totalPage: 0
+  trueForSeconds: 0
+  seconds: 0
+  minutes: 0
+  timeScaleIncrement: 0
+  SpawnShadow: 0
 --- !u!1 &1910931207
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,6 +749,9 @@ MonoBehaviour:
   - ROLevel40
   - ROLevel41
   - ROLevel42
+  - START
+  - ROLevel43
+  - ROLevel44
 --- !u!4 &1910931209
 Transform:
   m_ObjectHideFlags: 0

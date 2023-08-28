@@ -226,7 +226,9 @@ MonoBehaviour:
   _fallSpeed: 0
   isFacingRight: 1
   maxVelocity: 18
+  maxVelocityIncrement: 0.2
   acceleration: 130
+  accelerationIncrement: 0.2
   deAcceleration: 50
   _jumpHeight: 35
   _jumpApexThreshold: 25
@@ -237,37 +239,37 @@ MonoBehaviour:
   maxCorruption: 100
   corrupted: 0
   invincibility: 0
-  fullyCorruptionTime: 7
+  fullyCorruptionTime: 5
   canRecover: 0
-  recoverCorruptionWaitTime: 3
-  recoverCorruptionSpeed: 5
-  invincibilitySeconds: 0.5
-  recoveryStartingSmoothness: 0.02
+  recoverCorruptionWaitTime: 2.5
+  recoverCorruptionSpeed: 3.5
+  invincibilitySeconds: 1
+  recoveryStartingSmoothness: 0.3
   elapsedTime: 0
   isRecovering: 0
-  dashSpeed: 40
+  dashSpeed: 25
   isDashing: 0
   canDash: 1
   startingDashTime: 0.05
   startingDashCooldown: 1
-  dashRatio: 20
+  dashRatio: 12
   useDashRatio: 1
   dashTimeRatio: 0
-  dashCorruption: 20
+  dashCorruption: 30
   isGrappling: 0
   isLaunchedState: 0
   canGrapple: 1
   grappleDirection: {x: 0, y: 0}
   launchedStateDirection: {x: 1, y: 1}
-  launchedSpeed: 30
-  grappleSpeed: 35
+  launchedSpeed: 25
+  grappleSpeed: 25
   HookableObject: {fileID: 0}
   hookableLayer:
     serializedVersion: 2
     m_Bits: 64
   swingingDirection: {x: 0, y: 0}
   chargeGrappleTime: 0
-  grappleZoneDistance: 20
+  grappleZoneDistance: 15
   hookCorruptionOverTime: 0.5
   hookCorruptionOnce: 25
   corruptionOverTime: 0

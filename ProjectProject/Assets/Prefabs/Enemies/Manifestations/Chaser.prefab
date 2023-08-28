@@ -229,16 +229,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   depth: 1
   velocity: 0
-  CorruptionValue: 50
-  DestroyTimer: 2
+  CorruptionValue: 30
+  DestroyTimer: 3
   canDieToShadow: 0
   state: 0
-  minDistance: 25
-  startVelocity: 8
-  attackVelocity: 0
-  maxVelocity: 30
+  minDistance: 30
+  startVelocity: 7
+  startVelocityIncrement: 0.2
+  velocityAcceleration: 0.04
   attackDistance: 10
-  velocityAcceleration: 0.02
 --- !u!95 &5945643108886931447
 Animator:
   serializedVersion: 5

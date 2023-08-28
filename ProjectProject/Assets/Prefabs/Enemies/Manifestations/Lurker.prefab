@@ -76,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -128616957
-  m_SortingLayer: 5
+  m_SortingLayer: 8
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: cb1ab664398f3bf4187e8ca6e60c65cb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -120,11 +120,12 @@ MonoBehaviour:
   depth: 1
   velocity: 0
   CorruptionValue: 30
-  DestroyTimer: 1
+  DestroyTimer: 0.7
   canDieToShadow: 1
   state: 0
   fallTime: 2
-  startFallVelocity: 80
+  startFallVelocity: 55
+  startFallVelocityIncrement: 0.2
   upDownVelocity: 3
   upDownAmplitude: 1.5
 --- !u!50 &-338002190583707973

@@ -74,7 +74,6 @@ public class DataManager : Singleton<DataManager>
     {
         if (count < 0)
             return;
-        Debug.Log(count);
         PlayerPrefs.SetFloat("BestDistance", count);
         PlayerPrefs.Save();
     }
@@ -82,7 +81,6 @@ public class DataManager : Singleton<DataManager>
     public void LoadBestDistance()
     {
         float bestDistance = PlayerPrefs.GetFloat("BestDistance", 0);
-        Debug.Log(bestDistance);
         EventManager<float>.Instance.TriggerEvent("onBestDistanceLoaded", bestDistance);
     }
 

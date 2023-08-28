@@ -1010,7 +1010,7 @@ public class Player : MonoBehaviour
     {
         int state = GetAnimationState();
         if (state == currentAnimationState) return;
-        //anim.CrossFade(state, 0, 0);
+        anim.CrossFade(state, 0, 0);
         currentAnimationState = state;
     }
 

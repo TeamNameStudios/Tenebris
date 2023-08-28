@@ -16,13 +16,13 @@ public class Chaser : Manifestation
     private float chaseVelocity;
     [Tooltip("Starting velocity of the chaser")]
     [SerializeField] private float startVelocity;
-    [Tooltip("Velocity of the chaser's attack")]
-    [SerializeField] private float attackVelocity;
-    [SerializeField] private float maxVelocity;
-    [Tooltip("How close the chaser must get to the player before attacking it")]
-    [SerializeField] private float attackDistance;
+    [SerializeField] private float startVelocityIncrement;
     [Tooltip("Keep this value small, ex. 0.02")]
     [SerializeField] private float velocityAcceleration;
+    [Tooltip("Velocity of the chaser's attack")]
+    /*[SerializeField]*/ private float attackVelocity;
+    [Tooltip("How close the chaser must get to the player before attacking it")]
+    [SerializeField] private float attackDistance;
 
     private float groundHeight;
     private Vector3 attackDirection;
@@ -30,6 +30,7 @@ public class Chaser : Manifestation
     protected override void OnEnable()
     {
         base.OnEnable();
+        EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
 
         player = null;
         state = ChaserState.IDLE;
@@ -78,13 +79,6 @@ public class Chaser : Manifestation
                 position.x += Vector2.right.x * chaseVelocity * Time.deltaTime;
                 transform.position = position;
                 chaseVelocity += velocityAcceleration;
-
-                //if (chaseVelocity >= maxVelocity)
-                //{
-                //    attackDirection = (player.position - transform.position).normalized;
-                //    attackVelocity = chaseVelocity + 10;
-                //    state = ChaserState.ATTACKING;
-                //}
                 
                 if (Mathf.Abs(transform.position.x - player.position.x) <= attackDistance)
                 {
@@ -119,5 +113,11 @@ public class Chaser : Manifestation
                 groundHeight = hits[i].point.y;
             }
         }
+    }
+
+    private void LevelUp(bool value)
+    {
+        startVelocity += startVelocityIncrement;
+        Debug.Log("Incremented " + gameObject.name + " speed by " + startVelocityIncrement);
     }
 }

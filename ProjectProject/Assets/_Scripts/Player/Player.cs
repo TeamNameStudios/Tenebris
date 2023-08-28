@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
         EventManager<bool>.Instance.StartListening("isDashing", Dash);
         EventManager<bool>.Instance.StartListening("isGrappling", Grappling);
         EventManager<List<PowerUp>>.Instance.StartListening("onPowerUpLoaded", PowerUpManager);
+        EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
     }
     private void OnDisable()
     {
@@ -84,6 +85,7 @@ public class Player : MonoBehaviour
         EventManager<bool>.Instance.StopListening("isDashing", Dash);
         EventManager<bool>.Instance.StopListening("isGrappling", Grappling);
         EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", PowerUpManager);
+        EventManager<bool>.Instance.StopListening("onLevelUp", LevelUp);
     }
 
     private void ManageDead() {
@@ -230,9 +232,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     public bool isFacingRight = true;
     [SerializeField]
-    public float maxVelocity;
+    public float maxVelocity;    
+    [SerializeField]
+    public float maxVelocityIncrement;
     [SerializeField]
     public float acceleration;
+    [SerializeField]
+    public float accelerationIncrement;
     [SerializeField]
     public float deAcceleration;
     private void Move(Vector2 movementDirection)
@@ -278,6 +284,14 @@ public class Player : MonoBehaviour
             velocity.x = 0;
         }
 
+    }
+
+    private void LevelUp(bool value)
+    {
+        maxVelocity += maxVelocityIncrement;
+        acceleration += accelerationIncrement;
+        Debug.Log("Incremented " + gameObject.name + " max velocity by " + maxVelocityIncrement);
+        Debug.Log("Incremented " + gameObject.name + " acceleration by " + accelerationIncrement);
     }
 
     #endregion
@@ -998,7 +1012,7 @@ public class Player : MonoBehaviour
     {
         int state = GetAnimationState();
         if (state == currentAnimationState) return;
-        anim.CrossFade(state, 0, 0);
+        //anim.CrossFade(state, 0, 0);
         currentAnimationState = state;
     }
 

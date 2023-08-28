@@ -13,6 +13,7 @@ public class Lurker : Manifestation
     [SerializeField] private float fallTime;
     private float fallVelocity;
     [SerializeField] private float startFallVelocity;
+    [SerializeField] private float startFallVelocityIncrement;
     [SerializeField] private float upDownVelocity;
     [SerializeField] private float upDownAmplitude;
 
@@ -25,6 +26,7 @@ public class Lurker : Manifestation
     protected override void OnEnable()
     {
         base.OnEnable();
+        EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
 
         state = LurkerState.IDLE;
         player = null;
@@ -123,5 +125,11 @@ public class Lurker : Manifestation
         }
 
         return -50;
+    }
+
+    private void LevelUp(bool value)
+    {
+        startFallVelocity += startFallVelocityIncrement;
+        Debug.Log("Incremented " + gameObject.name + " speed by " + startFallVelocityIncrement);
     }
 }

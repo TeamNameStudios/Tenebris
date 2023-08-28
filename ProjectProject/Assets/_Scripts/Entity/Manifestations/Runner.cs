@@ -5,6 +5,7 @@ using UnityEngine;
 public class Runner : Manifestation
 {
     [SerializeField] private float runnerVelocity;
+    [SerializeField] private float runnerVelocityIncrement;
     [SerializeField] public Vector2 boxSize;
 
     [SerializeField] private float pursueTime;
@@ -21,7 +22,6 @@ public class Runner : Manifestation
         base.OnEnable();
         player = null;
 
-        EventManager<Transform>.Instance.StartListening("onPlayerDetected", SetPlayer);
 
         canGo = false;
         canPursue = true;
@@ -29,8 +29,16 @@ public class Runner : Manifestation
         {
             playerPos.Clear();
         }
+
+        EventManager<Transform>.Instance.StartListening("onPlayerDetected", SetPlayer);
+        EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        EventManager<Transform>.Instance.StopListening("onPlayerDetected", SetPlayer);
+    }
 
     public override void Update()
     {
@@ -96,5 +104,11 @@ public class Runner : Manifestation
     private void SetPlayer(Transform _player)
     {
         player = _player;
+    }
+
+    private void LevelUp(bool value)
+    {
+        runnerVelocity += runnerVelocityIncrement;
+        Debug.Log("Incremented " + gameObject.name + " speed by " + runnerVelocityIncrement);
     }
 }

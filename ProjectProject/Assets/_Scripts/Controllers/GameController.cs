@@ -76,7 +76,7 @@ public class GameController : Singleton<GameController>
                 runTime += Time.unscaledDeltaTime;
                 TimeSpan time = TimeSpan.FromSeconds(runTime);
                 EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
-                //ManageRun(time);
+                ManageRun(time);
                 Time.timeScale = timeScale;
 
                 break;
@@ -139,8 +139,8 @@ public class GameController : Singleton<GameController>
     }
 
     #region RUN MANAGER
-
-    private bool hasIncremented = false;
+    [Header("RUN MANAGER")]
+    private bool hasIncremented = true;
     
     private void ManageRun(TimeSpan timeSpan)
     {
@@ -148,7 +148,7 @@ public class GameController : Singleton<GameController>
         {
             ManageRunBySeconds(timeSpan);
         }
-        else
+        else if (!trueForSeconds)
         {
             ManageRunByMinutes(timeSpan);
         }
@@ -157,9 +157,9 @@ public class GameController : Singleton<GameController>
 
     private void ManageRunBySeconds(TimeSpan timeSpan)
     {
-        if (timeSpan.Minutes % minutes == 0 && !hasIncremented)
+        if (timeSpan.Seconds % seconds == 0 && !hasIncremented)
         {
-            EventManager<bool>.Instance.TriggerEvent("onIncrementSpeed", true);
+            EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
             hasIncremented = true;
             Debug.Log("Incremented time scale with seconds of " + timeScaleIncrement);
         }
@@ -173,11 +173,11 @@ public class GameController : Singleton<GameController>
     {
         if (timeSpan.Minutes % minutes == 0 && !hasIncremented)
         {
-            EventManager<bool>.Instance.TriggerEvent("onIncrementSpeed", true);
+            EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
             hasIncremented = true;
             Debug.Log("Incremented time scale with minutes of " + timeScaleIncrement);
         }
-        else if (timeSpan.Minutes % seconds != 0 && hasIncremented)
+        else if (timeSpan.Minutes % minutes != 0 && hasIncremented)
         {
             hasIncremented = false;
         }

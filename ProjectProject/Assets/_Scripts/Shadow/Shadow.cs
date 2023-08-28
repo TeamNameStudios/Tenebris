@@ -5,7 +5,9 @@ using UnityEngine;
 public class Shadow : MapMover, IEnemy
 {
     [SerializeField]
-    float shadowSpeed = 1.5f;
+    private float shadowSpeed = 1.5f;    
+    [SerializeField]
+    private float shadowSpeedIncrement = 1f;
     [SerializeField]
     private Player player;
 
@@ -16,9 +18,16 @@ public class Shadow : MapMover, IEnemy
 
     // Update is called once per frame
 
-    public void Setup(Player _player)
+    protected override void OnEnable()
     {
-        player = _player;
+        base.OnEnable();
+        EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        EventManager<bool>.Instance.StopListening("onLevelUp", LevelUp);
     }
 
     public override void Update()
@@ -50,6 +59,16 @@ public class Shadow : MapMover, IEnemy
             }
         }
 
+    }
+    public void Setup(Player _player)
+    {
+        player = _player;
+    }
+
+    private void LevelUp(bool value)
+    {
+        shadowSpeed += shadowSpeedIncrement;
+        Debug.Log("Incremented " + gameObject.name + " speed by " + shadowSpeedIncrement);
     }
 
     private void OnDrawGizmos()

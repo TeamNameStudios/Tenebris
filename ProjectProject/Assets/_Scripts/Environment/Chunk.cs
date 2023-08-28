@@ -15,10 +15,10 @@ public class Chunk : MapMover
     {
         base.Update();
 
-        if (transform.position.x <= -(chunkSize+ chunkOffset))
+        if (transform.position.x <= -(chunkSize + chunkOffset))
         {
             Vector3 pos = transform.position;
-            pos.x = (chunkSize * (EnvironmentController.Instance.numberOfChunk-1)) - chunkOffset;
+            pos.x += (chunkSize * (EnvironmentController.Instance.numberOfChunk));
             transform.position = pos;
             // here I should get the ID of the current level
       

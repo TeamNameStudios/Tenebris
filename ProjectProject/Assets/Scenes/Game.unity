@@ -2650,7 +2650,7 @@ MonoBehaviour:
   seconds: 30
   minutes: 1
   timeScaleIncrement: 0.1
-  SpawnShadow: 1
+  SpawnShadow: 0
 --- !u!1 &899800226
 GameObject:
   m_ObjectHideFlags: 0
@@ -5946,10 +5946,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1232544190162326648, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
-      propertyPath: m_Intensity
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 2241197934697214471, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -6005,14 +6001,6 @@ PrefabInstance:
     - target: {fileID: 3367258516827847847, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
       propertyPath: m_Name
       value: GlobalLightManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367258516827847847, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5178755622832574694, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}
-      propertyPath: m_Intensity
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb7bb5c6b03ca9419e032a1fbc6891c, type: 3}

@@ -17,17 +17,19 @@ public class Runner : Manifestation
     private List<float> playerPos = new List<float>();
     private bool canGo = false;
 
+
+
     protected override void OnEnable()
     {
         base.OnEnable();
         player = null;
-
 
         canGo = false;
         canPursue = true;
         if (playerPos.Count > 0)
         {
             playerPos.Clear();
+            canPlayClip = true;
         }
 
         EventManager<Transform>.Instance.StartListening("onPlayerDetected", SetPlayer);
@@ -44,10 +46,12 @@ public class Runner : Manifestation
     {
         base.Update();
 
+
         if (player != null)
         {
             StartCoroutine(PursueCO());
             Vector3 pos = transform.position;
+            PlayClip();
 
             if (canPursue)
             {
@@ -110,4 +114,6 @@ public class Runner : Manifestation
     {
         runnerVelocity += runnerVelocityIncrement;
     }
+
+
 }

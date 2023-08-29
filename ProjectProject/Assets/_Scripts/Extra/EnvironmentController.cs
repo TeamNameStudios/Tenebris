@@ -31,6 +31,7 @@ public class EnvironmentController : Singleton<EnvironmentController>
         for (int i = 0; i < numberOfChunk; i++)
         {
             Chunk Chunk = Instantiate(chunkPrefab,new Vector3(i*chunkPrefab.chunkSize,0,0), Quaternion.identity);
+            Chunk.name = "Chunk " + i;
             Chunk.transform.SetParent(ChunkContainer.transform);
             BuildChunk(Chunk, i == 0);
             listChunk.Add(Chunk); 
@@ -50,4 +51,17 @@ public class EnvironmentController : Singleton<EnvironmentController>
         }
     }
 
+    public void ManageList()
+    {
+        Chunk chunk = listChunk[0];
+        listChunk.RemoveAt(0);
+        listChunk.Add(chunk);
+        chunk.CheckDistance();
+    }
+
+    public float FindLastChunkPosition()
+    {
+        float position = listChunk[listChunk.Count - 1].transform.position.x;
+        return position;
+    }
 }

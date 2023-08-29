@@ -13,6 +13,14 @@ public class PowerUpDescriptionUI : MonoBehaviour
 
     public void UpdateUI(ScriptablePowerUp powerUp)
     {
-        text.text = powerUpDescription + powerUp.PowerUpPercentage + "%";
+        if(powerUp == null)
+        {
+            text.text = "You reached the max power!!!";
+        }
+        else
+        {
+            text.text = powerUpDescription + " " + powerUp.PowerUpPercentage + " % ";
+        }
+       
     }
 }

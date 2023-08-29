@@ -48,7 +48,7 @@ public class PowerUpMenu : MonoBehaviour
             List<PowerUp> newList = new List<PowerUp>();
             for(int i = 0; i < actualPowerUps.Count; i++)
             {
-                if (actualPowerUps[i].ID == buttonClicked.id && actualPowerUps[i].Level < 5)
+                if (actualPowerUps[i].ID == buttonClicked.id && actualPowerUps[i].Level <= 5)
                 {
                     newList.Add(new PowerUp(actualPowerUps[i].ID, actualPowerUps[i].Level + 1));
                     totalPages = totalPages - buttonClicked.pageCost;
@@ -68,15 +68,15 @@ public class PowerUpMenu : MonoBehaviour
     {
         actualPowerUps = powerUps;
         for (int i = 0; i < powerUps.Count; i++) {
-            ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
+            ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level+1);
             buttonList[i].UpdateUI(scriptablePowerUp);
             descriptionList[i].UpdateUI(scriptablePowerUp);
-            PowerUpLevel[i].UpdateUI(scriptablePowerUp,empty,full);
+            PowerUpLevel[i].UpdateUI(powerUps[i].Level + 1, empty,full);
         }
     }
 
     private void ManageTotalPage(int _totalPages) {
         totalPages = _totalPages;
-        TotalPagesUI.text = totalPages+"";
+        TotalPagesUI.text = "Pages:"+totalPages;
     }
 }

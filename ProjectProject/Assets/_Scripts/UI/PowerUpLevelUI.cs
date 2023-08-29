@@ -8,20 +8,24 @@ public class PowerUpLevelUI : MonoBehaviour
     public List<Image> powerLevel = new List<Image>();
 
 
-    public void UpdateUI(ScriptablePowerUp powerUp, Sprite Empty, Sprite Complete )
+    public void UpdateUI(int _level, Sprite Empty, Sprite Complete )
     {
-        level = powerUp.Level;
-        for(int i = 0; i < powerLevel.Count; i++)
-        {
-            if(i < level)
+
+     
+            level = _level - 1;
+            for (int i = 0; i < powerLevel.Count; i++)
             {
-                powerLevel[i].sprite = Complete;
+                if (i < level)
+                {
+                    powerLevel[i].sprite = Complete;
+                }
+                else
+                {
+                    powerLevel[i].sprite = Empty;
+                }
+
             }
-            else
-            {
-                powerLevel[i].sprite = Empty;
-            }
-           
-        }
+        
+
     }
 }

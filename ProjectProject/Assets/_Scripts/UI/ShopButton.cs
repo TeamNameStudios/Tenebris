@@ -17,10 +17,18 @@ public class ShopButton : MonoBehaviour
 
     public void UpdateUI(ScriptablePowerUp powerUp)
     {
-        id = powerUp.ID;
-        level = powerUp.Level;
-        pageCost = powerUp.PageCost;    
-        text.text = powerUp.PageCost + "pages";
+        if(powerUp == null)
+        {
+            text.text = "Complete";
+        }
+        else
+        {
+            id = powerUp.ID;
+            level = powerUp.Level;
+            pageCost = powerUp.PageCost;
+            text.text = powerUp.PageCost + " pages";
+        }
+       
 
     }
 }

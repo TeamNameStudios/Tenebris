@@ -114,7 +114,7 @@ public class DataManager : Singleton<DataManager>
         List<SerializablePowerUp> listSerializedPowerUp = new List<SerializablePowerUp>();
         for (int i = 0; i < enumList.Count; i++)
         {
-            SerializablePowerUp serializedPowerUp = new SerializablePowerUp(new PowerUp(enumList[i],1));
+            SerializablePowerUp serializedPowerUp = new SerializablePowerUp(new PowerUp(enumList[i],0));
             listSerializedPowerUp.Add(serializedPowerUp);
         }
 

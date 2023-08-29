@@ -35,6 +35,8 @@ public class Chaser : Manifestation
         player = null;
         state = ChaserState.IDLE;
         chaseVelocity = startVelocity;
+        canPlayClip = true;
+
     }
 
     private void Awake()
@@ -63,14 +65,14 @@ public class Chaser : Manifestation
                 break;
 
             case ChaserState.DESCENDING:
+                    
                 
-
+                PlayClip();
 
                 if (transform.position.y - groundHeight <= 1.2f )
                 {
                     state = ChaserState.CHASING;
                 }
-
                 break;
 
             case ChaserState.CHASING:
@@ -93,7 +95,6 @@ public class Chaser : Manifestation
 
                 transform.position += attackDirection * attackVelocity * Time.deltaTime;
                 StartCoroutine(AutoDestruction());
-
                 break;
         }
     }

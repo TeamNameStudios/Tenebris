@@ -78,6 +78,7 @@ public class Lurker : Manifestation
                     fallVelocity = 0;
                     position.y = landingPoint + capsuleCollider.size.y / 2;
                     destructionCO = StartCoroutine(AutoDestruction());
+                    canPlayClip = true;
                 }
 
                 transform.position = position;
@@ -104,6 +105,7 @@ public class Lurker : Manifestation
             if (hit.transform.GetComponent<Player>())
             {
                 player = hit.transform;
+                PlayClip();
                 state = LurkerState.CHASING;
             }
         }

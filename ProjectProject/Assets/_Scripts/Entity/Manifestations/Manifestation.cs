@@ -14,37 +14,36 @@ public abstract class Manifestation : MapMover, IEnemy
 
     protected Coroutine destructionCO;
 
+    [SerializeField] protected AudioSource manifestationSource;
+    [SerializeField] protected bool canPlayClip = true;
+
+    private void Awake()
+    {
+        manifestationSource = GetComponent<AudioSource>();
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        // NOT NEEDED FOR NOW
-        //StartCoroutine(AutoDestruction());
-        //EventManager<float>.Instance.StartListening("onPlayerChangeXVelociy", ChangeVelocity);
-        //EventManager<Vector2>.Instance.StartListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        //StopAllCoroutines();
-        //EventManager<float>.Instance.StopListening("onPlayerChangeXVelociy", ChangeVelocity);
-        //EventManager<Vector2>.Instance.StopListening("onPlayerChangeDirection", PlayerGoingRight);
     }
 
-    private void ChangeVelocity(float value)
+    protected void PlayClip()
     {
-        playerVelocity = value;
-    }
-
-    private void PlayerGoingRight(Vector2 direction)
-    {
-        playerDirection = direction;
+        if (!manifestationSource.isPlaying && canPlayClip)
+        {
+            manifestationSource.PlayOneShot(manifestationSource.clip);
+            canPlayClip = false;
+        }
     }
 
     protected IEnumerator AutoDestruction()
     {
         yield return new WaitForSeconds(DestroyTimer);
-        //Destroy(gameObject);
         ManifestationsFactory.Instance.ReturnObject(gameObject);
     }
 

@@ -30,7 +30,7 @@ public class DataManager : Singleton<DataManager>
         EventManager<int>.Instance.StopListening("SaveTotalPage", SaveTotalPages);
         EventManager<float>.Instance.StopListening("SaveBestDistance", SaveBestDistance);
         EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
-        EventManager<bool>.Instance.StartListening("LoadData", LoadData);
+        EventManager<bool>.Instance.StopListening("LoadData", LoadData);
     }
 
     public void LoadData(bool loading)

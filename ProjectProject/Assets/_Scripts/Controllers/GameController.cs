@@ -83,10 +83,12 @@ public class GameController : Singleton<GameController>
 
             case GameState.END_LEVEL:
                 break;
+            
             case GameState.LOSING:
                 EventManager<int>.Instance.TriggerEvent("SaveTotalPage", totalPage + pageNumber);
                 EventManager<bool>.Instance.TriggerEvent("onGameOver", true);
                 Time.timeScale = 0;
+                state = GameState.END_LEVEL;
                 break;
         }
     }

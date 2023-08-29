@@ -19,9 +19,13 @@ public class Chunk : MapMover
         {
             Vector3 pos = transform.position;
             pos.x += (chunkSize * (EnvironmentController.Instance.numberOfChunk));
+
+            //float lastChunkPos = EnvironmentController.Instance.FindLastChunkPosition(); //TEST JACK
+            //pos.x = lastChunkPos + chunkSize;
+
             transform.position = pos;
             // here I should get the ID of the current level
-      
+            
             ResetChunk();
         }
 
@@ -39,8 +43,27 @@ public class Chunk : MapMover
 
     private void ResetChunk()
     {
-
         transform.DestroyChildren();
         BuildLevel();
+        //EnvironmentController.Instance.ManageList(); //TEST JACK
+    }
+
+    public void CheckDistance()
+    {
+        int index = EnvironmentController.Instance.listChunk.IndexOf(this);
+        if (index != 0)
+        {
+            Vector2 pos = transform.position;
+            float distance = Vector2.Distance(transform.position, EnvironmentController.Instance.listChunk[index - 1].transform.position);
+            Debug.Log(Vector2.Distance(transform.position, EnvironmentController.Instance.listChunk[index - 1].transform.position));
+            if (distance != 66)
+            {
+                float offset = Mathf.Abs(distance - chunkSize);
+                Debug.Log(offset);
+                pos.x += offset;
+                transform.position = pos;
+                Debug.Log(Vector2.Distance(transform.position, EnvironmentController.Instance.listChunk[index - 1].transform.position));
+            }
+        }
     }
 }

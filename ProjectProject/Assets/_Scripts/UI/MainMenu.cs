@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class MainMenu : MonoBehaviour
     public float fadeTimer;
     public AnimationCurve fadeOut;
     public List<GameObject> panels;
+
+    [SerializeField] private TextMeshProUGUI bestDistanceText;
+
+    [SerializeField] private float bestDistance;
 
     #region Animation
     private bool _transitionNewScene;
@@ -27,6 +32,11 @@ public class MainMenu : MonoBehaviour
     }
     #endregion
 
+    private void Awake()
+    {
+        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+    }
+
     private void OnEnable()
     {
         Time.timeScale = 1;
@@ -38,6 +48,13 @@ public class MainMenu : MonoBehaviour
         });
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", 15f);
         _panels[activePanelName].SetActive(true);
+        EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
+    }
+
+    private void Update()
+    {
+        UpdateBestDistance();
+
     }
 
     /// <summary>
@@ -61,6 +78,17 @@ public class MainMenu : MonoBehaviour
     public void ShowCredits()
     {
 
+    }
+
+    private void LoadBestDistance(float _bestDistance)
+    {
+        bestDistance = _bestDistance;
+        bestDistanceText.text = bestDistance + " m";
+
+    }
+
+    private void UpdateBestDistance()
+    {
     }
 
     /// <summary>

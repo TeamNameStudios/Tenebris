@@ -901,41 +901,68 @@ public class Player : MonoBehaviour
     {
         for(int i = 0; i < powerUps.Count; i++)
         {
-            switch(powerUps[i].ID) {
+            ScriptablePowerUp scriptablePowerUp;
+            int level = powerUps[i].Level -1;
+            if (level >= 1)
+            {
+               scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, level);
+            }else {
+                break;
+            }
+            switch (powerUps[i].ID) {
                 case PowerUpEnum.DASH_SPEED:
                     {
-                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
-                        dashSpeed = dashSpeed + (dashSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                        if(level >= 1)
+                        {
+                            
+                            dashSpeed = dashSpeed + (dashSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                        }
+                       
                     }
                     break;
                 case PowerUpEnum.DASH_COOLDOWN:
                     {
-                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
-                        startingDashCooldown = startingDashCooldown - (startingDashCooldown * scriptablePowerUp.PowerUpPercentage / 100);
+                        if (powerUps[i].Level > 0)
+                        {
+                            
+                            startingDashCooldown = startingDashCooldown - (startingDashCooldown * scriptablePowerUp.PowerUpPercentage / 100);
+                        }
                     }
                     break;
                 case PowerUpEnum.DASH_CORRUPTION_USAGE:
                     {
-                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
-                        dashCorruption = dashCorruption - (dashCorruption * scriptablePowerUp.PowerUpPercentage / 100);
+                        if (powerUps[i].Level > 0)
+                        {
+                         
+                            dashCorruption = dashCorruption - (dashCorruption * scriptablePowerUp.PowerUpPercentage / 100);
+                        }
                     }
                     break;
                 case PowerUpEnum.GRAPPLE_SPEED:
                     {
-                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
-                        grappleSpeed = grappleSpeed + (grappleSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                        if (powerUps[i].Level > 0)
+                        {
+                            
+                            grappleSpeed = grappleSpeed + (grappleSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                        }
                     }
                     break;
                 case PowerUpEnum.GRAPPLE_LAUNCH_SPEED:
                     {
-                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
-                        launchedSpeed = launchedSpeed + (launchedSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                        if (powerUps[i].Level > 0)
+                        {
+                           
+                            launchedSpeed = launchedSpeed + (launchedSpeed * scriptablePowerUp.PowerUpPercentage / 100);
+                        }
                     }
                     break;
                 case PowerUpEnum.GRAPPLE_CORRUPTION_USAGE:
                     {
-                        ScriptablePowerUp scriptablePowerUp = ResourceSystem.Instance.GetPowerUp(powerUps[i].ID, powerUps[i].Level);
-                        hookCorruptionOnce = hookCorruptionOnce - (hookCorruptionOnce * scriptablePowerUp.PowerUpPercentage / 100);
+                        if (powerUps[i].Level > 0)
+                        {
+
+                            hookCorruptionOnce = hookCorruptionOnce - (hookCorruptionOnce * scriptablePowerUp.PowerUpPercentage / 100);
+                        }
                     }
                     break;
             }

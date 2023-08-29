@@ -212,8 +212,8 @@ MonoBehaviour:
   _characterBounds:
     m_Center: {x: 0, y: -0.2, z: 0}
     m_Extent: {x: 1, y: 1.7, z: 0}
-  _grounderRadius: 0.2
-  groundOffset: 0.6
+  _grounderRadius: 0.1
+  groundOffset: 0.45
   _wallCheckRadius: 0.05
   _isAgainstLeftWall: 0
   _isAgainstRightWall: 0
@@ -235,6 +235,8 @@ MonoBehaviour:
   _coyoteTimeThreshold: 0.1
   _coyoteUsable: 0
   InputJump: 0
+  jumpBuffer: 0.5
+  lastJumpPressed: 0
   Corruption: 0
   maxCorruption: 100
   corrupted: 0

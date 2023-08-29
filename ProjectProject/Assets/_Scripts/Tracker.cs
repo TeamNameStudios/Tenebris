@@ -9,6 +9,9 @@ public class Tracker : Singleton<Tracker>
     private float actualDistance;
     private float playerDistance;
 
+
+    private bool isBestDistanceGraveSpawned;
+
     public float bestDistance;
     [SerializeField] GameObject bestDistanceMarker;
 
@@ -30,22 +33,23 @@ public class Tracker : Singleton<Tracker>
         playerDistance = 0;
         distance = 0;
         transform.position = new Vector3(0, 0, 0);
+        isBestDistanceGraveSpawned = false;
     }
 
     private void Update()
     {
         playerDistance += actualDistance;
         distance = Mathf.RoundToInt(playerDistance);
-    
+
         if (distance > maxX)
         {
             maxX = distance;
         }
-    
+
         EventManager<float>.Instance.TriggerEvent("UpdateDistanceCount", maxX);
 
 
-        if (GameController.Instance.state == GameState.LOSING)
+        if (GameController.Instance.state == GameState.END_LEVEL)
         {
             if (maxX > bestDistance)
             {
@@ -55,6 +59,12 @@ public class Tracker : Singleton<Tracker>
             EventManager<float>.Instance.TriggerEvent("SaveBestDistance", bestDistance);
         }
 
+
+        if (GameController.Instance.state == GameState.PLAYING && distance > bestDistance - 100 && !isBestDistanceGraveSpawned)
+        {
+            Instantiate(bestDistanceMarker,new Vector3(100,-17,0), Quaternion.identity);
+            isBestDistanceGraveSpawned = true;
+        }
     }
 
     private void Move(float _velocity)

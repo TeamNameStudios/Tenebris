@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+        
     }
 
     private void OnEnable()
@@ -49,12 +49,12 @@ public class MainMenu : MonoBehaviour
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", 15f);
         _panels[activePanelName].SetActive(true);
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
+        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }
-
-    private void Update()
+    private void OnDisable()
     {
-        UpdateBestDistance();
 
+        EventManager<float>.Instance.StopListening("onBestDistanceLoaded", LoadBestDistance);
     }
 
     /// <summary>
@@ -87,9 +87,6 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    private void UpdateBestDistance()
-    {
-    }
 
     /// <summary>
     /// Event for changing the Active Panel in the Main Menu, even if brief, it starts a brief animation of FadeIn and FadeOut

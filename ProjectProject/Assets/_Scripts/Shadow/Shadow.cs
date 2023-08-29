@@ -43,14 +43,14 @@ public class Shadow : MapMover, IEnemy
 
             Vector2 pos = transform.position;
             
-            if (canChange)
-            {
-                canChange = false;
-                float previousDistance = maxDistance;
-                maxDistance = Random.Range(20, 35);
-                //pos = Vector2.Lerp(pos, new Vector2(maxDistance, pos.y), 10f * Time.deltaTime);
-                StartCoroutine(ChangeMaxDistance());
-            }
+            //if (canChange)
+            //{
+            //    canChange = false;
+            //    float previousDistance = maxDistance;
+            //    maxDistance = Random.Range(20, 35);
+            //    //pos = Vector2.Lerp(pos, new Vector2(maxDistance, pos.y), 10f * Time.deltaTime);
+            //    StartCoroutine(ChangeMaxDistance());
+            //}
 
 
             pos.x += Vector2.right.x * shadowSpeed * Time.deltaTime;

@@ -49,6 +49,7 @@ public class Lurker : Manifestation
             case LurkerState.IDLE:
                 FindPlayer();
                 startPos = transform.position;
+                fallVelocity = startFallVelocity;
                 if (destructionCO != null)
                 {
                     StopCoroutine(destructionCO);

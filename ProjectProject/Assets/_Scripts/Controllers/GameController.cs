@@ -29,6 +29,8 @@ public class GameController : Singleton<GameController>
     [SerializeField] private float minutes;
     [SerializeField] private float timeScaleIncrement;
 
+    private TimeSpan time;
+    private TimeSpan bestTime;
 
     private void Start()
     {
@@ -43,6 +45,7 @@ public class GameController : Singleton<GameController>
         EventManager<GameState>.Instance.StartListening("onPlayerDead", ChangeState);
         EventManager<bool>.Instance.StartListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StartListening("pause", Pause);
+        EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
     }
     private void OnDisable()
     {
@@ -52,8 +55,7 @@ public class GameController : Singleton<GameController>
         EventManager<bool>.Instance.StopListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StopListening("pause", Pause);
         EventManager<GameState>.Instance.StopListening("onPlayerDead", ChangeState);
-
-
+        EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
     }
 
     private void Update()
@@ -74,7 +76,7 @@ public class GameController : Singleton<GameController>
             case GameState.PLAYING:
                 
                 runTime += Time.unscaledDeltaTime;
-                TimeSpan time = TimeSpan.FromSeconds(runTime);
+                time = TimeSpan.FromSeconds(runTime);
                 EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
                 ManageRun(time);
                 Time.timeScale = timeScale;
@@ -86,9 +88,16 @@ public class GameController : Singleton<GameController>
             
             case GameState.LOSING:
                 EventManager<int>.Instance.TriggerEvent("SaveTotalPage", totalPage + pageNumber);
+                
+                if (time > bestTime)
+                {
+                    bestTime = time;
+                }
+                
+                SaveBestTime();
                 EventManager<bool>.Instance.TriggerEvent("onGameOver", true);
                 Time.timeScale = 0;
-                state = GameState.END_LEVEL;
+                //state = GameState.END_LEVEL;
                 break;
         }
     }
@@ -138,6 +147,20 @@ public class GameController : Singleton<GameController>
     private void SaveTotalPage(int _totalPage)
     {
         totalPage = _totalPage;
+    }
+
+    private void SaveBestTime()
+    {
+        TimeSpan newTimeSpan = new TimeSpan(bestTime.Hours, bestTime.Minutes, bestTime.Seconds);
+        
+        string timeString = newTimeSpan.ToString();
+        EventManager<string>.Instance.TriggerEvent("SaveBestTime", timeString);
+    }
+
+    private void LoadBestTime(string timeString)
+    {
+        TimeSpan timeSpan = TimeSpan.Parse(timeString);
+        bestTime = timeSpan;
     }
 
     #region RUN MANAGER

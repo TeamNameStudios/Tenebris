@@ -49,7 +49,7 @@ public class Tracker : Singleton<Tracker>
         EventManager<float>.Instance.TriggerEvent("UpdateDistanceCount", maxX);
 
 
-        if (GameController.Instance.state == GameState.END_LEVEL)
+        if (GameController.Instance.state == GameState.LOSING)
         {
             if (maxX > bestDistance)
             {

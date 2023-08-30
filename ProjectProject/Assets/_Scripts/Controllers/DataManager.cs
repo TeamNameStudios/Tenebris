@@ -23,6 +23,7 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StartListening("SaveBestDistance", SaveBestDistance);
         EventManager<List<PowerUp>>.Instance.StartListening("SavePowerUp", SavePowerUp);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
+        EventManager<string>.Instance.StartListening("SaveBestTime", SaveBestTime);
     }
     private void OnDisable()
     {
@@ -31,6 +32,7 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StopListening("SaveBestDistance", SaveBestDistance);
         EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
         EventManager<bool>.Instance.StopListening("LoadData", LoadData);
+        EventManager<string>.Instance.StopListening("SaveBestTime", SaveBestTime);
     }
 
     public void LoadData(bool loading)
@@ -39,6 +41,7 @@ public class DataManager : Singleton<DataManager>
         LoadTotalPages();
         LoadPowerUp();
         LoadBestDistance();
+        LoadBestTime();
     }
 
     public void SavePages(int count)
@@ -82,6 +85,20 @@ public class DataManager : Singleton<DataManager>
     {
         float bestDistance = PlayerPrefs.GetFloat("BestDistance", 0);
         EventManager<float>.Instance.TriggerEvent("onBestDistanceLoaded", bestDistance);
+    }
+
+    public void SaveBestTime(string value)
+    {
+        if (value == null)
+            return;
+        PlayerPrefs.SetString("BestTime", value);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadBestTime()
+    {
+        string bestTime = PlayerPrefs.GetString("BestTime", "00:00");
+        EventManager<string>.Instance.TriggerEvent("onBestTimeLoaded", bestTime);
     }
 
     #region POWERUPS

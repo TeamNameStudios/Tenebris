@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,8 +14,10 @@ public class MainMenu : MonoBehaviour
     public List<GameObject> panels;
 
     [SerializeField] private TextMeshProUGUI bestDistanceText;
+    [SerializeField] private TextMeshProUGUI bestTimeText;
 
     [SerializeField] private float bestDistance;
+    [SerializeField] private string bestTime;
 
     #region Animation
     private bool _transitionNewScene;
@@ -49,11 +52,12 @@ public class MainMenu : MonoBehaviour
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", 15f);
         _panels[activePanelName].SetActive(true);
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
+        EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }
     private void OnDisable()
     {
-
+        EventManager<string>.Instance.StopListening("onBestTimeLoaded", LoadBestTime);
         EventManager<float>.Instance.StopListening("onBestDistanceLoaded", LoadBestDistance);
     }
 
@@ -84,7 +88,12 @@ public class MainMenu : MonoBehaviour
     {
         bestDistance = _bestDistance;
         bestDistanceText.text = bestDistance + " m";
+    }
 
+    private void LoadBestTime(string timeString)
+    {
+        bestTime = timeString;
+        bestTimeText.text = bestTime;
     }
 
 

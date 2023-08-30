@@ -18,7 +18,7 @@ public class Shadow : MapMover, IEnemy
 
     [SerializeField] private float maxDistance = 35;
     [SerializeField] private float changeMaxDistanceTimer;
-    private bool canChange = true;
+    //private bool canChange = true;
 
 
     // Update is called once per frame
@@ -90,9 +90,9 @@ public class Shadow : MapMover, IEnemy
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + minDistance, transform.position.y, transform.position.z));
     }
 
-    private IEnumerator ChangeMaxDistance()
-    {
-        yield return new WaitForSeconds(changeMaxDistanceTimer);
-        canChange = true;
-    }
+    //private IEnumerator ChangeMaxDistance()
+    //{
+    //    yield return new WaitForSeconds(changeMaxDistanceTimer);
+    //    canChange = true;
+    //}
 }

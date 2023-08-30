@@ -10,13 +10,20 @@ public class MainHUD : MonoBehaviour
 {
     public GameObject pauseMenu;
     public List<GameObject> pausePanels;
-    public GameObject endLevelPanel;
     public GameObject gameoverPanel;
 
     private bool pauseState = false;
     public TextMeshProUGUI _pageCount;
     public TextMeshProUGUI _distanceCount;
     public TextMeshProUGUI _timerCount;
+
+    [SerializeField] private TextMeshProUGUI bestDistanceText;
+    [SerializeField] private TextMeshProUGUI currentDistanceText;
+    [SerializeField] private TextMeshProUGUI currentTimeText;
+    private float bestDistance;
+    private float currentDistance;
+    private TimeSpan currentTime;
+
     public void SetPauseState(bool state)
     {
         pauseState = !pauseState;
@@ -53,6 +60,7 @@ public class MainHUD : MonoBehaviour
     public void UpdateDistanceCount(float newDistanceCount)
     {
         _distanceCount.text = newDistanceCount.ToString();
+        currentDistance = newDistanceCount;
     }
 
 
@@ -61,7 +69,6 @@ public class MainHUD : MonoBehaviour
         pausePanels[0].SetActive(true);
         pausePanels[1].SetActive(false);
         pauseMenu.SetActive(false);
-        endLevelPanel.SetActive(false);
         TempGameOver(false);
     }
 
@@ -73,6 +80,9 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StartListening("onGameOver", TempGameOver);
         EventManager<TimeSpan>.Instance.StartListening("onTimer", UpdateTimer);
+        EventManager<float>.Instance.StartListening("onBestDistanceUpdated", UpdateBestDistance);
+        EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
+        EventManager<bool>.Instance.StartListening("onGamePaused", SetPauseState);
     }
 
     private void OnDisable()
@@ -83,12 +93,14 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
         EventManager<TimeSpan>.Instance.StopListening("onTimer", UpdateTimer);
+        EventManager<float>.Instance.StopListening("onBestDistanceU", UpdateBestDistance); 
+        EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
+        EventManager<bool>.Instance.StartListening("onGamePaused", SetPauseState);
     }
     public void UpdateTimer(TimeSpan timer)
     {
-
-
         _timerCount.text = timer.ToString(@"mm\:ss");
+        currentTime = timer;
     }
     public void ReloadScene()
     {
@@ -100,7 +112,6 @@ public class MainHUD : MonoBehaviour
     {
         if (state)
         {
-            endLevelPanel.SetActive(state);
         }
     }
 
@@ -108,6 +119,7 @@ public class MainHUD : MonoBehaviour
     {
         if (state)
         {
+            SetGameOverPanel();
             gameoverPanel.SetActive(true);
         }
         else
@@ -120,5 +132,23 @@ public class MainHUD : MonoBehaviour
     {
         EventManager<bool>.Instance.TriggerEvent("onSceneReload", true);
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void LoadBestDistance(float _bestDistance)
+    {
+        bestDistance = _bestDistance;
+    }
+
+    private void UpdateBestDistance(float _bestDistance)
+    {
+        bestDistance = _bestDistance;
+    }
+
+
+    public void SetGameOverPanel()
+    {
+        currentDistanceText.text = "Distance: " + currentDistance.ToString();
+        currentTimeText.text = "Time: " + currentTime.ToString(@"mm\:ss");
+        bestDistanceText.text = "Best Distance: " + bestDistance.ToString();
     }
 }

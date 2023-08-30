@@ -54,6 +54,7 @@ public class Tracker : Singleton<Tracker>
             if (maxX > bestDistance)
             {
                 bestDistance = maxX;
+                EventManager<float>.Instance.TriggerEvent("onBestDistanceUpdated", bestDistance);
             }
 
             EventManager<float>.Instance.TriggerEvent("SaveBestDistance", bestDistance);
@@ -62,7 +63,7 @@ public class Tracker : Singleton<Tracker>
 
         if (GameController.Instance.state == GameState.PLAYING && distance > bestDistance - 100 && !isBestDistanceGraveSpawned)
         {
-            Instantiate(bestDistanceMarker,new Vector3(100,-17,0), Quaternion.identity);
+            Instantiate(bestDistanceMarker,new Vector3(100, 0, 0), Quaternion.identity);
             isBestDistanceGraveSpawned = true;
         }
     }

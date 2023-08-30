@@ -124,15 +124,16 @@ public class GameController : Singleton<GameController>
     }
 
 
-    void Pause (bool isPausing)
+    public void Pause (bool isPausing)
     {
-
         if (isPausing)
         {
             ChangeState(GameState.PAUSING);
+            EventManager<bool>.Instance.TriggerEvent("onGamePaused", isPausing);
         }
         else
         {
+            EventManager<bool>.Instance.TriggerEvent("onGamePaused", isPausing);
             ChangeState(GameState.PLAYING);
         }
     }

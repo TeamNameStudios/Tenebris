@@ -235,8 +235,6 @@ MonoBehaviour:
   _coyoteTimeThreshold: 0.1
   _coyoteUsable: 0
   InputJump: 0
-  jumpBuffer: 0.5
-  lastJumpPressed: 0
   Corruption: 0
   maxCorruption: 100
   corrupted: 0
@@ -252,11 +250,11 @@ MonoBehaviour:
   dashSpeed: 25
   isDashing: 0
   canDash: 1
-  startingDashTime: 0.05
   startingDashCooldown: 1
   dashRatio: 12
-  useDashRatio: 1
   dashTimeRatio: 0
+  dashCorruptionRatio: 8
+  dashCorruptionTimeRatio: 0
   dashCorruption: 30
   isGrappling: 0
   isLaunchedState: 0

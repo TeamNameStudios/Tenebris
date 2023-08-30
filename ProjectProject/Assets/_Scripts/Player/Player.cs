@@ -552,13 +552,12 @@ public class Player : MonoBehaviour
     private float dashSpeed = 15;
     [SerializeField] private bool isDashing;
     [SerializeField] private bool canDash = true;
-    [SerializeField] private float startingDashTime;
-
     [SerializeField] private float startingDashCooldown;// value added only when the dash starts
     //[Tooltip("Using dashRatio won't consider the startingDashTime and calculate the length of the dash independently")]
     [SerializeField] private float dashRatio;
-    [SerializeField] private bool useDashRatio;
-    [SerializeField] private float dashTimeRatio;
+    private float dashTimeRatio;
+    [SerializeField] private float dashCorruptionRatio;
+   private float dashCorruptionTimeRatio;
     [SerializeField] private float dashCorruption; 
 
     private float dashTime;
@@ -575,15 +574,11 @@ public class Player : MonoBehaviour
 
             canDash = false;
             isDashing = _isDashing;
-            if (useDashRatio)
-            {
-                dashTimeRatio = dashRatio / dashSpeed;
-                dashTime = !corrupted ? dashTimeRatio : dashRatio / 2 / dashSpeed;
-            }
-            else
-            {
-                dashTime = startingDashTime;
-            }
+   
+            dashTimeRatio = dashRatio / dashSpeed;
+            dashCorruptionTimeRatio = dashCorruptionRatio / dashSpeed;
+            dashTime = !corrupted ? dashTimeRatio : dashCorruptionTimeRatio;
+    
            
             dashCooldown = startingDashCooldown;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
@@ -601,7 +596,7 @@ public class Player : MonoBehaviour
     {
         if (isDashing)
         {
-            velocity = !corrupted ? dashDir * dashSpeed  : dashDir * dashSpeed + new Vector2(-dashDir.x* 5,0); 
+            velocity = !corrupted ? dashDir * dashSpeed  : dashDir * dashSpeed + new Vector2(-dashDir.x * 5,0); 
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall || velocity.y > 0 && _isAgainstRoof || velocity.y < 0 && IsGrounded)
             {
                 isDashing = false;
@@ -703,7 +698,23 @@ public class Player : MonoBehaviour
         Vector2 pos = transform.position;
         Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
         Collider2D[] HookableHits = Physics2D.OverlapCircleAll(pos + direction, grappleZoneDistance);
-        HookableObject = GetNearestHookable(HookableHits);
+        HookableObject _HookableObject = GetNearestHookable(HookableHits);
+        if (HookableObject == null && _HookableObject != null)
+        {
+            HookableObject = _HookableObject;
+            HookableObject.EnableGrapplable();
+        }
+        else if (_HookableObject == null && HookableObject != null)
+        {
+            HookableObject.DisableGrapplable();
+            HookableObject = _HookableObject;
+        }
+        else if (_HookableObject != HookableObject)
+        {
+            HookableObject.DisableGrapplable();
+            HookableObject = _HookableObject;
+            HookableObject.EnableGrapplable();
+        }
 
     }
 
@@ -847,13 +858,18 @@ public class Player : MonoBehaviour
                 }
                 if ((grappleDirection.x > 0 && hookObjectpos.x < pos.x) || (grappleDirection.x < 0 && hookObjectpos.x > pos.x))
                 {
-                    isLaunchedState = true;
-                    isGrappling = false;
-                    canGrapple = true;
-                    grappleDirection = Vector2.zero;
-                    rb.gravityScale = 1;
-                    lineRenderer.enabled = false;
-                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
+                 
+                        isGrappling = false;
+                        canGrapple = true;
+                        grappleDirection = Vector2.zero;
+                        rb.gravityScale = 1;
+                        lineRenderer.enabled = false;
+                    if (!corrupted)
+                    {
+                        isLaunchedState = true;
+                        velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
+                    }
+
                 }
             }
         }
@@ -862,12 +878,16 @@ public class Player : MonoBehaviour
             if (isGrappling)
             {
                 lineRenderer.enabled = false;
-                isLaunchedState = true;
+               
                 isGrappling = false;
                 canGrapple = true;
                 grappleDirection = Vector2.zero;
                 rb.gravityScale = 1;
-                velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
+                if (!corrupted)
+                {
+                    isLaunchedState = true;
+                    velocity = new Vector2(launchedStateDirection.x * swingingDirection.x, launchedStateDirection.y) * launchedSpeed;
+                }
             }
         }
 

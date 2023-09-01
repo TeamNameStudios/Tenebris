@@ -409,16 +409,34 @@ public class Player : MonoBehaviour
 
     private void ManageCorruption()
     {
-        if (!corrupted && canRecover && GameController.Instance.State == GameState.PLAYING)
+        if (GameController.Instance != null)
         {
-            if (Corruption > 0)
+            if (!corrupted && canRecover && GameController.Instance.State == GameState.PLAYING)
             {
-                isRecovering = true;
-                float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
-                float easeTime = EaseInCubic(normalizedTime);
-                DecreaseCorruption(recoverCorruptionSpeed * easeTime);
-                elapsedTime += Time.unscaledDeltaTime;
-                //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                if (Corruption > 0)
+                {
+                    isRecovering = true;
+                    float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
+                    float easeTime = EaseInCubic(normalizedTime);
+                    DecreaseCorruption(recoverCorruptionSpeed * easeTime);
+                    elapsedTime += Time.unscaledDeltaTime;
+                    //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                }
+            }
+        }
+        else
+        {
+            if (!corrupted && canRecover && TutorialGameController.Instance.State == GameState.PLAYING)
+            {
+                if (Corruption > 0)
+                {
+                    isRecovering = true;
+                    float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
+                    float easeTime = EaseInCubic(normalizedTime);
+                    DecreaseCorruption(recoverCorruptionSpeed * easeTime);
+                    elapsedTime += Time.unscaledDeltaTime;
+                    //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                }
             }
         }
     }

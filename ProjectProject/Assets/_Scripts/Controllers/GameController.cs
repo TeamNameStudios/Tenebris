@@ -211,6 +211,7 @@ public class GameController : Singleton<GameController>
 public enum GameState
 {
     IDLE,
+    TUTORIAL,
     STARTING,
     PAUSING,
     PLAYING,

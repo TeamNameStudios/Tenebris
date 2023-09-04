@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TutorialInputController : Singleton<TutorialInputController>
 {
+    private bool dashTutorialPlayed = false;
+
+
     private void Update()
     {
         if (TutorialGameController.Instance.State == GameState.PLAYING)
@@ -49,6 +52,14 @@ public class TutorialInputController : Singleton<TutorialInputController>
         else if (Input.GetKeyUp(KeyCode.Escape) && TutorialGameController.Instance.State == GameState.PAUSING)
         {
             EventManager<bool>.Instance.TriggerEvent("pause", false);
+        }
+
+
+        if (TutorialGameController.Instance.state == GameState.PLAYING && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && !dashTutorialPlayed && TutorialGameController.Instance.welcomeTutorialPlayed)
+        {
+            dashTutorialPlayed = true;
+            EventManager<string>.Instance.TriggerEvent("onPlayDialogue", "dash");
+            EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.TUTORIAL);
         }
     }
 }

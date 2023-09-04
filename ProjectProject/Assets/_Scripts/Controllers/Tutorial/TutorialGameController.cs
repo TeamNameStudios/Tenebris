@@ -22,8 +22,8 @@ public class TutorialGameController : Singleton<TutorialGameController>
 
     private TimeSpan time;
 
-    private bool canSlow = false;
-    private float t;
+    public bool welcomeTutorialPlayed = false;
+    public float t;
     [SerializeField] private float slowMoSpeed;
 
 
@@ -79,7 +79,11 @@ public class TutorialGameController : Singleton<TutorialGameController>
                 Time.timeScale = Mathf.Lerp(1, 0, t);
                 t += Time.unscaledDeltaTime * slowMoSpeed;
 
-
+                if (!welcomeTutorialPlayed)
+                {
+                    EventManager<string>.Instance.TriggerEvent("onPlayDialogue", "welcome");
+                    welcomeTutorialPlayed = true;
+                }
 
                 break;
             

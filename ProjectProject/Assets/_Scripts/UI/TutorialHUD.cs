@@ -5,28 +5,72 @@ using TMPro;
 
 public class TutorialHUD : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> tutorialTextList = new List<GameObject>();
-    private int tutorialIndex = 0;
+    public TextMeshProUGUI textComponent;
+    public List<string> lines;
+    public float textSpeed;
 
-    private void Update()
+    private int index;
+
+    private void OnEnable()
+    {
+        EventManager<string>.Instance.StartListening("onPlayDialogue", SetDialogueLine);
+    }
+
+    void Update()
     {
         if (Input.anyKeyDown && TutorialGameController.Instance.state == GameState.TUTORIAL)
         {
-            NextDialogue();
+            if (textComponent.text == lines[index])
+            {
+                NextLine();
+            }
+            else
+            {
+                StopAllCoroutines();
+                textComponent.text = lines[index];
+                TutorialGameController.Instance.t = 0;
+            }
         }
     }
 
-    private void NextDialogue()
+    void StartDialogue()
     {
-        if (tutorialIndex + 1 <= tutorialTextList.Count)
+        textComponent.text = string.Empty;
+        index = 0;
+        StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        foreach (char c in lines[index].ToCharArray())
         {
-            return;
+            textComponent.text += c;
+            yield return new WaitForSecondsRealtime(textSpeed);
         }
+    }
 
-        tutorialTextList[tutorialIndex].SetActive(false);
+    void NextLine()
+    {
+        if (index < lines.Count - 1)
+        {
+            index++;
+            textComponent.text = string.Empty;
+            StartCoroutine(TypeLine());
+        }
+        else
+        {
+            //gameObject.SetActive(false);
+            textComponent.text = string.Empty;
+            TutorialGameController.Instance.t = 0;
+            EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.IDLE);
+        }
+    }
 
-        tutorialIndex++;
-
-        tutorialTextList[tutorialIndex].SetActive(true);
+    private void SetDialogueLine(string name)
+    {
+        TutorialDialogueScriptable SO = ResourceSystem.Instance.GetDialogueLines(name);
+        lines.Clear();
+        lines = new List<string>(SO.lines);
+        StartDialogue();
     }
 }

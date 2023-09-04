@@ -227,12 +227,12 @@ MonoBehaviour:
   isFacingRight: 1
   maxVelocity: 18
   maxVelocityIncrement: 0.2
-  acceleration: 130
+  acceleration: 225
   accelerationIncrement: 0.2
   deAcceleration: 50
-  _jumpHeight: 35
+  _jumpHeight: 37.5
   _jumpApexThreshold: 25
-  _coyoteTimeThreshold: 0.1
+  _coyoteTimeThreshold: 0.2
   _coyoteUsable: 0
   InputJump: 0
   Corruption: 0
@@ -252,9 +252,7 @@ MonoBehaviour:
   canDash: 1
   startingDashCooldown: 1
   dashRatio: 12
-  dashTimeRatio: 0
   dashCorruptionRatio: 8
-  dashCorruptionTimeRatio: 0
   dashCorruption: 30
   isGrappling: 0
   isLaunchedState: 0

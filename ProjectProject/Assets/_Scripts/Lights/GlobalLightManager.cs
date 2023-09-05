@@ -18,6 +18,7 @@ public class GlobalLightManager : MonoBehaviour
     {
         Moon.SetActive(true);
         CorruptedMoon.SetActive(false);
+   
     }
 
     private void OnEnable()
@@ -32,6 +33,7 @@ public class GlobalLightManager : MonoBehaviour
 
     private void ChangeGlobalLight(bool value)
     {
+
         if (value)
         {
             Moon.SetActive(false);

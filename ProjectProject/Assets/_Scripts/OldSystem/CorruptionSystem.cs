@@ -42,7 +42,7 @@ public class CorruptionSystem : MonoBehaviour
 
     private void Update()
     {
-        if (!corrupted && canRecover && TempGameController.Instance.State == GameState.PLAYING)
+        if (!corrupted && canRecover && GameController.Instance.State == GameState.PLAYING)
         {
             if (Corruption > 0)
             {

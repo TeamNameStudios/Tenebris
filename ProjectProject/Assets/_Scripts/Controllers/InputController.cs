@@ -41,26 +41,22 @@ public class InputController : Singleton<InputController>
                 EventManager<bool>.Instance.TriggerEvent("isGrappling", true);
             }
 
-
         }
 
-        if (Input.GetKeyUp(KeyCode.Escape) && GameController.Instance.State == GameState.PLAYING)
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            EventManager<bool>.Instance.TriggerEvent("pause", true);
+            Pause();
         }
-        else if (Input.GetKeyUp(KeyCode.Escape) && GameController.Instance.State == GameState.PAUSING)
-        {
-            EventManager<bool>.Instance.TriggerEvent("pause", false);
-        }
+ 
     }
 
     public void Pause()
     {
-        if (TempGameController.Instance.State == GameState.PLAYING)
+        if (GameController.Instance.State == GameState.PLAYING)
         {
             EventManager<bool>.Instance.TriggerEvent("pause", true);
         }
-        else if (TempGameController.Instance.State == GameState.PAUSING)
+        else if (GameController.Instance.State == GameState.PAUSING)
         {
             EventManager<bool>.Instance.TriggerEvent("pause", false);
         }

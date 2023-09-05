@@ -18,7 +18,7 @@ public class TutorialHUD : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown && TutorialGameController.Instance.state == GameState.TUTORIAL)
+        if (Input.anyKeyDown && GameController.Instance.state == GameState.TUTORIAL)
         {
             if (textComponent.text == lines[index])
             {
@@ -28,7 +28,7 @@ public class TutorialHUD : MonoBehaviour
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-                TutorialGameController.Instance.t = 0;
+                TutorialGC.Instance.t = 0;
             }
         }
     }
@@ -59,10 +59,9 @@ public class TutorialHUD : MonoBehaviour
         }
         else
         {
-            //gameObject.SetActive(false);
             textComponent.text = string.Empty;
-            TutorialGameController.Instance.t = 0;
-            EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.IDLE);
+            TutorialGC.Instance.t = 0;
+            EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.PLAYING);
         }
     }
 

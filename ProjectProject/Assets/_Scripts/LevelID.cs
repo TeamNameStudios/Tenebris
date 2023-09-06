@@ -65,4 +65,6 @@ START,
 ROLevel43,
 ROLevel44,
 Tutorial_1,
+Tutorial_2,
+Tutorial_3,
 }

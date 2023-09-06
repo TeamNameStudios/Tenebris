@@ -186,12 +186,12 @@ SpriteRenderer:
   m_SortingLayerID: -198675217
   m_SortingLayer: 7
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1171099805, guid: d489d7fbd41b6c042a732352b349aeee, type: 3}
+  m_Sprite: {fileID: 992591360, guid: 395ff3d52bb33a5458399a99b1233428, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -271,7 +271,7 @@ SpriteRenderer:
   m_SortingLayerID: 1633803711
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1166160727, guid: d489d7fbd41b6c042a732352b349aeee, type: 3}
+  m_Sprite: {fileID: 1375020169, guid: 395ff3d52bb33a5458399a99b1233428, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -316,28 +316,13 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_Vertices:
-  - position: {x: -0.5, y: 0.5, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.29017857, y: 0.25}
-  - position: {x: 0.5, y: -0.5, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.36160713, y: 0.05}
-  - position: {x: 0.5, y: 0.5, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.36160713, y: 0.25}
-  - position: {x: -0.5, y: -0.5, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.29017857, y: 0.05}
   - position: {x: 0, y: 0, z: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  - position: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    uv: {x: 0, y: 0}
-  m_Triangles: 030000000100020001000000
+  m_Triangles: 0000
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

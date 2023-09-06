@@ -36,12 +36,6 @@ public class TutorialGC : Singleton<TutorialGC>
                 Time.timeScale = Mathf.Lerp(1, 0, t);
                 t += Time.unscaledDeltaTime * slowMoSpeed;
 
-                if (!welcomeTutorialPlayed)
-                {
-                    EventManager<string>.Instance.TriggerEvent("onPlayDialogue", "welcome");
-                    welcomeTutorialPlayed = true;
-                }
-
                 break;
 
             case GameState.PLAYING:

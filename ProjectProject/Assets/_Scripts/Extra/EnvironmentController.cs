@@ -20,7 +20,7 @@ public class EnvironmentController : Singleton<EnvironmentController>
     protected override void Awake()
     {
         base.Awake();
-        if (GameController.Instance.IsTutorial)
+        if (GameController.Instance.IsTutorial == 1)
         {
             firstLevel = LevelID.Tutorial_1;
         }

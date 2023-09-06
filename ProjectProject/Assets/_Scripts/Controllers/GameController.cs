@@ -7,7 +7,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class GameController : Singleton<GameController>
 {
-    public bool IsTutorial;
+    public int IsTutorial;
     
     public GameState state = GameState.IDLE;
     public GameState State { get => state; private set => state = value; }
@@ -38,7 +38,7 @@ public class GameController : Singleton<GameController>
 
     private void Start()
     {
-        if (IsTutorial)
+        if (IsTutorial == 1)
         {
             Instantiate(tutorialGC);
         }
@@ -55,6 +55,9 @@ public class GameController : Singleton<GameController>
         EventManager<bool>.Instance.StartListening("pause", Pause);
         EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
         EventManager<bool>.Instance.StartListening("onTutorialEnd", TutorialEnd);
+        EventManager<int>.Instance.StartListening("onTutorialFlagLoaded", LoadTutorialFlag);
+
+        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }
     private void OnDisable()
     {
@@ -66,6 +69,8 @@ public class GameController : Singleton<GameController>
         EventManager<GameState>.Instance.StopListening("onPlayerDead", ChangeState);
         EventManager<string>.Instance.StopListening("onBestTimeLoaded", LoadBestTime);
         EventManager<bool>.Instance.StopListening("onTutorialEnd", TutorialEnd);
+        EventManager<int>.Instance.StopListening("onTutorialFlagLoaded", LoadTutorialFlag);
+
     }
 
     private void Update()
@@ -87,7 +92,7 @@ public class GameController : Singleton<GameController>
             
             case GameState.PLAYING:
                 
-                if (!IsTutorial)
+                if (IsTutorial == 0)
                 {
                     runTime += Time.unscaledDeltaTime;
                     time = TimeSpan.FromSeconds(runTime);
@@ -130,7 +135,7 @@ public class GameController : Singleton<GameController>
     private void SetGameScene(bool isGameSceneStarted)
     {
         Instantiate(player, new Vector2(0, 30), Quaternion.identity).GetComponent<Player>();
-        if (!IsTutorial)
+        if (IsTutorial == 0)
         {
             if (SpawnShadow)
             {
@@ -140,7 +145,7 @@ public class GameController : Singleton<GameController>
 
             Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
         }
-        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+        //EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }
 
@@ -149,7 +154,8 @@ public class GameController : Singleton<GameController>
         Shadow _shadow = Instantiate(shadow, new Vector2(-30, 0), Quaternion.identity).GetComponent<Shadow>();
         _shadow.Setup(player);
         Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
-        IsTutorial = false;
+        IsTutorial = 0;
+        EventManager<int>.Instance.TriggerEvent("SaveTutorialFlag", IsTutorial);
     }
 
     public void Pause (bool isPausing)
@@ -190,6 +196,11 @@ public class GameController : Singleton<GameController>
     {
         TimeSpan timeSpan = TimeSpan.Parse(timeString);
         bestTime = timeSpan;
+    }
+
+    private void LoadTutorialFlag(int tutorialFlag)
+    {
+        IsTutorial = tutorialFlag;
     }
 
     #region RUN MANAGER

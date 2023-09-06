@@ -21,13 +21,13 @@ public class TutorialGC : Singleton<TutorialGC>
         {
             case GameState.IDLE:
 
-                Time.timeScale = Mathf.Lerp(0, 1, t);
-                t += Time.unscaledDeltaTime * slowMoSpeed;
+                //Time.timeScale = Mathf.Lerp(0, 1, t);
+                //t += Time.unscaledDeltaTime * slowMoSpeed;
 
-                if (t >= 1)
-                {
-                    EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.PLAYING);
-                }
+                //if (t >= 1)
+                //{
+                //    EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.PLAYING);
+                //}
 
                 break;
 
@@ -41,12 +41,6 @@ public class TutorialGC : Singleton<TutorialGC>
             case GameState.PLAYING:
 
                 break;
-        }
-
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            //canSlow = true;
-            GameController.Instance.state = GameState.TUTORIAL;
         }
     }
 }

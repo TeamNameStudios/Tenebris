@@ -1655,8 +1655,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 1542383196109729950}
     m_Modifications:
     - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
+      propertyPath: boxSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
+      propertyPath: boxSize.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: dialogueName
       value: welcome
+      objectReference: {fileID: 0}
+    - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
+      propertyPath: lastTutorial
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1755527472507629596, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_Name
@@ -1668,11 +1680,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 25.73
       objectReference: {fileID: 0}
     - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10
+      value: -2.85
       objectReference: {fileID: 0}
     - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_LocalPosition.z

@@ -28,7 +28,6 @@ public class TutorialHUD : MonoBehaviour
             {
                 StopAllCoroutines();
                 textComponent.text = lines[index];
-                TutorialGC.Instance.t = 0;
             }
         }
     }
@@ -70,6 +69,7 @@ public class TutorialHUD : MonoBehaviour
         TutorialDialogueScriptable SO = ResourceSystem.Instance.GetDialogueLines(name);
         lines.Clear();
         lines = new List<string>(SO.lines);
+        textComponent.transform.localPosition = SO.position;
         StartDialogue();
     }
 }

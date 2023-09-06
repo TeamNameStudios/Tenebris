@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
 
         if (transform.position.y < -20)
         {
-            if (GameController.Instance.IsTutorial)
+            if (GameController.Instance.IsTutorial == 1)
             {
                 transform.position = new Vector2(0, 30);
             }
@@ -547,7 +547,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility && !GameController.Instance.IsTutorial)
+        if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility && GameController.Instance.IsTutorial == 0)
         {
             EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
             Debug.Log("DEAD");

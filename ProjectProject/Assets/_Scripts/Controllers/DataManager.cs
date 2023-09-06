@@ -24,7 +24,9 @@ public class DataManager : Singleton<DataManager>
         EventManager<List<PowerUp>>.Instance.StartListening("SavePowerUp", SavePowerUp);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
         EventManager<string>.Instance.StartListening("SaveBestTime", SaveBestTime);
+        EventManager<int>.Instance.StartListening("SaveTutorialFlag", SaveTutorialFlag);
     }
+    
     private void OnDisable()
     {
         EventManager<int>.Instance.StopListening("SavePage", SavePages);
@@ -33,6 +35,7 @@ public class DataManager : Singleton<DataManager>
         EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
         EventManager<bool>.Instance.StopListening("LoadData", LoadData);
         EventManager<string>.Instance.StopListening("SaveBestTime", SaveBestTime);
+        EventManager<int>.Instance.StartListening("SaveTutorialFlag", SaveTutorialFlag);
     }
 
     public void LoadData(bool loading)
@@ -42,6 +45,7 @@ public class DataManager : Singleton<DataManager>
         LoadPowerUp();
         LoadBestDistance();
         LoadBestTime();
+        LoadTutorialFlag();
     }
 
     public void SavePages(int count)
@@ -100,6 +104,19 @@ public class DataManager : Singleton<DataManager>
         string bestTime = PlayerPrefs.GetString("BestTime", "00:00");
         EventManager<string>.Instance.TriggerEvent("onBestTimeLoaded", bestTime);
     }
+
+    public void SaveTutorialFlag(int tutorialFlag)
+    {
+        PlayerPrefs.SetInt("TutorialFlag", tutorialFlag);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadTutorialFlag()
+    {
+        int tutorialFlag = PlayerPrefs.GetInt("TutorialFlag", 1);
+        EventManager<int>.Instance.TriggerEvent("onTutorialFlagLoaded", tutorialFlag);
+    }
+
 
     #region POWERUPS
     public void SavePowerUp(List<PowerUp> dataList)

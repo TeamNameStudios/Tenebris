@@ -11,6 +11,11 @@ public class Shadow : MapMover, IEnemy
     [SerializeField]
     private Player player;
 
+    [SerializeField] private float distance;
+    public float Distance
+    {
+        get { return distance; }
+    }
 
     [SerializeField] private float minDistance;
     [SerializeField] private float corruptionValue;
@@ -61,7 +66,7 @@ public class Shadow : MapMover, IEnemy
 
             transform.position = pos;
 
-            float distance = Vector2.Distance(pos, player.transform.position);
+            distance = Vector2.Distance(pos, player.transform.position);
 
             if (distance <= minDistance)
             {

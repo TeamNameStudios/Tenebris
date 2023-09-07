@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AudioSystem : StaticInstance<AudioSystem> 
 {
-    [SerializeField] private AudioSource _musicSource;
+    private AudioSource _musicSource;
     [SerializeField] private AudioSource[] _soundsSources;
     [SerializeField] private AudioSource _runningSource;
     [SerializeField] private AudioSource _jumpSource;
@@ -16,6 +16,9 @@ public class AudioSystem : StaticInstance<AudioSystem>
     [SerializeField] private AudioSource _playerDead;
     [SerializeField] private AudioClip DamageClip;
 
+    private Shadow tenebris;
+    [SerializeField] private float musicDistanceMaxVolume;
+    [SerializeField] private float musicMinVolume;
 
 
     private void OnEnable()
@@ -26,6 +29,8 @@ public class AudioSystem : StaticInstance<AudioSystem>
         EventManager<AudioClip>.Instance.StartListening("onPlayJumpClip", PlayJumpClip);
         EventManager<bool>.Instance.StartListening("onGameOver", PlayPlayerDead);
         EventManager<bool>.Instance.StartListening("onHit", PlayHitClip);
+
+        EventManager<Shadow>.Instance.StartListening("onSetShadow", SetShadow);
     }
 
     private void OnDisable()
@@ -37,6 +42,11 @@ public class AudioSystem : StaticInstance<AudioSystem>
         EventManager<bool>.Instance.StopListening("onGameOver", PlayPlayerDead);
         EventManager<bool>.Instance.StopListening("onHit", PlayHitClip);
 
+        EventManager<Shadow>.Instance.StopListening("onSetShadow", SetShadow);
+    }
+
+    private void Start()
+    {
     }
 
     private void Update()
@@ -51,9 +61,27 @@ public class AudioSystem : StaticInstance<AudioSystem>
             {
                 if (!_musicSource.isPlaying)
                 {
+                    
                     PlayMusic(_musicSource.clip);
                 }
+
                 
+                if (tenebris.Distance > musicDistanceMaxVolume)
+                {
+                    float volume = 1 / (tenebris.Distance - musicDistanceMaxVolume);
+                    float easedVolume = EaseInCubic(volume);
+                    _musicSource.volume = easedVolume;
+                    if (_musicSource.volume <= musicMinVolume)
+                    {
+                        _musicSource.volume = musicMinVolume;
+                    }
+                }
+                else
+                {
+                    _musicSource.volume = 1;
+                }
+
+
                 _musicSource.UnPause();
             }
             else if (GameController.Instance.state == GameState.LOSING)
@@ -66,7 +94,6 @@ public class AudioSystem : StaticInstance<AudioSystem>
     public void PlayMusic(AudioClip clip)
     {
         _musicSource.clip = clip;
-        _musicSource.volume = 0.2f;
         _musicSource.Play();
     }
 
@@ -152,5 +179,17 @@ public class AudioSystem : StaticInstance<AudioSystem>
         {
             _playerDead.PlayOneShot(_playerDead.clip);
         }
+    }
+
+    private void SetShadow(Shadow shadow)
+    {
+        tenebris = shadow;
+        _musicSource = tenebris.GetComponent<AudioSource>();
+
+    }
+
+    private float EaseInCubic(float n)
+    {
+        return n * n * n;
     }
 }

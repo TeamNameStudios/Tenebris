@@ -116,6 +116,7 @@ public class GameController : Singleton<GameController>
         if (SpawnShadow)
         {
             Shadow _shadow = Instantiate(shadow, new Vector2(-30, 0), Quaternion.identity).GetComponent<Shadow>();
+            EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
             _shadow.Setup(player);
         }
         Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);

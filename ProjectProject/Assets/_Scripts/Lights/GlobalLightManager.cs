@@ -8,6 +8,7 @@ public class GlobalLightManager : MonoBehaviour
 {
     [SerializeField] GameObject GlobalLightBackground;
     [SerializeField] GameObject GlobalLightLevel;
+    [SerializeField] GameObject GlobalLightPlatforms;
     [SerializeField] GameObject GlobalLightCorrupted;
     [SerializeField] GameObject MoonGlobalLight;
 
@@ -40,6 +41,7 @@ public class GlobalLightManager : MonoBehaviour
             MoonGlobalLight.SetActive(false);
             GlobalLightBackground.SetActive(false);
             GlobalLightLevel.SetActive(false);
+            GlobalLightPlatforms.SetActive(false);
             GlobalLightCorrupted.SetActive(true);
             CorruptedMoon.SetActive(true);
         }
@@ -51,6 +53,7 @@ public class GlobalLightManager : MonoBehaviour
             GlobalLightBackground.SetActive(true);
             Moon.SetActive(true);
             MoonGlobalLight.SetActive(true);
+            GlobalLightPlatforms.SetActive(true);
         }
     }
 }

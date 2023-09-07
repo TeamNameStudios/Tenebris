@@ -551,7 +551,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4671552389563972437}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2dc0212eb7af96949992d8e17e4fe38f, type: 3}
@@ -1295,7 +1295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3148edc559c581f4c990ce36bbdfb99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicSource: {fileID: 4671552389563972439}
   _soundsSources:
   - {fileID: 6822749340940558598}
   - {fileID: 7273887643323687106}
@@ -1305,6 +1304,8 @@ MonoBehaviour:
   _corruptedSource: {fileID: 62754794634340126}
   _playerDead: {fileID: 1017307855541384985}
   DamageClip: {fileID: 8300000, guid: 683e6b9bbfa680948a588b842a0d629b, type: 3}
+  musicDistanceMaxVolume: 15
+  musicMinVolume: 0.3
 --- !u!1 &5936721032335779167
 GameObject:
   m_ObjectHideFlags: 0

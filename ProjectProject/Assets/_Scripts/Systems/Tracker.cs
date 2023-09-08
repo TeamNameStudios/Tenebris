@@ -14,6 +14,7 @@ public class Tracker : Singleton<Tracker>
 
     public float bestDistance;
     [SerializeField] GameObject bestDistanceMarker;
+    [SerializeField] private float fakeBestDistance;
 
     private void OnEnable()
     {
@@ -60,10 +61,19 @@ public class Tracker : Singleton<Tracker>
             EventManager<float>.Instance.TriggerEvent("SaveBestDistance", bestDistance);
         }
 
+        // SPAWN BEST DISTANCE MARKER
 
-        if (GameController.Instance.state == GameState.PLAYING && distance > bestDistance - 100 && !isBestDistanceGraveSpawned)
+        if (GameController.Instance.state == GameState.PLAYING && !isBestDistanceGraveSpawned && bestDistance > 100)
         {
-            Instantiate(bestDistanceMarker,new Vector3(100, 0, 0), Quaternion.identity);
+            if (distance > bestDistance - 100)
+            {
+                Instantiate(bestDistanceMarker,new Vector3(100, 0, 0), Quaternion.identity);
+                isBestDistanceGraveSpawned = true;
+            }
+        }
+        else if (GameController.Instance.state == GameState.PLAYING && !isBestDistanceGraveSpawned && bestDistance < 100)
+        {
+            Instantiate(bestDistanceMarker, new Vector3(bestDistance, 0, 0), Quaternion.identity);
             isBestDistanceGraveSpawned = true;
         }
     }

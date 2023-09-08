@@ -685,6 +685,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2677739659585216654, guid: 6a40cbac156342746abf9891abdf8988, type: 3}
   m_PrefabInstance: {fileID: 221608295}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &325583816 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4671552389563972439, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+  m_PrefabInstance: {fileID: 4671552390429245367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &354866444
 GameObject:
   m_ObjectHideFlags: 0
@@ -3581,6 +3586,7 @@ MonoBehaviour:
   - START
   - ROLevel43
   - ROLevel44
+  - TEST
 --- !u!1 &1221010254 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8765633339264907687, guid: 45b78e162ac1ee2448ef567fc9c72d6e, type: 3}
@@ -5005,7 +5011,7 @@ MonoBehaviour:
   ChunkContainer: {fileID: 1128309976}
   chunkPrefab: {fileID: 8945464813027965662, guid: 2d0e309fb31bbde4291b9ee6a088ad8b, type: 3}
   listChunk: []
-  firstLevel: 62
+  firstLevel: 65
 --- !u!1 &2009291851
 GameObject:
   m_ObjectHideFlags: 0
@@ -5768,6 +5774,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4671552389563972439, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5832641740197764969, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
       propertyPath: m_Name
       value: Systems
@@ -5815,6 +5825,18 @@ PrefabInstance:
     - target: {fileID: 5832641740197764975, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832641741573592533, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: _musicSource
+      value: 
+      objectReference: {fileID: 325583816}
+    - target: {fileID: 5832641741573592533, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: musicMinVolume
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832641741573592533, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: musicDistanceMaxVolume
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}

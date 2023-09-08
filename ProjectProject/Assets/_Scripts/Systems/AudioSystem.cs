@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AudioSystem : StaticInstance<AudioSystem> 
 {
-    private AudioSource _musicSource;
+    [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource[] _soundsSources;
     [SerializeField] private AudioSource _runningSource;
     [SerializeField] private AudioSource _jumpSource;
@@ -59,27 +59,30 @@ public class AudioSystem : StaticInstance<AudioSystem>
             }
             else if (GameController.Instance.state == GameState.PLAYING)
             {
-                if (!_musicSource.isPlaying)
-                {
+                //if (!_musicSource.isPlaying)
+                //{
                     
-                    PlayMusic(_musicSource.clip);
-                }
+                //    PlayMusic(_musicSource.clip);
+                //}
 
-                
-                if (tenebris.Distance > musicDistanceMaxVolume)
+                if (tenebris != null)
                 {
-                    float volume = 1 / (tenebris.Distance - musicDistanceMaxVolume);
-                    float easedVolume = EaseInCubic(volume);
-                    _musicSource.volume = easedVolume;
-                    if (_musicSource.volume <= musicMinVolume)
+                    if (tenebris.Distance > musicDistanceMaxVolume)
                     {
-                        _musicSource.volume = musicMinVolume;
+                        float volume = 1 / (tenebris.Distance - musicDistanceMaxVolume);
+                        float easedVolume = EaseInCubic(volume);
+                        _musicSource.volume = easedVolume;
+                        if (_musicSource.volume <= musicMinVolume)
+                        {
+                            _musicSource.volume = musicMinVolume;
+                        }
+                    }
+                    else
+                    {
+                        _musicSource.volume = 1;
                     }
                 }
-                else
-                {
-                    _musicSource.volume = 1;
-                }
+
 
 
                 _musicSource.UnPause();
@@ -184,8 +187,12 @@ public class AudioSystem : StaticInstance<AudioSystem>
     private void SetShadow(Shadow shadow)
     {
         tenebris = shadow;
-        _musicSource = tenebris.GetComponent<AudioSource>();
+        if (!_musicSource.isPlaying)
+        {
 
+            PlayMusic(_musicSource.clip);
+        }
+        //_musicSource = tenebris.GetComponent<AudioSource>();
     }
 
     private float EaseInCubic(float n)

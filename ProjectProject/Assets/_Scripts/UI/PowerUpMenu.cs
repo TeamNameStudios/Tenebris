@@ -42,7 +42,7 @@ public class PowerUpMenu : MonoBehaviour
     public void BuyPowerUp(int ButtonId)
     {
         ShopButton buttonClicked = buttonList[ButtonId];
-        if (buttonClicked.pageCost < totalPages)
+        if (buttonClicked.pageCost <= totalPages)
         {
 
             List<PowerUp> newList = new List<PowerUp>();

@@ -147,7 +147,7 @@ public class GameController : Singleton<GameController>
             }
             Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
         }
-        //EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }
 

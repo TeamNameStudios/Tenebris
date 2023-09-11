@@ -31,7 +31,6 @@ Transform:
   - {fileID: 6582729816281419888}
   - {fileID: 7745075350883846030}
   - {fileID: 4555714733246262122}
-  - {fileID: 9099115610845159513}
   - {fileID: 6757912022155412933}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -5482,80 +5481,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 904297107162134162, guid: 97657c05f564c2145860ba9cb51ad02b, type: 3}
   m_PrefabInstance: {fileID: 5961197322056622852}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5966565067989472541
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3541966030868435077}
-    m_Modifications:
-    - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: boxSize.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: boxSize.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 852212487095790219, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: dialogueName
-      value: Grapple2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1755527472507629596, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_Name
-      value: TutorialTrigger (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2349370c40332714eb59917ad298f299, type: 3}
---- !u!4 &9099115610845159513 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
-  m_PrefabInstance: {fileID: 5966565067989472541}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6146860709860591756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7689,11 +7614,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.25
+      value: 5.75
       objectReference: {fileID: 0}
     - target: {fileID: 3209925384932390212, guid: 2349370c40332714eb59917ad298f299, type: 3}
       propertyPath: m_LocalPosition.y

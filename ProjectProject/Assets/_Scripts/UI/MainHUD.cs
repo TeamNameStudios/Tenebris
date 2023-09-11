@@ -24,6 +24,8 @@ public class MainHUD : MonoBehaviour
     private float currentDistance;
     private TimeSpan currentTime;
 
+    [SerializeField] private GameObject tutorialHUD;
+    
     public void SetPauseState(bool state)
     {
         pauseState = !pauseState;
@@ -83,6 +85,7 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StartListening("onBestDistanceUpdated", UpdateBestDistance);
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
         EventManager<bool>.Instance.StartListening("onGamePaused", SetPauseState);
+        EventManager<bool>.Instance.StartListening("onTutorialStarted", SetTutorialHUD);
     }
 
     private void OnDisable()
@@ -95,7 +98,9 @@ public class MainHUD : MonoBehaviour
         EventManager<TimeSpan>.Instance.StopListening("onTimer", UpdateTimer);
         EventManager<float>.Instance.StopListening("onBestDistanceU", UpdateBestDistance); 
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
-        EventManager<bool>.Instance.StartListening("onGamePaused", SetPauseState);
+        EventManager<bool>.Instance.StopListening("onGamePaused", SetPauseState);
+        EventManager<bool>.Instance.StopListening("onTutorialStarted", SetTutorialHUD);
+
     }
     public void UpdateTimer(TimeSpan timer)
     {
@@ -150,5 +155,10 @@ public class MainHUD : MonoBehaviour
         currentDistanceText.text = "Distance: " + currentDistance.ToString();
         currentTimeText.text = "Time: " + currentTime.ToString(@"mm\:ss");
         bestDistanceText.text = "Best Distance: " + bestDistance.ToString();
+    }
+
+    private void SetTutorialHUD(bool value)
+    {
+        tutorialHUD.SetActive(true);
     }
 }

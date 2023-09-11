@@ -16,7 +16,16 @@ public class EnvironmentController : Singleton<EnvironmentController>
     public List<Chunk> listChunk = new List<Chunk>();
     [SerializeField]
     LevelID firstLevel;
-  
+
+    protected override void Awake()
+    {
+        base.Awake();
+        if (GameController.Instance.IsTutorial == 1)
+        {
+            firstLevel = LevelID.Tutorial_1;
+        }
+    }
+
     private void OnEnable()
     {
         EventManager<bool>.Instance.StartListening("onGameStartingState", GenerateChunk);

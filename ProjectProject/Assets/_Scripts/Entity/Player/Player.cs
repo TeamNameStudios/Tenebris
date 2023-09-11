@@ -92,7 +92,14 @@ public class Player : MonoBehaviour
 
         if (transform.position.y < -20)
         {
-            EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+            if (GameController.Instance.IsTutorial == 1)
+            {
+                transform.position = new Vector2(0, 30);
+            }
+            else
+            {
+                EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+            }
         }
     }
 
@@ -409,16 +416,19 @@ public class Player : MonoBehaviour
 
     private void ManageCorruption()
     {
-        if (!corrupted && canRecover && GameController.Instance.State == GameState.PLAYING)
+        if (GameController.Instance != null)
         {
-            if (Corruption > 0)
+            if (!corrupted && canRecover && GameController.Instance.State == GameState.PLAYING)
             {
-                isRecovering = true;
-                float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
-                float easeTime = EaseInCubic(normalizedTime);
-                DecreaseCorruption(recoverCorruptionSpeed * easeTime);
-                elapsedTime += Time.unscaledDeltaTime;
-                //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                if (Corruption > 0)
+                {
+                    isRecovering = true;
+                    float normalizedTime = (elapsedTime / maxCorruption) + recoveryStartingSmoothness;
+                    float easeTime = EaseInCubic(normalizedTime);
+                    DecreaseCorruption(recoverCorruptionSpeed * easeTime);
+                    elapsedTime += Time.unscaledDeltaTime;
+                    //Debug.Log("Recovering " + normalizedTime * recoverCorruptionSpeed + " corruption");
+                }
             }
         }
     }
@@ -537,7 +547,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility)
+        if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility && GameController.Instance.IsTutorial == 0)
         {
             EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
             Debug.Log("DEAD");

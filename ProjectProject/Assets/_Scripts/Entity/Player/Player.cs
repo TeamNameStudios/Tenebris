@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
         ManageCorruption();
         ManageAnimation();
         ManageParticle();
+        ManageAudio();
         ManageDead();
 
   
@@ -70,7 +71,7 @@ public class Player : MonoBehaviour
         EventManager<Vector2>.Instance.StartListening("movement", Move);
         EventManager<bool>.Instance.StartListening("jumpMovement", Jump);
         EventManager<float>.Instance.StartListening("Corruption", AddCorruption);
-        EventManager<float>.Instance.StartListening("onCollectiblePickup", DecreaseCorruption);
+        EventManager<Collectible>.Instance.StartListening("onCollectiblePickup", GetColletible);
         EventManager<bool>.Instance.StartListening("isDashing", Dash);
         EventManager<bool>.Instance.StartListening("isGrappling", Grappling);
         EventManager<List<PowerUp>>.Instance.StartListening("onPowerUpLoaded", PowerUpManager);
@@ -81,7 +82,7 @@ public class Player : MonoBehaviour
         EventManager<Vector2>.Instance.StopListening("movement", Move);
         EventManager<bool>.Instance.StopListening("jumpMovement", Jump);
         EventManager<float>.Instance.StopListening("Corruption", AddCorruption);
-        EventManager<float>.Instance.StopListening("onCollectiblePickup", DecreaseCorruption);
+        EventManager<Collectible>.Instance.StopListening("onCollectiblePickup", GetColletible);
         EventManager<bool>.Instance.StopListening("isDashing", Dash);
         EventManager<bool>.Instance.StopListening("isGrappling", Grappling);
         EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", PowerUpManager);
@@ -98,7 +99,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
+                Dead();
             }
         }
     }
@@ -322,6 +323,7 @@ public class Player : MonoBehaviour
     private void Jump(bool _inputJump)
     {
         InputJump = _inputJump;
+        
     }
 
     public void CalculateJumpApex()
@@ -340,29 +342,18 @@ public class Player : MonoBehaviour
 
     public void CalculateJump()
     {
-        // Jump if: grounded or within coyote threshold || sufficient jump buffer
-
         if (InputJump && IsGrounded || CanUseCoyote && InputJump)
         {
             velocity.y = _jumpHeight;
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;
-            
-            EventManager<AudioClip>.Instance.TriggerEvent("onPlayJumpClip", JumpingClip);
-
+            EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.jumpSound);
             if (landingPS.isPlaying)
             {
                 landingPS.Stop();
             }
-
-
-
-            //JumpingThisFrame = true;
         }
-        else
-        {
-            //JumpingThisFrame = false;
-        }
+
 
 
         if (_isAgainstRoof)
@@ -475,6 +466,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void  GetColletible (Collectible collectible)
+    {
+        DecreaseCorruption(collectible.CorruptionReductionValue);
+    }
+
     private void DecreaseCorruption(float value)
     {
         if (Corruption - value <= 0)
@@ -549,9 +545,15 @@ public class Player : MonoBehaviour
     {
         if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility && GameController.Instance.IsTutorial == 0)
         {
-            EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
-            Debug.Log("DEAD");
+            Dead();
+
         }
+    }
+
+    private void Dead()
+    {
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.gameOverSound);
+        EventManager<GameState>.Instance.TriggerEvent("onPlayerDead", GameState.LOSING);
     }
     #endregion
 
@@ -580,7 +582,7 @@ public class Player : MonoBehaviour
 
         if (canDash)
         {
-            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", DashingClip);
+            EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.dashSound);
 
             canDash = false;
             isDashing = _isDashing;
@@ -830,7 +832,7 @@ public class Player : MonoBehaviour
             //}
 
             isGrappling = _isGrappling;
-            EventManager<AudioClip>.Instance.TriggerEvent("onPlayClip", GrapplingClip);
+            EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.grappleSound);
             if (!corruptionOverTime && !isLaunchedState)
             {
                 EventManager<float>.Instance.TriggerEvent("Corruption", hookCorruptionOnce);
@@ -1002,10 +1004,21 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Audio
-    [Header("AUDIO CLIPS")]
-    [SerializeField] private AudioClip DashingClip;
-    [SerializeField] private AudioClip JumpingClip;
-    [SerializeField] private AudioClip GrapplingClip;
+    private void ManageAudio()
+    {
+
+        if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
+        {
+            // play clip walking on grass
+            EventManager<SoundEnum>.Instance.TriggerEvent("onPlayContinousClip", SoundEnum.runSound);
+        }
+        else
+        {
+            EventManager<SoundEnum>.Instance.TriggerEvent("onStopContinousClip", SoundEnum.runSound);
+        }
+
+        //EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.corruptionSound);
+    }
     #endregion
 
     #region ParticleSystem
@@ -1022,20 +1035,12 @@ public class Player : MonoBehaviour
 
     private void ManageParticle()
     {
-        if (IsGrounded && !isDashing && !isGrappling && velocity.x != 0)
-        {
-            // play clip walking on grass
-            EventManager<bool>.Instance.TriggerEvent("onRunning", true);
-        }
-        else
-        {
-            EventManager<bool>.Instance.TriggerEvent("onRunning", false);
-        }
 
         EventManager<bool>.Instance.TriggerEvent("onFullyCorrupted", corrupted);
 
         if (corrupted)
         {
+
             if (!corruptionPS.isPlaying)
             {
                 corruptionPS.Play();

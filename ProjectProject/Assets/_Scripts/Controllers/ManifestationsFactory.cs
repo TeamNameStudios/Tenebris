@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,8 +17,9 @@ public class ManifestationsFactory : Singleton<ManifestationsFactory>
     {
         pools = new Dictionary<string, Helper.ObjectPool>();
 
-        foreach (GameObject go in prefabs)
-            pools.Add(go.name, new Helper.ObjectPool(go, poolSize));
+        for (int i = 0; i < prefabs.Length; i++) 
+            pools.Add(prefabs[i].name, new Helper.ObjectPool(prefabs[i], poolSize)); 
+           
     }
 
     public GameObject CreateObject(string name, Vector3 position)

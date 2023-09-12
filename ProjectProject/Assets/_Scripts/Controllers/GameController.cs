@@ -1,58 +1,54 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 public class GameController : Singleton<GameController>
 {
     public int IsTutorial;
-    
-    public GameState state = GameState.IDLE;
+    private GameState state = GameState.IDLE;
     public GameState State { get => state; private set => state = value; }
+
+    #region Reference
     [SerializeField]
     private Player player;
-
     [SerializeField]
     private Shadow shadow;
+    [SerializeField]
+    private GameObject tracker;
+    [SerializeField] 
+    private GameObject slowMotionController;
+    #endregion
 
-    [SerializeField] GameObject tracker;
 
     private float runTime;
-    [SerializeField] private float timeScale;
+    private float timeScale;
     [SerializeField]
     private int pageNumber;
-    [SerializeField]
     private int totalPage;
 
     [SerializeField] private bool trueForSeconds;
     [SerializeField] private float seconds;
     [SerializeField] private float minutes;
     [SerializeField] private float timeScaleIncrement;
-
     private TimeSpan time;
     private TimeSpan bestTime;
-
-    [SerializeField] private GameObject tutorialGC;
 
     private void Start()
     {
         if (IsTutorial == 1)
         {
-            Instantiate(tutorialGC);
+            Instantiate(slowMotionController);
         }
         ChangeState(GameState.STARTING);
     }
 
     private void OnEnable()
     {
-        EventManager<int>.Instance.StartListening("onTotalPageLoaded", SaveTotalPage);
-        EventManager<int>.Instance.StartListening("onCollectiblePickup", AddPage);
+        EventManager<int>.Instance.StartListening("onTotalPageLoaded", LoadTotalPage);
+        EventManager<Collectible>.Instance.StartListening("onCollectiblePickup", AddPage);
         EventManager<GameState>.Instance.StartListening("onStateChanged", ChangeState);
         EventManager<GameState>.Instance.StartListening("onPlayerDead", ChangeState);
         EventManager<bool>.Instance.StartListening("onMapGenerated", SetGameScene);
-        EventManager<bool>.Instance.StartListening("pause", Pause);
+        EventManager<bool>.Instance.StartListening("onPause", Pause);
         EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
         EventManager<bool>.Instance.StartListening("onTutorialEnd", TutorialEnd);
         EventManager<int>.Instance.StartListening("onTutorialFlagLoaded", LoadTutorialFlag);
@@ -61,8 +57,8 @@ public class GameController : Singleton<GameController>
     }
     private void OnDisable()
     {
-        EventManager<int>.Instance.StopListening("onTotalPageLoaded", SaveTotalPage);
-        EventManager<int>.Instance.StopListening("onCollectiblePickup", AddPage);
+        EventManager<int>.Instance.StopListening("onTotalPageLoaded", LoadTotalPage);
+        EventManager<Collectible>.Instance.StopListening("onCollectiblePickup", AddPage);
         EventManager<GameState>.Instance.StopListening("onStateChanged", ChangeState);
         EventManager<bool>.Instance.StopListening("onMapGenerated", SetGameScene);
         EventManager<bool>.Instance.StopListening("pause", Pause);
@@ -75,23 +71,23 @@ public class GameController : Singleton<GameController>
 
     private void Update()
     {
-        switch(State)
+        switch (State)
         {
-            case GameState.IDLE: 
+            case GameState.IDLE:
             case GameState.STARTING:
                 runTime = 0;
                 timeScale = 1;
                 pageNumber = 0;
-                
-                EventManager<bool>.Instance.TriggerEvent("onGameStartingState",true);
+                EventManager<SoundEnum>.Instance.TriggerEvent("onPlayMusic", SoundEnum.gameMusic);
+                EventManager<bool>.Instance.TriggerEvent("onGameStartingState", true);
 
                 break;
             case GameState.PAUSING:
                 Time.timeScale = 0;
                 break;
-            
+
             case GameState.PLAYING:
-                
+
                 if (IsTutorial == 0)
                 {
                     runTime += Time.unscaledDeltaTime;
@@ -107,19 +103,19 @@ public class GameController : Singleton<GameController>
 
             case GameState.END_LEVEL:
                 break;
-            
+
             case GameState.LOSING:
                 EventManager<int>.Instance.TriggerEvent("SaveTotalPage", totalPage + pageNumber);
-                
                 if (time > bestTime)
                 {
                     bestTime = time;
+                    SaveBestTime(bestTime);
                 }
-                
-                SaveBestTime();
+
+
                 EventManager<bool>.Instance.TriggerEvent("onGameOver", true);
+                EventManager<bool>.Instance.TriggerEvent("onReset", true);
                 Time.timeScale = 0;
-                //state = GameState.END_LEVEL;
                 break;
         }
     }
@@ -130,23 +126,13 @@ public class GameController : Singleton<GameController>
         State = _state;
     }
 
-    [SerializeField]
-    private bool SpawnShadow;
     private void SetGameScene(bool isGameSceneStarted)
     {
-        Instantiate(player, new Vector2(0, 30), Quaternion.identity).GetComponent<Player>();
+        Instantiate(player, new Vector2(0, 15), Quaternion.identity).GetComponent<Player>();
         if (IsTutorial == 0)
         {
-            //Shadow _shadow = Instantiate(shadow, new Vector2(-30, 0), Quaternion.identity).GetComponent<Shadow>();
-            //EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
-            //_shadow.Setup(player);
-            if (SpawnShadow)
-            {
-                Shadow _shadow = Instantiate(shadow, new Vector2(-30, 0), Quaternion.identity).GetComponent<Shadow>();
-                EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
-                _shadow.Setup(player);
-            }
-            Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
+            SpawnShadow();
+            Instantiate(tracker);
         }
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
@@ -154,41 +140,47 @@ public class GameController : Singleton<GameController>
 
     private void TutorialEnd(bool value)
     {
-        Shadow _shadow = Instantiate(shadow, new Vector2(-30, 0), Quaternion.identity).GetComponent<Shadow>();
-        _shadow.Setup(player);
-        EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
-        Instantiate(tracker, new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(tracker);
         IsTutorial = 0;
         EventManager<int>.Instance.TriggerEvent("SaveTutorialFlag", IsTutorial);
     }
 
-    public void Pause (bool isPausing)
+
+    private void SpawnShadow()
     {
-        if (isPausing)
+        Shadow _shadow = Instantiate(shadow, new Vector2(-35, 0), Quaternion.identity).GetComponent<Shadow>();
+        _shadow.Setup(player);
+        EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
+    }
+    public void Pause (bool _isPausing)
+    {
+        GameState gameState = state == GameState.PLAYING ? GameState.PAUSING : state == GameState.PAUSING ? GameState.PLAYING : GameState.PAUSING;
+        bool isPausing = gameState != GameState.PLAYING;
+        ChangeState(gameState);
+        if(isPausing)
         {
-            ChangeState(GameState.PAUSING);
-            EventManager<bool>.Instance.TriggerEvent("onGamePaused", isPausing);
+            EventManager<bool>.Instance.TriggerEvent("onPauseAll", isPausing);
         }
         else
         {
-            EventManager<bool>.Instance.TriggerEvent("onGamePaused", isPausing);
-            ChangeState(GameState.PLAYING);
+            EventManager<bool>.Instance.TriggerEvent("onUnPauseAll", isPausing);
         }
+
+        EventManager<bool>.Instance.TriggerEvent("onGamePaused", isPausing);
     }
 
-    private void AddPage(int number)
+    private void AddPage(Collectible collectible)
     {
-        pageNumber += number;
-        EventManager<int>.Instance.TriggerEvent("SavePage", pageNumber);//DATA_MANAGER
+        pageNumber += collectible.PageCount;
         EventManager<int>.Instance.TriggerEvent("UpdatePageCount", pageNumber);//UI
     }
 
-    private void SaveTotalPage(int _totalPage)
+    private void LoadTotalPage(int _totalPage)
     {
         totalPage = _totalPage;
     }
 
-    private void SaveBestTime()
+    private void SaveBestTime(TimeSpan bestTime)
     {
         TimeSpan newTimeSpan = new TimeSpan(bestTime.Hours, bestTime.Minutes, bestTime.Seconds);
         
@@ -207,8 +199,8 @@ public class GameController : Singleton<GameController>
         IsTutorial = tutorialFlag;
     }
 
-    #region RUN MANAGER
-    [Header("RUN MANAGER")]
+    #region GAME-RUN MANAGER
+    [Header("GAME-RUN MANAGER")]
     private bool hasIncremented = true;
     
     private void ManageRun(TimeSpan timeSpan)

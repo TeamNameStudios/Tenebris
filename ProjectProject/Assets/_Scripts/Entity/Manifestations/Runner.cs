@@ -6,7 +6,6 @@ public class Runner : Manifestation
 {
     [SerializeField] private float runnerVelocity;
     [SerializeField] private float runnerVelocityIncrement;
-    [SerializeField] public Vector2 boxSize;
 
     [SerializeField] private float pursueTime;
     private bool canPursue = true;
@@ -29,7 +28,6 @@ public class Runner : Manifestation
         if (playerPos.Count > 0)
         {
             playerPos.Clear();
-            canPlayClip = true;
         }
 
         EventManager<Transform>.Instance.StartListening("onPlayerDetected", SetPlayer);
@@ -51,7 +49,7 @@ public class Runner : Manifestation
         {
             StartCoroutine(PursueCO());
             Vector3 pos = transform.position;
-            PlayClip();
+            
 
             if (canPursue)
             {
@@ -72,30 +70,6 @@ public class Runner : Manifestation
         }
     }
 
-    //private void CanStart()
-    //{
-    //    if (!canStart)
-    //    {
-    //        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, boxSize, 0);
-            
-    //        for (int i = 0; i < colliders.Length; i++)
-    //        {
-    //            if (colliders[i].GetComponent<Player>())
-    //            {
-    //                //player = colliders[i].GetComponent<Player>();
-                    
-    //                if (player.transform.position.x > transform.position.x)
-    //                {
-    //                    Vector2 pos = transform.position;
-    //                    pos.y = colliders[i].transform.position.y;
-    //                    transform.position = pos;
-    //                    canStart = true;
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
-
     private IEnumerator PursueCO()
     {
         playerPos.Add(player.transform.position.y);
@@ -108,6 +82,7 @@ public class Runner : Manifestation
     private void SetPlayer(Transform _player)
     {
         player = _player;
+        PlayClip();
     }
 
     private void LevelUp(bool value)

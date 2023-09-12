@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 /// <summary>
 /// Insanely basic audio system which supports 3D sound.
@@ -8,195 +10,187 @@ using UnityEngine;
 /// </summary>
 public class AudioSystem : StaticInstance<AudioSystem> 
 {
-    [SerializeField] private AudioSource _musicSource;
-    [SerializeField] private AudioSource[] _soundsSources;
-    [SerializeField] private AudioSource _runningSource;
-    [SerializeField] private AudioSource _jumpSource;
-    [SerializeField] private AudioSource _corruptedSource;
-    [SerializeField] private AudioSource _playerDead;
-    [SerializeField] private AudioClip DamageClip;
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource effectsSource;
+    [SerializeField] private AudioSource continousEffectsSource;
+    [SerializeField] private AudioSource corruptionSource;
+    [SerializeField]
+    private List<Sound> Effects = new List<Sound>();
+    [SerializeField]
+    private List<Sound> Musics = new List<Sound>();
 
     private Shadow tenebris;
     [SerializeField] private float musicDistanceMaxVolume;
     [SerializeField] private float musicMinVolume;
 
-
+    public AudioMixer audioMixer;
+  
     private void OnEnable()
     {
-        EventManager<bool>.Instance.StartListening("onRunning", PlayRunningEffect);
-        EventManager<bool>.Instance.StartListening("onFullyCorrupted", PlayCorruptionffect);
-        EventManager<AudioClip>.Instance.StartListening("onPlayClip", PlayClip);
-        EventManager<AudioClip>.Instance.StartListening("onPlayJumpClip", PlayJumpClip);
-        EventManager<bool>.Instance.StartListening("onGameOver", PlayPlayerDead);
-        EventManager<bool>.Instance.StartListening("onHit", PlayHitClip);
-
+        EventManager<SoundEnum>.Instance.StartListening("onPlayClip", PlayClip);
+        EventManager<SoundEnum>.Instance.StartListening("onPlayContinousClip", PlayCountinousClip);
+        EventManager<SoundEnum>.Instance.StartListening("onPlayMusic", PlayMusic);
+        EventManager<SoundEnum>.Instance.StartListening("onStopContinousClip", StopCountinousClip);
+        EventManager<SoundEnum>.Instance.StartListening("onPauseMusic", PauseMusic);
+        EventManager<SoundEnum>.Instance.StartListening("onUnPauseMusic", UnPauseMusic);
+        EventManager<bool>.Instance.StartListening("onFullyCorrupted", PlayCorruption);
+        EventManager<bool>.Instance.StartListening("onPauseAll", PauseAll);
+        EventManager<bool>.Instance.StartListening("onUnPauseAll", UnPauseAll);
+        EventManager<bool>.Instance.StartListening("onReset", ResetAll);
         EventManager<Shadow>.Instance.StartListening("onSetShadow", SetShadow);
     }
 
     private void OnDisable()
     {
-        EventManager<bool>.Instance.StopListening("onRunning", PlayRunningEffect);
-        EventManager<bool>.Instance.StopListening("onFullyCorrupted", PlayCorruptionffect);
-        EventManager<AudioClip>.Instance.StopListening("onPlayClip", PlayClip);
-        EventManager<AudioClip>.Instance.StopListening("onPlayJumpClip", PlayJumpClip);
-        EventManager<bool>.Instance.StopListening("onGameOver", PlayPlayerDead);
-        EventManager<bool>.Instance.StopListening("onHit", PlayHitClip);
-
+        EventManager<SoundEnum>.Instance.StopListening("onPlayClip", PlayClip);
+        EventManager<SoundEnum>.Instance.StopListening("onPlayContinousClip", PlayClip);
+        EventManager<SoundEnum>.Instance.StopListening("onPlayMusic", PlayMusic);
+        EventManager<SoundEnum>.Instance.StopListening("onStopContinousClip", StopCountinousClip);
+        EventManager<SoundEnum>.Instance.StopListening("onPauseMusic", PauseMusic);
+        EventManager<SoundEnum>.Instance.StopListening("onUnPauseMusic", PauseMusic);
+        EventManager<bool>.Instance.StopListening("onFullyCorrupted", PlayCorruption);
+        EventManager<bool>.Instance.StopListening("onPauseAll", PauseAll);
+        EventManager<bool>.Instance.StopListening("onUnPauseAll", UnPauseAll);
+        EventManager<bool>.Instance.StopListening("onReset", ResetAll);
         EventManager<Shadow>.Instance.StopListening("onSetShadow", SetShadow);
     }
 
-    private void Start()
+    private void PlayClip (SoundEnum _soundEnum)
     {
+
+        AudioClip effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
+        effectsSource.PlayOneShot(effect);
     }
+
+    private void PlayCountinousClip(SoundEnum _soundEnum)
+    {
+        AudioClip effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
+        
+        if (continousEffectsSource.clip != effect) {
+            continousEffectsSource.clip = effect;
+            continousEffectsSource.Play();
+        }
+
+    }
+
+    private void PlayMusic(SoundEnum _soundEnum)
+    {
+        AudioClip music = Musics.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
+        musicSource.clip = music;
+        musicSource.Play();
+    }
+
+    private void PlayCorruption(bool isCorrupted)
+    {
+        AudioClip effect = Effects.Find((sound) => { return sound.SoundType == SoundEnum.corruptionSound; }).clip;
+        
+        if (isCorrupted && corruptionSource.clip != effect)
+        {
+            corruptionSource.clip = effect;
+            corruptionSource.Play();
+        }
+        else if(!isCorrupted)
+        {
+            corruptionSource.clip = null;
+            corruptionSource.Stop();
+        }
+        
+    }
+    private void StopCountinousClip(SoundEnum _soundEnum)
+    {
+        continousEffectsSource.clip = null;
+        continousEffectsSource.Stop();
+        //continousEffectsSource.clip = null;
+    }
+
+    private void PauseMusic(SoundEnum _soundEnum)
+    {
+        musicSource.Pause();
+
+    }
+
+    private void UnPauseMusic(SoundEnum _soundEnum)
+    {
+        musicSource.UnPause();
+    }
+
+    private void PauseAll(bool isPausing)
+    {
+        musicSource.Pause(); 
+        continousEffectsSource.Pause();
+        corruptionSource.Pause();
+    }
+
+    private void UnPauseAll(bool isUnPausing)
+    {
+        musicSource.UnPause();
+        continousEffectsSource.UnPause();
+        corruptionSource.UnPause();
+    }
+
+
+    private void ResetAll(bool isReset)
+    {
+        musicSource.clip = null;
+        musicSource.Stop();
+        continousEffectsSource.clip = null;
+        continousEffectsSource.Stop();
+        corruptionSource.clip = null;
+        corruptionSource.Stop();
+    }
+
 
     private void Update()
     {
-        if (GameController.Instance != null)
+        if (tenebris != null)
         {
-            if (GameController.Instance.state == GameState.PAUSING)
+            if (tenebris.Distance > musicDistanceMaxVolume)
             {
-                _musicSource.Pause();
-            }
-            else if (GameController.Instance.state == GameState.PLAYING)
-            {
-                //if (!_musicSource.isPlaying)
-                //{
-                    
-                //    PlayMusic(_musicSource.clip);
-                //}
-
-                if (tenebris != null)
+                float volume = 1 / (tenebris.Distance - musicDistanceMaxVolume) * 10;
+                musicSource.volume = volume;
+                if (musicSource.volume <= musicMinVolume)
                 {
-                    if (tenebris.Distance > musicDistanceMaxVolume)
-                    {
-                        float volume = 1 / (tenebris.Distance - musicDistanceMaxVolume);
-                        float easedVolume = EaseInCubic(volume);
-                        _musicSource.volume = easedVolume;
-                        if (_musicSource.volume <= musicMinVolume)
-                        {
-                            _musicSource.volume = musicMinVolume;
-                        }
-                    }
-                    else
-                    {
-                        _musicSource.volume = 1;
-                    }
+                    musicSource.volume = musicMinVolume;
                 }
-
-
-
-                _musicSource.UnPause();
             }
-            else if (GameController.Instance.state == GameState.LOSING)
+            else
             {
-                _musicSource.Stop();
+                musicSource.volume = 1;
             }
-        }
-    }
-
-    public void PlayMusic(AudioClip clip)
-    {
-        _musicSource.clip = clip;
-        _musicSource.Play();
-    }
-
-    //public void PlaySound(AudioClip clip, Vector3 pos, float vol = 1)
-    //{
-    //    _soundsSource.transform.position = pos;
-    //    PlaySound(clip, vol);
-    //}
-
-    //public void PlaySound(AudioClip clip, float vol = 1)
-    //{
-    //    _soundsSource.PlayOneShot(clip, vol);
-    //}
-
-    public void PlayClip(AudioClip clip)
-    {
-        for (int i = 0; i < _soundsSources.Length; i++)
-        {
-            if (!_soundsSources[i].isPlaying && GameController.Instance.state == GameState.PLAYING)
-            {
-                _soundsSources[i].volume = .5f;
-                _soundsSources[i].PlayOneShot(clip);
-                break;
-            }
-        }
-    }    
-    
-    public void PlayHitClip(bool value)
-    {
-        for (int i = 0; i < _soundsSources.Length; i++)
-        {
-            if (!_soundsSources[i].isPlaying && GameController.Instance.state == GameState.PLAYING)
-            {
-                _soundsSources[i].PlayOneShot(DamageClip);
-                break;
-            }
-        }
-    }    
-    
-
-    public void PlayRunningEffect(bool canPlay)
-    {       
-        if (canPlay && GameController.Instance.state == GameState.PLAYING)
-        {
-            if (!_runningSource.isPlaying)
-            {
-                _runningSource.Play();
-            }
-        }
-        else
-        {
-            _runningSource.Stop();
-        }
-    }
-
-
-    public void PlayJumpClip(AudioClip clip)
-    {
-        if (!_jumpSource.isPlaying && GameController.Instance.state == GameState.PLAYING)
-        {
-            _jumpSource.PlayOneShot(clip);
-        }
-    }
-
-    public void PlayCorruptionffect(bool canPlay)
-    {
-        if (canPlay && GameController.Instance.state == GameState.PLAYING)
-        {
-            if (!_corruptedSource.isPlaying)
-            {
-                _corruptedSource.Play();
-            }
-        }
-        else
-        {
-            _corruptedSource.Stop();
-        }
-    }
-
-    public void PlayPlayerDead(bool canPlay)
-    {
-        if (!_playerDead.isPlaying)
-        {
-            _playerDead.PlayOneShot(_playerDead.clip);
         }
     }
 
     private void SetShadow(Shadow shadow)
     {
         tenebris = shadow;
-        if (!_musicSource.isPlaying)
-        {
-
-            PlayMusic(_musicSource.clip);
-        }
-        //_musicSource = tenebris.GetComponent<AudioSource>();
-    }
-
-    private float EaseInCubic(float n)
-    {
-        return n * n * n;
     }
 }
+
+[Serializable]
+public struct Sound
+{
+    public SoundEnum SoundType;
+    public AudioClip clip;
+}
+
+public enum SoundEnum {
+    /*Effects*/
+    runSound,
+    jumpSound,
+    corruptionSound,
+    deadSound,
+    hitSound,
+    collectible1Sound,
+    collectible2Sound,
+    collectible3Sound,
+    dashSound,
+    grappleSound,
+    gameOverSound,
+    chaserSound,
+    lurkerSound,
+    runnerSound,
+    /*Music*/
+    mainMenuMusic,
+    gameMusic,
+}
+

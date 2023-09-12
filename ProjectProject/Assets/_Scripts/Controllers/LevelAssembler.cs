@@ -1,21 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelAssembler : Singleton<LevelAssembler>
 {
-    private ScriptableLevelChunk lastLevelChunk;
+
     private List<LevelID> possibleLevels = new List<LevelID>();
-    [SerializeField] private float probabilityToAdd;
+    [SerializeField]
+    private float probabilityToAdd;
 
     private List<float> GetProbabilityList(List<LevelID> _possibleLevels)
     {
         List<float> probabilities = new List<float>();
         ScriptableLevelChunk levelChunk;
-        
-        foreach (LevelID level in _possibleLevels)
+
+        for (int i = 0; i < _possibleLevels.Count; i++)
         {
-            levelChunk = ResourceSystem.Instance.GetLevelChunk(level);
+            levelChunk = ResourceSystem.Instance.GetLevelChunk(_possibleLevels[i]);
             float probability = levelChunk.Probability;
             probabilities.Add(probability);
         }
@@ -27,9 +27,9 @@ public class LevelAssembler : Singleton<LevelAssembler>
     {
         float totalProbability = 0;
 
-        foreach (float prob in probabilities)
+        for (int i = 0; i < probabilities.Count; i++)
         {
-            totalProbability += prob;
+            totalProbability += probabilities[i];
         }
 
         float randomValue = Random.Range(0, totalProbability);
@@ -47,22 +47,17 @@ public class LevelAssembler : Singleton<LevelAssembler>
         return probabilities.Count - 1;
     }
 
-    public void CreateLevelChunk(LevelID _nextLevelID, Transform parentObject/*, bool newLevel = true*/)
+    public void CreateLevelChunk(LevelID _nextLevelID, Transform parentObject)
     {
-        ScriptableLevelChunk a = ResourceSystem.Instance.GetLevelChunk(_nextLevelID);
-        GameObject GO =  Instantiate(a.LevelPrefab, parentObject);
+        ScriptableLevelChunk scriptableLevelChunk = ResourceSystem.Instance.GetLevelChunk(_nextLevelID);
+        GameObject GO =  Instantiate(scriptableLevelChunk.LevelPrefab, parentObject);
         GO.transform.SetParent(parentObject);
-        //Debug.Log("Creating " + a.ID.ToString() + " chunk at " + parentObject.transform.position);
-        
-        //if (newLevel)
-        //{
-            AddProbability(_nextLevelID, probabilityToAdd);
+        AddProbability(_nextLevelID, probabilityToAdd);
             
-            // We change the references with the chunk just spawned
-            lastLevelChunk = a;
-            possibleLevels.Clear();
-            possibleLevels = new List<LevelID>(lastLevelChunk.InGamePossibleNeighbour);
-        //}
+        // We change the references with the chunk just spawned
+        possibleLevels.Clear();
+        possibleLevels = new List<LevelID>(scriptableLevelChunk.InGamePossibleNeighbour);
+       
     }
 
     private void AddProbability(LevelID _nextLevelID, float probabilityToAdd)

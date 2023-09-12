@@ -35,7 +35,7 @@ public class Chaser : Manifestation
         player = null;
         state = ChaserState.IDLE;
         chaseVelocity = startVelocity;
-        canPlayClip = true;
+        //canPlayClip = true;
 
     }
 
@@ -60,15 +60,13 @@ public class Chaser : Manifestation
                     pos.y = groundHeight + capsuleCollider.size.y / 2;
                     transform.position = pos;
                     state = ChaserState.DESCENDING;
+                    PlayClip();
                 }
                 
                 break;
 
             case ChaserState.DESCENDING:
                     
-                
-                PlayClip();
-
                 if (transform.position.y - groundHeight <= 1.2f )
                 {
                     state = ChaserState.CHASING;

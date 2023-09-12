@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputController : Singleton<InputController>
 {
-
     private void Update()
     {
         if (GameController.Instance.State == GameState.PLAYING)
@@ -14,25 +10,15 @@ public class InputController : Singleton<InputController>
             float directionY = Input.GetAxisRaw("Vertical");
             EventManager<Vector2>.Instance.TriggerEvent("movement", new Vector2(directionX, directionY));
 
-            //if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-            //{
-            //    EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
-            //}
-            //else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
-            //{
-            //    EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
-            //}
-
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
                 EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
             }
             else if (Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.W))
             {
                 EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
-                
             }
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 EventManager<bool>.Instance.TriggerEvent("isDashing", true);
             }
@@ -40,25 +26,12 @@ public class InputController : Singleton<InputController>
             {
                 EventManager<bool>.Instance.TriggerEvent("isGrappling", true);
             }
-
         }
 
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            Pause();
+            EventManager<bool>.Instance.TriggerEvent("onPause", true);
         }
  
-    }
-
-    public void Pause()
-    {
-        if (GameController.Instance.State == GameState.PLAYING)
-        {
-            EventManager<bool>.Instance.TriggerEvent("pause", true);
-        }
-        else if (GameController.Instance.State == GameState.PAUSING)
-        {
-            EventManager<bool>.Instance.TriggerEvent("pause", false);
-        }
     }
 }

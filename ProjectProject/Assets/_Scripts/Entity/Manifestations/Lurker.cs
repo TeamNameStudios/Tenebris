@@ -21,7 +21,6 @@ public class Lurker : Manifestation
     private float landingPoint;
     private Vector2 startPos;
 
-    private Animator animator;
 
     protected override void OnEnable()
     {
@@ -37,7 +36,6 @@ public class Lurker : Manifestation
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider2D>();
-        animator = GetComponent<Animator>();
     }
 
     public override void Update()
@@ -68,6 +66,7 @@ public class Lurker : Manifestation
                 {
                     landingPoint = FindLandingPoint();
                     state = LurkerState.FALLING;
+                    
                 }
                 break;
 
@@ -79,7 +78,6 @@ public class Lurker : Manifestation
                     fallVelocity = 0;
                     position.y = landingPoint + capsuleCollider.size.y / 2;
                     destructionCO = StartCoroutine(AutoDestruction());
-                    canPlayClip = true;
                 }
 
                 transform.position = position;
@@ -89,16 +87,6 @@ public class Lurker : Manifestation
 
     private void FindPlayer()
     {
-        //RaycastHit2D[] hits = Physics2D.CapsuleCastAll(transform.position, capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
-
-        //for (int i = 0; i < hits.Length; i++)
-        //{
-        //    if (hits[i].transform.GetComponent<Player>())
-        //    {
-        //        player = hits[i].transform;
-        //        state = LurkerState.CHASING;
-        //    }
-        //}
 
         RaycastHit2D hit = Physics2D.CapsuleCast(transform.position - new Vector3 (0, 2, 0), capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
         if (hit.transform != null)
@@ -106,8 +94,8 @@ public class Lurker : Manifestation
             if (hit.transform.GetComponent<Player>())
             {
                 player = hit.transform;
-                PlayClip();
                 state = LurkerState.CHASING;
+                PlayClip();
             }
         }
     }
@@ -121,10 +109,6 @@ public class Lurker : Manifestation
             {
                 return hits[i].point.y;
             }
-            //else if (!hits[i].transform.GetComponent<Player>() && !hits[i].transform.GetComponent<Manifestation>() && !hits[i].transform.GetComponent<Collectible>() && hits[i].transform.gameObject.layer != 3)
-            //{
-                
-            //}
         }
 
         return -50;

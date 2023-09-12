@@ -16,9 +16,14 @@ public class TutorialHUD : MonoBehaviour
         EventManager<string>.Instance.StartListening("onPlayDialogue", SetDialogueLine);
     }
 
+    private void OnDisable()
+    {
+        EventManager<string>.Instance.StopListening("onPlayDialogue", SetDialogueLine);
+    }
+
     void Update()
     {
-        if (Input.anyKeyDown && GameController.Instance.state == GameState.TUTORIAL)
+        if (Input.anyKeyDown && GameController.Instance.State == GameState.TUTORIAL && textComponent != null)
         {
             if (textComponent.text == lines[index])
             {
@@ -59,17 +64,21 @@ public class TutorialHUD : MonoBehaviour
         else
         {
             textComponent.text = string.Empty;
-            TutorialGC.Instance.t = 0;
+            SlowMotionController.Instance.t = 0;
             EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.PLAYING);
         }
     }
 
     private void SetDialogueLine(string name)
     {
-        TutorialDialogueScriptable SO = ResourceSystem.Instance.GetDialogueLines(name);
-        lines.Clear();
-        lines = new List<string>(SO.lines);
-        textComponent.transform.localPosition = SO.position;
-        StartDialogue();
+        if(textComponent != null)
+        {
+            ScriptableTutorialDialogue SO = ResourceSystem.Instance.GetDialogueLines(name);
+            lines.Clear();
+            lines = new List<string>(SO.lines);
+            textComponent.transform.localPosition = SO.position;
+            StartDialogue();
+        }
+ 
     }
 }

@@ -11,9 +11,9 @@ using UnityEngine;
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
     #region DialogueLines
-    public List<TutorialDialogueScriptable> DialogueLines { get; private set; }
+    public List<ScriptableTutorialDialogue> DialogueLines { get; private set; }
 
-    public Dictionary<string, TutorialDialogueScriptable> DialogueDict = new Dictionary<string, TutorialDialogueScriptable>();
+    public Dictionary<string, ScriptableTutorialDialogue> DialogueDict = new Dictionary<string, ScriptableTutorialDialogue>();
     #endregion
 
     #region PowerUp
@@ -48,7 +48,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     {
         PowerUps = Resources.LoadAll<ScriptablePowerUp>("PowerUps").ToList();
         LevelChunks = Resources.LoadAll<ScriptableLevelChunk>("LevelChunks").ToList();
-        DialogueLines = Resources.LoadAll<TutorialDialogueScriptable>("DialogueLines").ToList();
+        DialogueLines = Resources.LoadAll<ScriptableTutorialDialogue>("DialogueLines").ToList();
         LevelChunksDict = LevelChunks.ToDictionary(levelChunk => levelChunk.ID, levelChunk => levelChunk);
         DialogueDict = DialogueLines.ToDictionary(dialogueLines => dialogueLines.dialogueName, dialogueName => dialogueName);
 
@@ -58,7 +58,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
         levelDictByDifficulty.Add(LevelDifficulty.INSANITY, insaneLevels);
     }
 
-    public TutorialDialogueScriptable GetDialogueLines(string name) => DialogueDict[name];
+    public ScriptableTutorialDialogue GetDialogueLines(string name) => DialogueDict[name];
     
     public ScriptableLevelChunk GetLevelChunk(LevelID t) => LevelChunksDict[t];
 

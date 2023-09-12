@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.IO;
 
 public class DataManager : Singleton<DataManager>
@@ -18,50 +17,32 @@ public class DataManager : Singleton<DataManager>
     }
     private void OnEnable()
     {
-        EventManager<int>.Instance.StartListening("SavePage", SavePages);
         EventManager<int>.Instance.StartListening("SaveTotalPage", SaveTotalPages);
         EventManager<float>.Instance.StartListening("SaveBestDistance", SaveBestDistance);
-        EventManager<List<PowerUp>>.Instance.StartListening("SavePowerUp", SavePowerUp);
-        EventManager<bool>.Instance.StartListening("LoadData", LoadData);
         EventManager<string>.Instance.StartListening("SaveBestTime", SaveBestTime);
+        EventManager<List<PowerUp>>.Instance.StartListening("SavePowerUp", SavePowerUp);
         EventManager<int>.Instance.StartListening("SaveTutorialFlag", SaveTutorialFlag);
+        EventManager<bool>.Instance.StartListening("LoadData", LoadData);
     }
     
     private void OnDisable()
     {
-        EventManager<int>.Instance.StopListening("SavePage", SavePages);
         EventManager<int>.Instance.StopListening("SaveTotalPage", SaveTotalPages);
         EventManager<float>.Instance.StopListening("SaveBestDistance", SaveBestDistance);
-        EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
-        EventManager<bool>.Instance.StopListening("LoadData", LoadData);
         EventManager<string>.Instance.StopListening("SaveBestTime", SaveBestTime);
+        EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
         EventManager<int>.Instance.StartListening("SaveTutorialFlag", SaveTutorialFlag);
+        EventManager<bool>.Instance.StopListening("LoadData", LoadData);
     }
 
     public void LoadData(bool loading)
     {
-        LoadPages();
         LoadTotalPages();
         LoadPowerUp();
         LoadBestDistance();
         LoadBestTime();
         LoadTutorialFlag();
     }
-
-    public void SavePages(int count)
-    {
-        if (count < 0)
-            return;
-        PlayerPrefs.SetInt("Pages", count);
-        PlayerPrefs.Save();
-    }
-
-    public void LoadPages()
-    {
-        int numberOfPages =  PlayerPrefs.GetInt("Pages", 0);
-        EventManager<int>.Instance.TriggerEvent("onPageLoaded", numberOfPages);
-    }
-
 
     public void SaveTotalPages(int count)
     {

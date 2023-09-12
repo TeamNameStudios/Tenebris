@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +14,8 @@ public class EnvironmentController : Singleton<EnvironmentController>
     public List<Chunk> listChunk = new List<Chunk>();
     [SerializeField]
     LevelID firstLevel;
+    [SerializeField]
+    LevelID firstLevelTutorial;
 
     protected override void Awake()
     {
@@ -58,14 +58,6 @@ public class EnvironmentController : Singleton<EnvironmentController>
         {
             Chunk.BuildLevel();
         }
-    }
-
-    public void ManageList()
-    {
-        Chunk chunk = listChunk[0];
-        listChunk.RemoveAt(0);
-        listChunk.Add(chunk);
-        chunk.CheckDistance();
     }
 
     public float FindLastChunkPosition()

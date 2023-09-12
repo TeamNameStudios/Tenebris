@@ -9,7 +9,7 @@ public class Spikes : MonoBehaviour, IEnemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        EventManager<bool>.Instance.TriggerEvent("onHit", true);
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.hitSound);
         EventManager<float>.Instance.TriggerEvent("Corruption", spikeCorruptionOnHit);
     }
 

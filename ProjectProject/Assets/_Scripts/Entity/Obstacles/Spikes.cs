@@ -11,6 +11,7 @@ public class Spikes : MonoBehaviour, IEnemy
     {
         EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.hitSound);
         EventManager<float>.Instance.TriggerEvent("Corruption", spikeCorruptionOnHit);
+        EventManager<bool>.Instance.TriggerEvent("onHit", true);
     }
 
     private void OnCollisionStay2D(Collision2D collision)

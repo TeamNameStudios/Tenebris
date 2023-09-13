@@ -49,10 +49,7 @@ public class Player : MonoBehaviour
         ManageAnimation();
         ManageParticle();
         ManageAudio();
-        ManageDead();
-
-  
-       
+        ManageDead();      
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -546,7 +543,6 @@ public class Player : MonoBehaviour
         if (collision.transform.GetComponent<IEnemy>() != null && corrupted && !invincibility && GameController.Instance.IsTutorial == 0)
         {
             Dead();
-
         }
     }
 

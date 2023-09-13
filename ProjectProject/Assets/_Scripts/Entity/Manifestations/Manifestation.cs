@@ -27,6 +27,7 @@ public abstract class Manifestation : MapMover, IEnemy
         {
             EventManager<float>.Instance.TriggerEvent("Corruption", CorruptionValue);
             EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.hitSound);
+            EventManager<bool>.Instance.TriggerEvent("onHit", true);
         }
         else if (collision.gameObject.CompareTag("Shadow") && canDieToShadow)
         {

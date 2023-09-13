@@ -66,6 +66,7 @@ public class Lurker : Manifestation
                 if (elapsedTime >= fallTime - 0.5f)
                 {
                     landingPoint = FindLandingPoint();
+                    //ManageLineRenderer(landingPoint);
                     lr.enabled = true;
                     lr.SetPosition(0, (transform.position - Vector3.up));
                     lr.SetPosition(1, new Vector2(transform.position.x, landingPoint));
@@ -126,5 +127,20 @@ public class Lurker : Manifestation
     private void LevelUp(bool value)
     {
         startFallVelocity += startFallVelocityIncrement;
+    }
+
+    float t = 0;
+
+    private void ManageLineRenderer(float _landingPoint)
+    {
+        float endPos = Mathf.Lerp(transform.position.y, _landingPoint, t);
+        lr.enabled = true;
+        lr.SetPosition(0, (transform.position - Vector3.up));
+        lr.SetPosition(1, new Vector2(transform.position.x, endPos));
+        t += Time.deltaTime * fallTime;
+        if (t >= 1)
+        {
+            t = 0;
+        }
     }
 }

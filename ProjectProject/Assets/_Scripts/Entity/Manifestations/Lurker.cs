@@ -9,7 +9,7 @@ public class Lurker : Manifestation
     
     private Transform player;
     private CapsuleCollider2D capsuleCollider;
-
+    private LineRenderer lr;
     [SerializeField] private float fallTime;
     private float fallVelocity;
     [SerializeField] private float startFallVelocity;
@@ -36,6 +36,7 @@ public class Lurker : Manifestation
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        lr = GetComponent<LineRenderer>();
     }
 
     public override void Update()
@@ -62,19 +63,27 @@ public class Lurker : Manifestation
                 transform.position = pos;
                 elapsedTime += Time.deltaTime;
 
-                if (elapsedTime >= fallTime)
+                if (elapsedTime >= fallTime - 0.5f)
                 {
                     landingPoint = FindLandingPoint();
-                    state = LurkerState.FALLING;
-                    
+                    lr.enabled = true;
+                    lr.SetPosition(0, (transform.position - Vector3.up));
+                    lr.SetPosition(1, new Vector2(transform.position.x, landingPoint));
+                    if (elapsedTime >= fallTime)
+                    {
+                        state = LurkerState.FALLING;
+                    }
                 }
                 break;
 
             case LurkerState.FALLING:
                 Vector2 position = transform.position;
                 position.y += Vector2.down.y * fallVelocity * Time.deltaTime;
+                lr.SetPosition(0, (transform.position - Vector3.up));
+                lr.SetPosition(1, new Vector2(transform.position.x, landingPoint));
                 if (transform.position.y <= landingPoint)
                 {
+                    lr.enabled = false;
                     fallVelocity = 0;
                     position.y = landingPoint + capsuleCollider.size.y / 2;
                     destructionCO = StartCoroutine(AutoDestruction());

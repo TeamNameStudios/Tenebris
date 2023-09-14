@@ -62,22 +62,20 @@ public class LevelAssembler : Singleton<LevelAssembler>
 
     private void AddProbability(LevelID _nextLevelID, float probabilityToAdd)
     {
-        foreach (LevelID levelID in possibleLevels)
-        {
-            if (levelID != _nextLevelID)
+        for(int i = 0;i<possibleLevels.Count;i++) {
+            if (possibleLevels[i] != _nextLevelID)
             {
                 // This increases the probability for all the levels that are not picked
-                ResourceSystem.Instance.GetLevelChunk(levelID).Probability += probabilityToAdd;
+                ResourceSystem.Instance.GetLevelChunk(possibleLevels[i]).Probability += probabilityToAdd;
             }
-            else if (levelID == _nextLevelID)
+            else if (possibleLevels[i] == _nextLevelID)
             {
                 // This resets the probability when we spawn a level
-                ScriptableLevelChunk thisLevel = ResourceSystem.Instance.GetLevelChunk(levelID);
+                ScriptableLevelChunk thisLevel = ResourceSystem.Instance.GetLevelChunk(possibleLevels[i]);
                 thisLevel.Probability = thisLevel.InGameProbability;
             }
         }
     }
-
 
     public LevelID CreateChunk(Transform parentObject)
     {

@@ -11,7 +11,7 @@ public class RunnerTrigger : ManifestationTrigger
 
     protected override void Start()
     {
-        
+        //The Start method is empty because it doesn't need to use the ManifestaionTrigger Start
     }
 
     private void Update()

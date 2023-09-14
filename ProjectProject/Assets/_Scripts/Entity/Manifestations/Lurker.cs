@@ -1,22 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Lurker : Manifestation
 {
-    public enum LurkerState { IDLE, CHASING, FALLING}
-    public LurkerState state = LurkerState.IDLE;
-    
+    private enum LurkerState
+    {
+        IDLE,
+        CHASING,
+        FALLING
+    }
+    private LurkerState state = LurkerState.IDLE;
+
     private Transform player;
     private CapsuleCollider2D capsuleCollider;
     private LineRenderer lr;
-    [SerializeField] private float fallTime;
-    private float fallVelocity;
-    [SerializeField] private float startFallVelocity;
-    [SerializeField] private float startFallVelocityIncrement;
-    [SerializeField] private float upDownVelocity;
-    [SerializeField] private float upDownAmplitude;
+    [SerializeField]
+    private float fallTime;
+    [SerializeField]
+    private float startFallVelocity;
+    [SerializeField]
+    private float startFallVelocityIncrement;
+    [SerializeField]
+    private float upDownVelocity;
+    [SerializeField]
+    private float upDownAmplitude;
 
+    private float fallVelocity;
     private float elapsedTime = 0;
     private float landingPoint;
     private Vector2 startPos;
@@ -26,7 +34,6 @@ public class Lurker : Manifestation
     {
         base.OnEnable();
         EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
-
         state = LurkerState.IDLE;
         player = null;
         elapsedTime = 0;
@@ -66,7 +73,6 @@ public class Lurker : Manifestation
                 if (elapsedTime >= fallTime - 0.5f)
                 {
                     landingPoint = FindLandingPoint();
-                    //ManageLineRenderer(landingPoint);
                     lr.enabled = true;
                     lr.SetPosition(0, (transform.position - Vector3.up));
                     lr.SetPosition(1, new Vector2(transform.position.x, landingPoint));
@@ -97,8 +103,7 @@ public class Lurker : Manifestation
 
     private void FindPlayer()
     {
-
-        RaycastHit2D hit = Physics2D.CapsuleCast(transform.position - new Vector3 (0, 2, 0), capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
+        RaycastHit2D hit = Physics2D.CapsuleCast(transform.position - new Vector3(0, 2, 0), capsuleCollider.size, capsuleCollider.direction, 0, Vector2.down);
         if (hit.transform != null)
         {
             if (hit.transform.GetComponent<Player>())
@@ -127,20 +132,5 @@ public class Lurker : Manifestation
     private void LevelUp(bool value)
     {
         startFallVelocity += startFallVelocityIncrement;
-    }
-
-    float t = 0;
-
-    private void ManageLineRenderer(float _landingPoint)
-    {
-        float endPos = Mathf.Lerp(transform.position.y, _landingPoint, t);
-        lr.enabled = true;
-        lr.SetPosition(0, (transform.position - Vector3.up));
-        lr.SetPosition(1, new Vector2(transform.position.x, endPos));
-        t += Time.deltaTime * fallTime;
-        if (t >= 1)
-        {
-            t = 0;
-        }
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ManifestationTrigger : MonoBehaviour
@@ -8,7 +6,6 @@ public abstract class ManifestationTrigger : MonoBehaviour
 
     protected virtual void Start()
     {
-        //Instantiate(GO, transform.position, Quaternion.identity);
         ManifestationsFactory.Instance.CreateObject(GO.name, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

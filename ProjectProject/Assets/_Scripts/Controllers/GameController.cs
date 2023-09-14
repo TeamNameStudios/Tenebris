@@ -215,7 +215,6 @@ public class GameController : Singleton<GameController>
         }
     }
 
-
     private void ManageRunBySeconds(TimeSpan timeSpan)
     {
         if (timeSpan.Seconds % seconds == 0 && !hasIncremented)

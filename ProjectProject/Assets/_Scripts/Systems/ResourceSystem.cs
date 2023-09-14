@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +12,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     #region DialogueLines
     public List<ScriptableTutorialDialogue> DialogueLines { get; private set; }
 
-    public Dictionary<string, ScriptableTutorialDialogue> DialogueDict = new Dictionary<string, ScriptableTutorialDialogue>();
+    private Dictionary<string, ScriptableTutorialDialogue> DialogueDict = new Dictionary<string, ScriptableTutorialDialogue>();
     #endregion
 
     #region PowerUp
@@ -22,17 +21,14 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     #endregion
 
     #region Level
-    [SerializeField] public List<ScriptableLevelChunk> LevelChunks { get; private set; }
-    [SerializeField]
-    public Dictionary<LevelID, ScriptableLevelChunk> LevelChunksDict = new Dictionary<LevelID, ScriptableLevelChunk>();
-
-       
+    public List<ScriptableLevelChunk> LevelChunks { get; private set; }
+    private Dictionary<LevelID, ScriptableLevelChunk> LevelChunksDict = new Dictionary<LevelID, ScriptableLevelChunk>();
+      
     private List<LevelID> easyLevels = new List<LevelID>();
     private List<LevelID> mediumLevels = new List<LevelID>();
     private List<LevelID> hardLevels = new List<LevelID>();
     private List<LevelID> insaneLevels = new List<LevelID>();
-    public Dictionary<LevelDifficulty, List<LevelID>> levelDictByDifficulty = new Dictionary<LevelDifficulty, List<LevelID>>();
-
+    private Dictionary<LevelDifficulty, List<LevelID>> levelDictByDifficulty = new Dictionary<LevelDifficulty, List<LevelID>>();
     private List<LevelID> collectibleLevels = new List<LevelID>();
     private List<LevelID> manifestationLevels = new List<LevelID>();
 
@@ -64,75 +60,66 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
     public void SetLevelScriptable()
     {
-        foreach (ScriptableLevelChunk level in LevelChunks)
+        for(int i=0;i< LevelChunks.Count; i++)
         {
-            level.InGameProbability = level.OriginalProbability;
-            level.Probability = level.OriginalProbability;
-            
-            level.InGamePossibleNeighbour = new List<LevelID>(level.PossibleNeighbour);
+            LevelChunks[i].InGameProbability = LevelChunks[i].OriginalProbability;
+            LevelChunks[i].Probability = LevelChunks[i].OriginalProbability;
 
-            levelDictByDifficulty[level.Difficulty].Add(level.ID);
+            LevelChunks[i].InGamePossibleNeighbour = new List<LevelID>(LevelChunks[i].PossibleNeighbour);
 
-            if (level.HasManifestation)
+            levelDictByDifficulty[LevelChunks[i].Difficulty].Add(LevelChunks[i].ID);
+
+            if (LevelChunks[i].HasManifestation)
             {
-                manifestationLevels.Add(level.ID);
+                manifestationLevels.Add(LevelChunks[i].ID);
             }
 
-            if (level.HasCollectible)
+            if (LevelChunks[i].HasCollectible)
             {
-                collectibleLevels.Add(level.ID);
+                collectibleLevels.Add(LevelChunks[i].ID);
             }
         }
     }
 
     public void ChangeBaseProbability(LevelDifficulty difficulty, float newProbability)
     {
-        //for (int i = 0; i < LevelChunks.Count; i++)
-        //{
-        //    if (LevelChunks[i].Difficulty == difficulty)
-        //    {
-        //        LevelChunks[i].InGameProbability += newProbability;
-        //        LevelChunks[i].Probability += newProbability;
-        //    }
-        //}
-
-        foreach (LevelID level in levelDictByDifficulty[difficulty])
+        for(int i=0;i< levelDictByDifficulty[difficulty].Count; i++)
         {
+            LevelID level = levelDictByDifficulty[difficulty][i];
             LevelChunksDict[level].InGameProbability += newProbability;
             LevelChunksDict[level].Probability += newProbability;
         }
     }
 
-    // TO DO: REFACTOR W/ FIND
     public void RemoveNeighbourByDifficulty(LevelDifficulty difficulty)
     {
-        foreach (ScriptableLevelChunk level in LevelChunks)
-        {
-           foreach (LevelID levelID in levelDictByDifficulty[difficulty])
-           {
-               level.InGamePossibleNeighbour.Remove(levelID);
-           }
+        for (int i = 0; i< LevelChunks.Count; i++) {
+            for (int x = 0; x < levelDictByDifficulty[difficulty].Count; x++)
+            {
+                LevelChunks[i].InGamePossibleNeighbour.Remove(levelDictByDifficulty[difficulty][x]);
+            }
         }
     }
 
     public void RemoveNeighbourByCollectible()
     {
-        foreach (ScriptableLevelChunk level in LevelChunks)
+
+        for (int i = 0; i < LevelChunks.Count; i++)
         {
-            foreach (LevelID levelID in collectibleLevels)
+            for (int x = 0; x < collectibleLevels.Count; x++)
             {
-                level.InGamePossibleNeighbour.Remove(levelID);
+                LevelChunks[i].InGamePossibleNeighbour.Remove(collectibleLevels[x]);
             }
         }
     }
 
     public void RemoveNeighbourByManifestation()
     {
-        foreach (ScriptableLevelChunk level in LevelChunks)
+        for (int i = 0; i < LevelChunks.Count; i++)
         {
-            foreach (LevelID levelID in manifestationLevels)
+            for (int x = 0; x < manifestationLevels.Count; x++)
             {
-                level.InGamePossibleNeighbour.Remove(levelID);
+                LevelChunks[i].InGamePossibleNeighbour.Remove(manifestationLevels[x]);
             }
         }
     }
@@ -147,10 +134,10 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     public List<PowerUpEnum> GetInitsPowerUp()
     {
        List<PowerUpEnum> powerUpEnums = new List<PowerUpEnum>();
-        foreach (var powerUp in PowerUps)
+        for(int i=0;i<PowerUps.Count;i++) 
         {
-            if (!powerUpEnums.Contains(powerUp.ID)){
-                powerUpEnums.Add(powerUp.ID);
+            if (!powerUpEnums.Contains(PowerUps[i].ID)){
+                powerUpEnums.Add(PowerUps[i].ID);
             }
             
         }

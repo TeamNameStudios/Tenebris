@@ -1,13 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Chaser : Manifestation
 {
-    public enum ChaserState { IDLE, DESCENDING, CHASING, ATTACKING}
-    public ChaserState state = ChaserState.IDLE;
-    
+    private enum ChaserState
+    {
+        IDLE,
+        DESCENDING,
+        CHASING,
+        ATTACKING
+    }
 
+    private ChaserState state = ChaserState.IDLE;
+    
     private Transform player;
     private CapsuleCollider2D capsuleCollider;
 
@@ -19,11 +23,12 @@ public class Chaser : Manifestation
     [SerializeField] private float startVelocityIncrement;
     [Tooltip("Keep this value small, ex. 0.02")]
     [SerializeField] private float velocityAcceleration;
-    [Tooltip("Velocity of the chaser's attack")]
-    /*[SerializeField]*/ private float attackVelocity;
     [Tooltip("How close the chaser must get to the player before attacking it")]
     [SerializeField] private float attackDistance;
 
+
+    //Velocity of the chaser's attack
+    private float attackVelocity;
     private float groundHeight;
     private Vector3 attackDirection;
 
@@ -31,12 +36,9 @@ public class Chaser : Manifestation
     {
         base.OnEnable();
         EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
-
         player = null;
         state = ChaserState.IDLE;
         chaseVelocity = startVelocity;
-        //canPlayClip = true;
-
     }
 
     private void Awake()
@@ -48,11 +50,9 @@ public class Chaser : Manifestation
     public override void Update()
     {
         base.Update();
-
         switch (state)
         {
             case ChaserState.IDLE:
-                
                 FindPlayer();
                 if (player != null && Mathf.Abs(transform.position.x - player.position.x) > minDistance)
                 {
@@ -62,7 +62,6 @@ public class Chaser : Manifestation
                     state = ChaserState.DESCENDING;
                     PlayClip();
                 }
-                
                 break;
 
             case ChaserState.DESCENDING:
@@ -86,7 +85,6 @@ public class Chaser : Manifestation
                     attackVelocity = chaseVelocity + 10;
                     state = ChaserState.ATTACKING;
                 }
-
                 break;
             
             case ChaserState.ATTACKING:
@@ -109,8 +107,13 @@ public class Chaser : Manifestation
             }
             else
             {
+
                 groundHeight = hits[i].point.y;
             }
+        }
+        if (groundHeight == null && player != null)
+        {
+            groundHeight = player.transform.position.y;
         }
     }
 

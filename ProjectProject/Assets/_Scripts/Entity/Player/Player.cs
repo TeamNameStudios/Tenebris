@@ -7,14 +7,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     [SerializeField]
     public Rigidbody2D rb;
     [SerializeField]
     public Vector2 velocity;
     [SerializeField]
     public Vector2 direction = Vector2.zero;
-
 
     private void Start()
     {
@@ -27,29 +25,33 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
-        RunCollisionChecks();
-        CalculateJumpApex();
-        CalculateGravity();
-        if (!isGrappling)
+        if (GameController.Instance.State == GameState.PLAYING)
         {
-            GetHookableObject();
+            RunCollisionChecks();
+            CalculateJumpApex();
+            CalculateGravity();
+            if (!isGrappling)
+            {
+                GetHookableObject();
+            }
+            HandleGrapple();
+            if (!isGrappling)
+            {
+                HandleDashing();
+            }
+            if (!isDashing && !isGrappling)
+            {
+                CalculateJump();
+                CalculateMovement();
+            }
+            PerformMovement();
+            ManageCorruption();
+            ManageAnimation();
+            ManageParticle();
+            ManageAudio();
+            ManageDead();
         }
-        HandleGrapple();
-        if (!isGrappling)
-        {
-            HandleDashing();
-        }
-        if (!isDashing && !isGrappling)
-        {
-            CalculateJump();
-            CalculateMovement();
-        }
-        PerformMovement();
-        ManageCorruption();
-        ManageAnimation();
-        ManageParticle();
-        ManageAudio();
-        ManageDead();      
+    
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -921,7 +923,6 @@ public class Player : MonoBehaviour
 
     }
     #endregion
-
 
     #region PowerUpManager 
 

@@ -37,7 +37,7 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        
+        EventManager<bool>.Instance.TriggerEvent("onReset", true);
     }
 
     private void OnEnable()

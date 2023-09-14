@@ -100,7 +100,6 @@ public class AudioSystem : StaticInstance<AudioSystem>
     {
         continousEffectsSource.clip = null;
         continousEffectsSource.Stop();
-        //continousEffectsSource.clip = null;
     }
 
     private void PauseMusic(SoundEnum _soundEnum)

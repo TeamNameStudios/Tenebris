@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +31,6 @@ public class ScriptableLevelChunk : ScriptableObject
 
 public  enum LevelDifficulty
 {
-    //DEMO,
     EASY,
     MEDIUM,
     HARD,

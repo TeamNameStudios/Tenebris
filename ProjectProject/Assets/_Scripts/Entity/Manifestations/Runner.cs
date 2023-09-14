@@ -6,30 +6,23 @@ public class Runner : Manifestation
 {
     [SerializeField] private float runnerVelocity;
     [SerializeField] private float runnerVelocityIncrement;
-
     [SerializeField] private float pursueTime;
     private bool canPursue = true;
-
     private Transform player;
-
     [SerializeField] private float delay;
     private List<float> playerPos = new List<float>();
     private bool canGo = false;
-
-
 
     protected override void OnEnable()
     {
         base.OnEnable();
         player = null;
-
         canGo = false;
         canPursue = true;
         if (playerPos.Count > 0)
         {
             playerPos.Clear();
         }
-
         EventManager<Transform>.Instance.StartListening("onPlayerDetected", SetPlayer);
         EventManager<bool>.Instance.StartListening("onLevelUp", LevelUp);
     }
@@ -43,18 +36,13 @@ public class Runner : Manifestation
     public override void Update()
     {
         base.Update();
-
-
         if (player != null)
         {
             StartCoroutine(PursueCO());
             Vector3 pos = transform.position;
-            
-
             if (canPursue)
             {
                 pos.x -= Vector2.right.x * runnerVelocity * Time.deltaTime;
-                
                 if (canGo)
                 {
                     pos.y = playerPos[0];
@@ -65,7 +53,6 @@ public class Runner : Manifestation
             {
                 pos.x -= Vector2.right.x * runnerVelocity * Time.deltaTime;
             }
-
             transform.position = pos;
         }
     }
@@ -89,6 +76,4 @@ public class Runner : Manifestation
     {
         runnerVelocity += runnerVelocityIncrement;
     }
-
-
 }

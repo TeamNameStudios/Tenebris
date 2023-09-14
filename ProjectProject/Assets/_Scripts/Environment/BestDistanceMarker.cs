@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BestDistanceMarker : MapMover
 {
-    public override void Update()
+    private void Update()
     {
         base.Update();
         Vector3 pos = transform.position;

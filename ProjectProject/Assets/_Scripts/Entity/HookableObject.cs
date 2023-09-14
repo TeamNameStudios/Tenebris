@@ -11,12 +11,6 @@ public class HookableObject : MonoBehaviour
         hookCollider = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void EnableGrapplable() {
         grappleMarker.SetActive(true);
     }

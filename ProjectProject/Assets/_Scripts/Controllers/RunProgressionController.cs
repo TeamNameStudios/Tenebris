@@ -18,6 +18,12 @@ public class RunProgressionController : MonoBehaviour
     [SerializeField] private float insaneProbIncrement;
     [SerializeField] private float insaneProbCap;
 
+    private void Start()
+    {
+        ResourceSystem.Instance.RemoveNeighbourByDifficulty(LevelDifficulty.HARD);
+        ResourceSystem.Instance.RemoveNeighbourByDifficulty(LevelDifficulty.INSANITY);
+    }
+
     private void Update()
     {
         if (GameController.Instance.State == GameState.PLAYING)
@@ -37,7 +43,6 @@ public class RunProgressionController : MonoBehaviour
         if (timeSpan.Seconds % seconds == 0 && !hasIncrementedSeconds)
         {
             EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
-            Debug.Log("LEVEL UP!");
             hasIncrementedSeconds = true;
         }
         else if (timeSpan.Seconds % seconds != 0 && hasIncrementedSeconds)
@@ -50,6 +55,11 @@ public class RunProgressionController : MonoBehaviour
     {
         if (timeSpan.Minutes % minutes == 0 && !hasIncrementedMinutes)
         {
+            if (timeSpan.Minutes == minutes)
+            {
+                ResourceSystem.Instance.RestoreNeighbour();
+                Debug.Log("RESTORING");
+            }
             hasIncrementedMinutes = true;
             ResourceSystem.Instance.ChangeAllBaseProbability(-easyProbIncrement, easyProbCap, -middleProbIncrement, middleProbCap, hardProbIncrement, hardProbCap, insaneProbIncrement, insaneProbCap);
         }

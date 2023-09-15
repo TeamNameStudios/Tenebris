@@ -15,7 +15,5 @@ public class BackgroundParallax : MapMover
             pos.x = -69;
         }
         transform.position = pos;
-
-
     }
 }

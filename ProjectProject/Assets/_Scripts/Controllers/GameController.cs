@@ -144,10 +144,10 @@ public class GameController : Singleton<GameController>
     private void TutorialEnd(bool value)
     {
         Instantiate(tracker);
+        SpawnShadow();
         IsTutorial = 0;
         EventManager<int>.Instance.TriggerEvent("SaveTutorialFlag", IsTutorial);
     }
-
 
     private void SpawnShadow()
     {
@@ -155,6 +155,7 @@ public class GameController : Singleton<GameController>
         _shadow.Setup(player);
         EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
     }
+
     public void Pause(bool _isPausing)
     {
         GameState gameState = state == GameState.PLAYING ? GameState.PAUSING : state == GameState.PAUSING ? GameState.PLAYING : GameState.PAUSING;

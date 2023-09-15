@@ -19,8 +19,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         lineRenderer = GetComponent<LineRenderer>();
-
-
     }
     
     private void Update()

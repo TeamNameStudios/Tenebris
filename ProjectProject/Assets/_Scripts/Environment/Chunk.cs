@@ -8,6 +8,7 @@ public class Chunk : MapMover
     public float chunkSize;
     [SerializeField]
     public float chunkOffset;
+
     public override void Update()
     {
         base.Update();
@@ -38,5 +39,4 @@ public class Chunk : MapMover
         transform.DestroyChildren();
         BuildLevel();
     }
-
 }

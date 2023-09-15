@@ -114,7 +114,6 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
                 case LevelDifficulty.EASY:
                     if (LevelChunks[i].InGameProbability + easyIncrement >= easyCap)
                     {
-                        Debug.Log("Incrementing easy prob of " + easyIncrement);
                         LevelChunks[i].InGameProbability += easyIncrement;
                         LevelChunks[i].Probability += easyIncrement;
                     }
@@ -123,7 +122,6 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
                 case LevelDifficulty.MEDIUM:
                     if (LevelChunks[i].InGameProbability + middleIncrement >= middleCap)
                     {
-                        Debug.Log("Incrementing middle prob of " + middleIncrement);
                         LevelChunks[i].InGameProbability += middleIncrement;
                         LevelChunks[i].Probability += middleIncrement;
                     }
@@ -132,7 +130,6 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
                 case LevelDifficulty.HARD:
                     if (LevelChunks[i].InGameProbability + hardIncrement <= hardCap)
                     {
-                        Debug.Log("Incrementing hard prob of " + hardIncrement);
                         LevelChunks[i].InGameProbability += hardIncrement;
                         LevelChunks[i].Probability += hardIncrement;
                     }
@@ -141,7 +138,6 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
                 case LevelDifficulty.INSANITY:
                     if (LevelChunks[i].InGameProbability + insaneIncrement <= insaneCap)
                     {
-                        Debug.Log("Incrementing insane prob of " + insaneIncrement);
                         LevelChunks[i].InGameProbability += insaneIncrement;
                         LevelChunks[i].Probability += insaneIncrement;
                     }
@@ -152,11 +148,20 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
     public void RemoveNeighbourByDifficulty(LevelDifficulty difficulty)
     {
-        for (int i = 0; i< LevelChunks.Count; i++) {
+        for (int i = 0; i < LevelChunks.Count; i++) {
             for (int x = 0; x < levelDictByDifficulty[difficulty].Count; x++)
             {
                 LevelChunks[i].InGamePossibleNeighbour.Remove(levelDictByDifficulty[difficulty][x]);
             }
+        }
+    }
+
+    public void RestoreNeighbour()
+    {
+        for (int i = 0; i < LevelChunks.Count; i++)
+        {
+            LevelChunks[i].InGamePossibleNeighbour.Clear();
+            LevelChunks[i].InGamePossibleNeighbour = new List<LevelID>(LevelChunks[i].PossibleNeighbour);
         }
     }
 

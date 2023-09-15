@@ -31,6 +31,4 @@ public class MapMover : MonoBehaviour
         pos.x -= realVelocity * Time.deltaTime;
         transform.position = pos;
     }
-
- 
 }

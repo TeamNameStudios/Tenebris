@@ -111,7 +111,8 @@ public class Chaser : Manifestation
                 groundHeight = hits[i].point.y;
             }
         }
-        if (groundHeight == null && player != null)
+        
+        if (groundHeight == 0 && player != null)
         {
             groundHeight = player.transform.position.y;
         }

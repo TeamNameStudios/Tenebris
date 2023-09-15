@@ -2310,6 +2310,7 @@ Transform:
   - {fileID: 2074585105}
   - {fileID: 2009291852}
   - {fileID: 378483485}
+  - {fileID: 1620389944}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2361,7 +2362,7 @@ MonoBehaviour:
   player: {fileID: 2762329890619727348, guid: d4672854833c7144594e5ee46c01d076, type: 3}
   shadow: {fileID: 5528758643422967396, guid: 13586eec1304c1149b75574bf93a79fc, type: 3}
   tracker: {fileID: 6804710328030143349, guid: 5f1f8f2803e3ab2449c7db666abd674f, type: 3}
-  slowMotionController: {fileID: 0}
+  slowMotionController: {fileID: 4271288196179214565, guid: 8090f7912bd115b43a86b55eed93ee56, type: 3}
   pageNumber: 0
   trueForSeconds: 1
   seconds: 30
@@ -3927,6 +3928,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610212971}
   m_CullTransparentMesh: 1
+--- !u!1 &1620389943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620389944}
+  - component: {fileID: 1620389945}
+  m_Layer: 0
+  m_Name: RunProgressionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1620389944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620389943}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 876246269}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1620389945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620389943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae10e337ccec0345a5945f351463c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seconds: 30
+  minutes: 2
+  easyProbIncrement: 5
+  easyProbCap: 30
+  middleProbIncrement: 3
+  middleProbCap: 15
+  hardProbIncrement: 2
+  hardProbCap: 25
+  insaneProbIncrement: 1
+  insaneProbCap: 15
 --- !u!1 &1641336318
 GameObject:
   m_ObjectHideFlags: 0
@@ -4629,7 +4684,7 @@ MonoBehaviour:
   ChunkContainer: {fileID: 1128309976}
   chunkPrefab: {fileID: 8945464813027965662, guid: 2d0e309fb31bbde4291b9ee6a088ad8b, type: 3}
   listChunk: []
-  firstLevel: 62
+  firstLevel: 65
   firstLevelTutorial: 66
 --- !u!1 &2009291851
 GameObject:
@@ -5241,7 +5296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c229f20820ac84b83c942e7de77b06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  probabilityToAdd: 0
+  probabilityToAdd: 5
 --- !u!1 &2079801802
 GameObject:
   m_ObjectHideFlags: 0

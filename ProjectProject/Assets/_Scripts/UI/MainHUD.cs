@@ -81,7 +81,7 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StartListening("onGameOver", TempGameOver);
-        EventManager<TimeSpan>.Instance.StartListening("onTimer", UpdateTimer);
+        //EventManager<TimeSpan>.Instance.StartListening("onTimer", UpdateTimer);
         EventManager<float>.Instance.StartListening("onBestDistanceUpdated", UpdateBestDistance);
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
         EventManager<bool>.Instance.StartListening("onGamePaused", SetPauseState);
@@ -95,13 +95,19 @@ public class MainHUD : MonoBehaviour
         EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
         EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
-        EventManager<TimeSpan>.Instance.StopListening("onTimer", UpdateTimer);
+        //EventManager<TimeSpan>.Instance.StopListening("onTimer", UpdateTimer);
         EventManager<float>.Instance.StopListening("onBestDistanceU", UpdateBestDistance); 
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
         EventManager<bool>.Instance.StopListening("onGamePaused", SetPauseState);
         EventManager<bool>.Instance.StopListening("onTutorialStarted", SetTutorialHUD);
 
     }
+
+    private void Update()
+    {
+        UpdateTimer(GameController.Instance.Timer);
+    }
+
     public void UpdateTimer(TimeSpan timer)
     {
         _timerCount.text = timer.ToString(@"mm\:ss");

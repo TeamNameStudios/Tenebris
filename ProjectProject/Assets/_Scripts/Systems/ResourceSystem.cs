@@ -29,8 +29,14 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     private List<LevelID> hardLevels = new List<LevelID>();
     private List<LevelID> insaneLevels = new List<LevelID>();
     private Dictionary<LevelDifficulty, List<LevelID>> levelDictByDifficulty = new Dictionary<LevelDifficulty, List<LevelID>>();
+    private Dictionary<LevelDifficulty, float> levelDictDifficultyByProb = new Dictionary<LevelDifficulty, float>();
     private List<LevelID> collectibleLevels = new List<LevelID>();
     private List<LevelID> manifestationLevels = new List<LevelID>();
+
+    [SerializeField] private float easyProb;
+    [SerializeField] private float middleProb;
+    [SerializeField] private float hardProb;
+    [SerializeField] private float insaneProb;
 
     #endregion
     protected override void Awake()
@@ -52,6 +58,11 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
         levelDictByDifficulty.Add(LevelDifficulty.MEDIUM, mediumLevels);
         levelDictByDifficulty.Add(LevelDifficulty.HARD, hardLevels);
         levelDictByDifficulty.Add(LevelDifficulty.INSANITY, insaneLevels);
+
+        levelDictDifficultyByProb.Add(LevelDifficulty.EASY, easyProb);
+        levelDictDifficultyByProb.Add(LevelDifficulty.MEDIUM, middleProb);
+        levelDictDifficultyByProb.Add(LevelDifficulty.HARD, hardProb);
+        levelDictDifficultyByProb.Add(LevelDifficulty.INSANITY, insaneProb);
     }
 
     public ScriptableTutorialDialogue GetDialogueLines(string name) => DialogueDict[name];
@@ -62,8 +73,11 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     {
         for(int i=0;i< LevelChunks.Count; i++)
         {
+            LevelChunks[i].OriginalProbability = levelDictDifficultyByProb[LevelChunks[i].Difficulty];
             LevelChunks[i].InGameProbability = LevelChunks[i].OriginalProbability;
             LevelChunks[i].Probability = LevelChunks[i].OriginalProbability;
+
+
 
             LevelChunks[i].InGamePossibleNeighbour = new List<LevelID>(LevelChunks[i].PossibleNeighbour);
 
@@ -83,11 +97,56 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
 
     public void ChangeBaseProbability(LevelDifficulty difficulty, float newProbability)
     {
-        for(int i=0;i< levelDictByDifficulty[difficulty].Count; i++)
+        for(int i = 0; i < levelDictByDifficulty[difficulty].Count; i++)
         {
             LevelID level = levelDictByDifficulty[difficulty][i];
             LevelChunksDict[level].InGameProbability += newProbability;
             LevelChunksDict[level].Probability += newProbability;
+        }
+    }
+
+    public void ChangeAllBaseProbability(float easyIncrement, float easyCap, float middleIncrement, float middleCap, float hardIncrement, float hardCap, float insaneIncrement, float insaneCap)
+    {
+        for (int i = 0; i < LevelChunks.Count; i++)
+        {
+            switch(LevelChunks[i].Difficulty)
+            {
+                case LevelDifficulty.EASY:
+                    if (LevelChunks[i].InGameProbability + easyIncrement >= easyCap)
+                    {
+                        Debug.Log("Incrementing easy prob of " + easyIncrement);
+                        LevelChunks[i].InGameProbability += easyIncrement;
+                        LevelChunks[i].Probability += easyIncrement;
+                    }
+                    break;
+
+                case LevelDifficulty.MEDIUM:
+                    if (LevelChunks[i].InGameProbability + middleIncrement >= middleCap)
+                    {
+                        Debug.Log("Incrementing middle prob of " + middleIncrement);
+                        LevelChunks[i].InGameProbability += middleIncrement;
+                        LevelChunks[i].Probability += middleIncrement;
+                    }
+                    break;
+
+                case LevelDifficulty.HARD:
+                    if (LevelChunks[i].InGameProbability + hardIncrement <= hardCap)
+                    {
+                        Debug.Log("Incrementing hard prob of " + hardIncrement);
+                        LevelChunks[i].InGameProbability += hardIncrement;
+                        LevelChunks[i].Probability += hardIncrement;
+                    }
+                    break;
+
+                case LevelDifficulty.INSANITY:
+                    if (LevelChunks[i].InGameProbability + insaneIncrement <= insaneCap)
+                    {
+                        Debug.Log("Incrementing insane prob of " + insaneIncrement);
+                        LevelChunks[i].InGameProbability += insaneIncrement;
+                        LevelChunks[i].Probability += insaneIncrement;
+                    }
+                    break;
+            }
         }
     }
 

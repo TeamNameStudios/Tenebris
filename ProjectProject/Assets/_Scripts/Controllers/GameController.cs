@@ -14,7 +14,7 @@ public class GameController : Singleton<GameController>
     private Shadow shadow;
     [SerializeField]
     private GameObject tracker;
-    [SerializeField] 
+    [SerializeField]
     private GameObject slowMotionController;
     #endregion
 
@@ -29,7 +29,10 @@ public class GameController : Singleton<GameController>
     [SerializeField] private float seconds;
     [SerializeField] private float minutes;
     [SerializeField] private float timeScaleIncrement;
-    private TimeSpan time;
+    
+    //private TimeSpan timer;
+    public TimeSpan Timer { get; private set; }
+    
     private TimeSpan bestTime;
 
     private void Start()
@@ -91,9 +94,9 @@ public class GameController : Singleton<GameController>
                 if (IsTutorial == 0)
                 {
                     runTime += Time.unscaledDeltaTime;
-                    time = TimeSpan.FromSeconds(runTime);
-                    EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
-                    ManageRun(time);
+                    Timer = TimeSpan.FromSeconds(runTime);
+                    //EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
+                    //ManageRun(time);
                 }
 
                 Time.timeScale = timeScale;
@@ -106,9 +109,9 @@ public class GameController : Singleton<GameController>
 
             case GameState.LOSING:
                 EventManager<int>.Instance.TriggerEvent("SaveTotalPage", totalPage + pageNumber);
-                if (time > bestTime)
+                if (Timer > bestTime)
                 {
-                    bestTime = time;
+                    bestTime = Timer;
                     SaveBestTime(bestTime);
                 }
 
@@ -152,12 +155,12 @@ public class GameController : Singleton<GameController>
         _shadow.Setup(player);
         EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
     }
-    public void Pause (bool _isPausing)
+    public void Pause(bool _isPausing)
     {
         GameState gameState = state == GameState.PLAYING ? GameState.PAUSING : state == GameState.PAUSING ? GameState.PLAYING : GameState.PAUSING;
         bool isPausing = gameState != GameState.PLAYING;
         ChangeState(gameState);
-        if(isPausing)
+        if (isPausing)
         {
             EventManager<bool>.Instance.TriggerEvent("onPauseAll", isPausing);
         }
@@ -183,7 +186,7 @@ public class GameController : Singleton<GameController>
     private void SaveBestTime(TimeSpan bestTime)
     {
         TimeSpan newTimeSpan = new TimeSpan(bestTime.Hours, bestTime.Minutes, bestTime.Seconds);
-        
+
         string timeString = newTimeSpan.ToString();
         EventManager<string>.Instance.TriggerEvent("SaveBestTime", timeString);
     }
@@ -199,48 +202,24 @@ public class GameController : Singleton<GameController>
         IsTutorial = tutorialFlag;
     }
 
-    #region GAME-RUN MANAGER
-    [Header("GAME-RUN MANAGER")]
-    private bool hasIncremented = true;
-    
-    private void ManageRun(TimeSpan timeSpan)
-    {
-        if (trueForSeconds)
-        {
-            ManageRunBySeconds(timeSpan);
-        }
-        else if (!trueForSeconds)
-        {
-            ManageRunByMinutes(timeSpan);
-        }
-    }
+    //#region GAME-RUN MANAGER
+    //[Header("GAME-RUN MANAGER")]
+    //private bool hasIncremented = true;
 
-    private void ManageRunBySeconds(TimeSpan timeSpan)
-    {
-        if (timeSpan.Seconds % seconds == 0 && !hasIncremented)
-        {
-            EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
-            hasIncremented = true;
-        }
-        else if (timeSpan.Seconds % seconds != 0 && hasIncremented)
-        {
-            hasIncremented = false;
-        }
-    }
+    //private void ManageRun(TimeSpan timeSpan)
+    //{
+    //    if (trueForSeconds)
+    //    {
+    //        ManageRunBySeconds(timeSpan);
+    //    }
+    //    else if (!trueForSeconds)
+    //    {
+    //        ManageRunByMinutes(timeSpan);
+    //    }
+    //}
 
-    private void ManageRunByMinutes(TimeSpan timeSpan)
-    {
-        if (timeSpan.Minutes % minutes == 0 && !hasIncremented)
-        {
-            EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
-            hasIncremented = true;
-        }
-        else if (timeSpan.Minutes % minutes != 0 && hasIncremented)
-        {
-            hasIncremented = false;
-        }
-    }
-    #endregion
+
+    //#endregion
 }
 public enum GameState
 {

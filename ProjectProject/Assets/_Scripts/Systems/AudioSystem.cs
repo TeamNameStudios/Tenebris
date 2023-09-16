@@ -57,7 +57,6 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     private void PlayClip (SoundEnum _soundEnum)
     {
-
         AudioClip effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
         effectsSource.PlayOneShot(effect);
     }

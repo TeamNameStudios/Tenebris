@@ -96,7 +96,6 @@ public class GameController : Singleton<GameController>
                     runTime += Time.unscaledDeltaTime;
                     Timer = TimeSpan.FromSeconds(runTime);
                     //EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
-                    //ManageRun(time);
                 }
 
                 Time.timeScale = timeScale;
@@ -135,15 +134,15 @@ public class GameController : Singleton<GameController>
         if (IsTutorial == 0)
         {
             SpawnShadow();
-            Instantiate(tracker);
         }
+        Instantiate(tracker);
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
         ChangeState(GameState.PLAYING);
     }
 
     private void TutorialEnd(bool value)
     {
-        Instantiate(tracker);
+        //Instantiate(tracker);
         SpawnShadow();
         IsTutorial = 0;
         EventManager<int>.Instance.TriggerEvent("SaveTutorialFlag", IsTutorial);

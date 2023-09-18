@@ -57,16 +57,17 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     private void PlayClip (SoundEnum _soundEnum)
     {
-        AudioClip effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
-        effectsSource.PlayOneShot(effect);
+        Sound effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; });
+        effectsSource.PlayOneShot(effect.clip, effect.volume);
     }
 
     private void PlayCountinousClip(SoundEnum _soundEnum)
     {
-        AudioClip effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
+        Sound effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; });
         
-        if (continousEffectsSource.clip != effect) {
-            continousEffectsSource.clip = effect;
+        if (continousEffectsSource.clip != effect.clip) {
+            continousEffectsSource.clip = effect.clip;
+            continousEffectsSource.volume = effect.volume;
             continousEffectsSource.Play();
         }
 
@@ -74,18 +75,20 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     private void PlayMusic(SoundEnum _soundEnum)
     {
-        AudioClip music = Musics.Find((sound) => { return sound.SoundType == _soundEnum; }).clip;
-        musicSource.clip = music;
+        Sound music = Musics.Find((sound) => { return sound.SoundType == _soundEnum; });
+        musicSource.clip = music.clip;
+        musicSource.volume = music.volume;
         musicSource.Play();
     }
 
     private void PlayCorruption(bool isCorrupted)
     {
-        AudioClip effect = Effects.Find((sound) => { return sound.SoundType == SoundEnum.corruptionSound; }).clip;
+        Sound effect = Effects.Find((sound) => { return sound.SoundType == SoundEnum.corruptionSound;});
         
-        if (isCorrupted && corruptionSource.clip != effect)
+        if (isCorrupted && corruptionSource.clip != effect.clip)
         {
-            corruptionSource.clip = effect;
+            corruptionSource.clip = effect.clip;
+            corruptionSource.volume = effect.volume;
             corruptionSource.Play();
         }
         else if(!isCorrupted)
@@ -169,6 +172,7 @@ public struct Sound
 {
     public SoundEnum SoundType;
     public AudioClip clip;
+    public float volume;
 }
 
 public enum SoundEnum {

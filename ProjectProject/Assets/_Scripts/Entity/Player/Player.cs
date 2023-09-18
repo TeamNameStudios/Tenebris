@@ -164,7 +164,8 @@ public class Player : MonoBehaviour
 
     private void DrawOverlapCollisionGizmos()
     {
-        Gizmos.DrawWireCube(transform.position,_characterBounds.size);
+        Vector3 velocityPos = velocity * Time.deltaTime;
+        Gizmos.DrawWireCube(transform.position + velocityPos, _characterBounds.size);
     }
 
 
@@ -255,13 +256,17 @@ public class Player : MonoBehaviour
     private void Move(Vector2 movementDirection)
     {
         direction = movementDirection;
-        Flip();
+        if(!isDashing && !isGrappling)
+        {
+            Flip(movementDirection);
+        }
+      
     }
 
 
-    public void Flip()
+    public void Flip(Vector2 direction)
     {
-        if (!isDashing && !isGrappling && isFacingRight && velocity.x < 0f || !isFacingRight && velocity.x > 0f)
+        if (isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
         {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
@@ -371,9 +376,49 @@ public class Player : MonoBehaviour
         Vector2 pos = transform.position;
         pos.y += velocity.y * Time.deltaTime;
         transform.position = pos;
-        Physics2D.OverlapBox(transform.position,_characterBounds.size,0, _groundMask);
+        Vector3 velocityPos = velocity * Time.deltaTime;
+        Collider2D collision = Physics2D.OverlapBox(transform.position+velocityPos, _characterBounds.size,0, _groundMask);
+        if(collision != null)
+        {
+            Rect PlayerRect = new Rect(transform.position + velocityPos, _characterBounds.size);
+            Rect ColliderRect = new Rect(collision.transform.position, collision.bounds.size);
+            Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+            float collisionOverlap = CheckOverlapX(PlayerRect, ColliderRect);
+            if (collisionOverlap != 0)
+            {
+                if (direction.x >= 0)
+                {
+                    velocity.x -= Mathf.Abs(collisionOverlap);
+                }
+                if (direction.x <= 0)
+                {
+                    velocity.x += Mathf.Abs(collisionOverlap);
+                }
+               
+            }
+        }
+ 
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
     }
+
+    private float CheckOverlapX(Rect rectA, Rect rectB)
+    {
+
+        Rect intersection = RectIntersection(rectA,rectB);
+        // Rectangles overlap
+        return intersection.width;
+    }
+
+    private Rect RectIntersection(Rect rectA, Rect rectB)
+    {
+        float xMin = Mathf.Max(rectA.xMin, rectB.xMin);
+        float xMax = Mathf.Min(rectA.xMax, rectB.xMax);
+        float yMin = Mathf.Max(rectA.yMin, rectB.yMin);
+        float yMax = Mathf.Min(rectA.yMax, rectB.yMax);
+
+        return new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
+    }
+
     #endregion
 
     #region Corruption
@@ -1095,3 +1140,7 @@ public class Player : MonoBehaviour
 
 }
 
+public struct OverlapCollidedResult {
+    public bool isCollided;
+    public float overlapValue;
+}

@@ -12,25 +12,26 @@ public class SmokeWall : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventManager<bool>.Instance.StartListening("isDashing", ManageDash);
-        EventManager<bool>.Instance.StartListening("isFinishDashed", ManageStopDash);
+        EventManager<bool>.Instance.StartListening("onDash", ManageDash);
     }
     private void OnDisable()
     {
-        EventManager<bool>.Instance.StopListening("isDashing", ManageDash);
-        EventManager<bool>.Instance.StopListening("isFinishDashed", ManageStopDash);
+        EventManager<bool>.Instance.StopListening("onDash", ManageDash);
     }
 
     private void ManageDash(bool isDashing)
     {
-        int LayerDefault = LayerMask.NameToLayer("Default");
-        gameObject.layer = LayerDefault;
-        boxCollider2D.enabled = false;
-    }
-    private void ManageStopDash(bool isDashing)
-    {
-        boxCollider2D.enabled = true;
-        int LayerGround = LayerMask.NameToLayer("Ground");
-        gameObject.layer = LayerGround;
+        if (isDashing)
+        {
+            int LayerDefault = LayerMask.NameToLayer("Default");
+            gameObject.layer = LayerDefault;
+            boxCollider2D.enabled = false;
+        }
+        else {
+            boxCollider2D.enabled = true;
+            int LayerGround = LayerMask.NameToLayer("Ground");
+            gameObject.layer = LayerGround;
+        }
+    
     }
 }

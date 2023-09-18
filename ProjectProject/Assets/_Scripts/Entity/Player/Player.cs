@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
-        if (GameController.Instance.State == GameState.PLAYING)
+        if (GameController.Instance.State == GameState.PLAYING || GameController.Instance.State == GameState.TUTORIAL)
         {
             RunCollisionChecks();
             CalculateJumpApex();
@@ -597,6 +597,7 @@ public class Player : MonoBehaviour
            
             dashCooldown = startingDashCooldown;
             EventManager<float>.Instance.TriggerEvent("Corruption", dashCorruption);
+            EventManager<bool>.Instance.TriggerEvent("onDash", true);
             dashDir = new Vector2(direction.x, 0);
             if (dashDir == Vector2.zero) dashDir = isFacingRight ? Vector3.right : Vector3.left;
             rb.gravityScale = 0;
@@ -615,8 +616,8 @@ public class Player : MonoBehaviour
             if (velocity.x > 0 && _isAgainstRightWall || velocity.x < 0 && _isAgainstLeftWall || velocity.y > 0 && _isAgainstRoof || velocity.y < 0 && IsGrounded)
             {
                 isDashing = false;
-                EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
                 EventManager<float>.Instance.TriggerEvent("Corruption", 0);
+                EventManager<bool>.Instance.TriggerEvent("onDash", false);
                 rb.gravityScale = 1;
                 dashTime = 0;
                 DashEffect.Stop();
@@ -628,7 +629,7 @@ public class Player : MonoBehaviour
                 {
                     isDashing = false;
                     velocity.x = 0;
-                    EventManager<bool>.Instance.TriggerEvent("isFinishDashed", true);
+                    EventManager<bool>.Instance.TriggerEvent("onDash", false);
                     EventManager<float>.Instance.TriggerEvent("Corruption", 0);
                     DashEffect.Stop();
                     rb.gravityScale = 1;
@@ -637,7 +638,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if(canDash == false)
+            if (canDash == false)
             {
                 if (dashCooldown >= 0)
                 {

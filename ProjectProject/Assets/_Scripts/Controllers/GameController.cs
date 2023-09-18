@@ -30,7 +30,9 @@ public class GameController : Singleton<GameController>
     [SerializeField] private float seconds;
     [SerializeField] private float minutes;
     [SerializeField] private float timeScaleIncrement;
-    
+
+    [SerializeField] private bool isSpawnShadow;
+
     //private TimeSpan timer;
     public TimeSpan Timer { get; private set; }
     
@@ -55,7 +57,7 @@ public class GameController : Singleton<GameController>
         EventManager<bool>.Instance.StartListening("onPause", Pause);
         EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
         EventManager<bool>.Instance.StartListening("onTutorialEnd", TutorialEnd);
-        //EventManager<int>.Instance.StartListening("onTutorialFlagLoaded", LoadTutorialFlag);
+        EventManager<int>.Instance.StartListening("onTutorialFlagLoaded", LoadTutorialFlag);
 
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }
@@ -151,9 +153,13 @@ public class GameController : Singleton<GameController>
 
     private void SpawnShadow()
     {
-        Shadow _shadow = Instantiate(shadow, new Vector2(-35, 0), Quaternion.identity).GetComponent<Shadow>();
-        _shadow.Setup(player);
-        EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
+        if (isSpawnShadow)
+        {
+            Shadow _shadow = Instantiate(shadow, new Vector2(-35, 0), Quaternion.identity).GetComponent<Shadow>();
+            _shadow.Setup(player);
+            EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
+        }
+
     }
 
     public void Pause(bool _isPausing)

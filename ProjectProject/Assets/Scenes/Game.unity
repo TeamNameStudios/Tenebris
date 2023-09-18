@@ -4275,6 +4275,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5832641741573592533, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: Effects.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832641741573592533, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: Effects.Array.data[15].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: eab04a2acbdb29742928b672e5d7fa21, type: 3}
+    - target: {fileID: 5832641741573592533, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
+      propertyPath: Effects.Array.data[15].SoundType
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a32bb5aaf21df040a86121d1db770fb, type: 3}
 --- !u!1 &1697664887
@@ -4685,7 +4697,7 @@ MonoBehaviour:
   ChunkContainer: {fileID: 1128309976}
   chunkPrefab: {fileID: 8945464813027965662, guid: 2d0e309fb31bbde4291b9ee6a088ad8b, type: 3}
   listChunk: []
-  firstLevel: 62
+  firstLevel: 65
   firstLevelTutorial: 66
 --- !u!1 &2009291851
 GameObject:

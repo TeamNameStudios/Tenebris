@@ -71,7 +71,9 @@ public class TutorialHUD : MonoBehaviour
 
     private void SetDialogueLine(string name)
     {
-        if(textComponent != null)
+        EventManager<bool>.Instance.TriggerEvent("jumpMovement", false);
+
+        if (textComponent != null)
         {
             ScriptableTutorialDialogue SO = ResourceSystem.Instance.GetDialogueLines(name);
             lines.Clear();

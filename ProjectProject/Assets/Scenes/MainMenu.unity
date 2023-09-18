@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 12187643}
   - component: {fileID: 12187642}
   - component: {fileID: 12187641}
+  - component: {fileID: 12187644}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -479,6 +480,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12187639}
   m_CullTransparentMesh: 1
+--- !u!114 &12187644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12187639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &18879081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,6 +1150,7 @@ GameObject:
   - component: {fileID: 66228335}
   - component: {fileID: 66228334}
   - component: {fileID: 66228333}
+  - component: {fileID: 66228336}
   m_Layer: 5
   m_Name: ControlsButton
   m_TagString: Untagged
@@ -1258,6 +1273,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66228331}
   m_CullTransparentMesh: 1
+--- !u!114 &66228336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66228331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &72438264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2866,6 +2894,7 @@ GameObject:
   - component: {fileID: 234531558}
   - component: {fileID: 234531557}
   - component: {fileID: 234531556}
+  - component: {fileID: 234531559}
   m_Layer: 5
   m_Name: ExitButton  (1)
   m_TagString: Untagged
@@ -2988,6 +3017,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234531554}
   m_CullTransparentMesh: 0
+--- !u!114 &234531559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234531554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &238729857
 GameObject:
   m_ObjectHideFlags: 0
@@ -4203,6 +4245,7 @@ GameObject:
   - component: {fileID: 285845034}
   - component: {fileID: 285845033}
   - component: {fileID: 285845032}
+  - component: {fileID: 285845035}
   m_Layer: 5
   m_Name: 'ExitButton '
   m_TagString: Untagged
@@ -4325,6 +4368,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285845030}
   m_CullTransparentMesh: 0
+--- !u!114 &285845035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285845030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &289353327
 GameObject:
   m_ObjectHideFlags: 0
@@ -4536,6 +4592,7 @@ GameObject:
   - component: {fileID: 301174130}
   - component: {fileID: 301174129}
   - component: {fileID: 301174128}
+  - component: {fileID: 301174131}
   m_Layer: 5
   m_Name: 'ExitButton '
   m_TagString: Untagged
@@ -4658,6 +4715,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301174126}
   m_CullTransparentMesh: 0
+--- !u!114 &301174131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301174126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &307234269
 GameObject:
   m_ObjectHideFlags: 0
@@ -9240,6 +9310,7 @@ GameObject:
   - component: {fileID: 557038577}
   - component: {fileID: 557038576}
   - component: {fileID: 557038579}
+  - component: {fileID: 557038580}
   m_Layer: 5
   m_Name: Dash Corruption Usage Button
   m_TagString: Untagged
@@ -9378,6 +9449,19 @@ MonoBehaviour:
   level: 0
   pageCost: 0
   text: {fileID: 787043849}
+--- !u!114 &557038580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557038574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &563478200
 GameObject:
   m_ObjectHideFlags: 0
@@ -11240,6 +11324,7 @@ GameObject:
   - component: {fileID: 691405366}
   - component: {fileID: 691405365}
   - component: {fileID: 691405364}
+  - component: {fileID: 691405367}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -11362,6 +11447,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691405362}
   m_CullTransparentMesh: 0
+--- !u!114 &691405367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691405362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &714344735
 GameObject:
   m_ObjectHideFlags: 0
@@ -13533,6 +13631,7 @@ GameObject:
   - component: {fileID: 835273541}
   - component: {fileID: 835273540}
   - component: {fileID: 835273543}
+  - component: {fileID: 835273544}
   m_Layer: 5
   m_Name: Dash Speed Button
   m_TagString: Untagged
@@ -13671,6 +13770,19 @@ MonoBehaviour:
   level: 0
   pageCost: 0
   text: {fileID: 989320164}
+--- !u!114 &835273544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835273538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &845132324
 GameObject:
   m_ObjectHideFlags: 0
@@ -16127,6 +16239,7 @@ GameObject:
   - component: {fileID: 1082094032}
   - component: {fileID: 1082094031}
   - component: {fileID: 1082094034}
+  - component: {fileID: 1082094035}
   m_Layer: 5
   m_Name: Grapple Speed Button
   m_TagString: Untagged
@@ -16265,6 +16378,19 @@ MonoBehaviour:
   level: 0
   pageCost: 0
   text: {fileID: 1698591213}
+--- !u!114 &1082094035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082094029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &1084013243
 GameObject:
   m_ObjectHideFlags: 0
@@ -17976,6 +18102,7 @@ GameObject:
   - component: {fileID: 1233222979}
   - component: {fileID: 1233222978}
   - component: {fileID: 1233222977}
+  - component: {fileID: 1233222980}
   m_Layer: 5
   m_Name: PowerUpButton
   m_TagString: Untagged
@@ -18098,6 +18225,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233222975}
   m_CullTransparentMesh: 1
+--- !u!114 &1233222980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233222975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &1238111178
 GameObject:
   m_ObjectHideFlags: 0
@@ -18675,6 +18815,7 @@ GameObject:
   - component: {fileID: 1315084199}
   - component: {fileID: 1315084198}
   - component: {fileID: 1315084201}
+  - component: {fileID: 1315084202}
   m_Layer: 5
   m_Name: Dash Cooldown Button
   m_TagString: Untagged
@@ -18813,6 +18954,19 @@ MonoBehaviour:
   level: 0
   pageCost: 0
   text: {fileID: 413895602}
+--- !u!114 &1315084202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315084196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &1320522632
 GameObject:
   m_ObjectHideFlags: 0
@@ -19455,6 +19609,7 @@ GameObject:
   - component: {fileID: 1400635097}
   - component: {fileID: 1400635096}
   - component: {fileID: 1400635095}
+  - component: {fileID: 1400635098}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -19577,6 +19732,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400635093}
   m_CullTransparentMesh: 1
+--- !u!114 &1400635098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400635093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
 --- !u!1 &1401456121
 GameObject:
   m_ObjectHideFlags: 0
@@ -19590,6 +19758,7 @@ GameObject:
   - component: {fileID: 1401456124}
   - component: {fileID: 1401456123}
   - component: {fileID: 1401456126}
+  - component: {fileID: 1401456127}
   m_Layer: 5
   m_Name: Grapple Launch Speed Button
   m_TagString: Untagged
@@ -19728,6 +19897,19 @@ MonoBehaviour:
   level: 0
   pageCost: 0
   text: {fileID: 2107117428}
+--- !u!114 &1401456127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401456121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &1408036031
 GameObject:
   m_ObjectHideFlags: 0
@@ -26695,6 +26877,7 @@ GameObject:
   - component: {fileID: 1965302967}
   - component: {fileID: 1965302966}
   - component: {fileID: 1965302965}
+  - component: {fileID: 1965302968}
   m_Layer: 5
   m_Name: CreditsButton
   m_TagString: Untagged
@@ -26817,6 +27000,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965302963}
   m_CullTransparentMesh: 1
+--- !u!114 &1965302968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965302963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &1972175452
 GameObject:
   m_ObjectHideFlags: 0
@@ -27523,6 +27719,7 @@ GameObject:
   - component: {fileID: 2036393679}
   - component: {fileID: 2036393678}
   - component: {fileID: 2036393681}
+  - component: {fileID: 2036393682}
   m_Layer: 5
   m_Name: Grapple corruption usage  Button
   m_TagString: Untagged
@@ -27661,6 +27858,19 @@ MonoBehaviour:
   level: 0
   pageCost: 0
   text: {fileID: 1493636032}
+--- !u!114 &2036393682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036393676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &2040566375
 GameObject:
   m_ObjectHideFlags: 0
@@ -27673,6 +27883,7 @@ GameObject:
   - component: {fileID: 2040566379}
   - component: {fileID: 2040566378}
   - component: {fileID: 2040566377}
+  - component: {fileID: 2040566380}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -27795,6 +28006,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2040566375}
   m_CullTransparentMesh: 1
+--- !u!114 &2040566380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040566375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a1d0584351274248b5a98542fc47c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 1}
 --- !u!1 &2042492430
 GameObject:
   m_ObjectHideFlags: 0

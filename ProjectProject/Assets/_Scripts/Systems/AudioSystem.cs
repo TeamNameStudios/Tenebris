@@ -187,6 +187,7 @@ public enum SoundEnum {
     chaserSound,
     lurkerSound,
     runnerSound,
+    buttonSound,
     /*Music*/
     mainMenuMusic,
     gameMusic,

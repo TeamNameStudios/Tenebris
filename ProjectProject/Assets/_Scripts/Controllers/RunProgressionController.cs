@@ -42,6 +42,10 @@ public class RunProgressionController : MonoBehaviour
     {
         if (timeSpan.Seconds % seconds == 0 && !hasIncrementedSeconds)
         {
+            if (timeSpan.Seconds == 0 && timeSpan.Minutes == 1)
+            {
+                ResourceSystem.Instance.RestoreNeighbour();
+            }
             EventManager<bool>.Instance.TriggerEvent("onLevelUp", true);
             hasIncrementedSeconds = true;
         }
@@ -55,11 +59,6 @@ public class RunProgressionController : MonoBehaviour
     {
         if (timeSpan.Minutes % minutes == 0 && !hasIncrementedMinutes)
         {
-            if (timeSpan.Minutes == minutes)
-            {
-                ResourceSystem.Instance.RestoreNeighbour();
-                Debug.Log("RESTORING");
-            }
             hasIncrementedMinutes = true;
             ResourceSystem.Instance.ChangeAllBaseProbability(-easyProbIncrement, easyProbCap, -middleProbIncrement, middleProbCap, hardProbIncrement, hardProbCap, insaneProbIncrement, insaneProbCap);
         }

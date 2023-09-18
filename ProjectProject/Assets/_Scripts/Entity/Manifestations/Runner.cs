@@ -13,12 +13,22 @@ public class Runner : Manifestation
     private List<float> playerPos = new List<float>();
     private bool canGo = false;
 
+    private bool canPlay;
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     protected override void OnEnable()
     {
         base.OnEnable();
+        animator.SetBool("PlayerFound", false);
         player = null;
         canGo = false;
         canPursue = true;
+        canPlay = true;
         if (playerPos.Count > 0)
         {
             playerPos.Clear();
@@ -51,6 +61,12 @@ public class Runner : Manifestation
             }
             else if (!canPursue)
             {
+                animator.SetBool("PlayerFound", true);
+                if (canPlay)
+                {
+                    PlayClip();
+                    canPlay = false;
+                }
                 pos.x -= Vector2.right.x * runnerVelocity * Time.deltaTime;
             }
             transform.position = pos;
@@ -69,7 +85,7 @@ public class Runner : Manifestation
     private void SetPlayer(Transform _player)
     {
         player = _player;
-        PlayClip();
+        //PlayClip();
     }
 
     private void LevelUp(bool value)

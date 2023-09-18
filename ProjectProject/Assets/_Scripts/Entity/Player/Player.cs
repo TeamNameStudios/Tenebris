@@ -314,13 +314,12 @@ public class Player : MonoBehaviour
 
 
     [SerializeField]
-    private bool CanUseCoyote => _coyoteUsable && !IsGrounded && _timeLeftGrounded + _coyoteTimeThreshold > Time.time;
+    private bool CanUseCoyote => _coyoteUsable && !IsGrounded && _timeLeftGrounded + _coyoteTimeThreshold > Time.unscaledTime;
     [SerializeField]
     private bool InputJump;
     private void Jump(bool _inputJump)
     {
         InputJump = _inputJump;
-        
     }
 
     public void CalculateJumpApex()
@@ -376,6 +375,7 @@ public class Player : MonoBehaviour
     private float Corruption;
     [SerializeField]
     private float maxCorruption;
+    public float MaxCorruption { get { return maxCorruption; } }
     [SerializeField]
     private bool corrupted = false;
     [SerializeField]

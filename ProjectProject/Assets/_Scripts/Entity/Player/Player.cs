@@ -162,6 +162,11 @@ public class Player : MonoBehaviour
 
     }
 
+    private void DrawOverlapCollisionGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position,_characterBounds.size);
+    }
+
 
     private void DrawGrounderGizmos()
     {
@@ -181,6 +186,7 @@ public class Player : MonoBehaviour
         DrawGrounderGizmos();
         DrawWallGizmos();
         DrawHookableZoneGizmos();
+        DrawOverlapCollisionGizmos();
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position + _characterBounds.center, _characterBounds.size);
     }
@@ -365,6 +371,7 @@ public class Player : MonoBehaviour
         Vector2 pos = transform.position;
         pos.y += velocity.y * Time.deltaTime;
         transform.position = pos;
+        Physics2D.OverlapBox(transform.position,_characterBounds.size,0, _groundMask);
         EventManager<float>.Instance.TriggerEvent("onPlayerChangeXVelociy", velocity.x);
     }
     #endregion

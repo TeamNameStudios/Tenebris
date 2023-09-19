@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TutorialHUD : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class TutorialHUD : MonoBehaviour
     public float textSpeed;
 
     private int index;
+    [SerializeField] GameObject dialogueArrow;
+    private Image arrow;
+    private Coroutine thisCO;
+
+    private void Awake()
+    {
+        arrow = dialogueArrow.GetComponent<Image>();
+    }
 
     private void OnEnable()
     {
@@ -21,7 +30,7 @@ public class TutorialHUD : MonoBehaviour
         EventManager<string>.Instance.StopListening("onPlayDialogue", SetDialogueLine);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.anyKeyDown && GameController.Instance.State == GameState.TUTORIAL && textComponent != null)
         {
@@ -34,6 +43,11 @@ public class TutorialHUD : MonoBehaviour
                 StopAllCoroutines();
                 textComponent.text = lines[index];
             }
+        }
+
+        if (textComponent != null && index < lines.Count)
+        {
+            dialogueArrow.SetActive(textComponent.text == lines[index]);
         }
     }
 
@@ -81,6 +95,5 @@ public class TutorialHUD : MonoBehaviour
             textComponent.transform.localPosition = SO.position;
             StartDialogue();
         }
- 
     }
 }

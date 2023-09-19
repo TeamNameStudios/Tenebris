@@ -7,32 +7,33 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     private Vector3 originalScale;
     private TextMeshProUGUI text;
-    private Color originalColor;
-    [SerializeField] private Color targetColor;
+    private VertexGradient originalColor;
+    [SerializeField] private VertexGradient targetColor;
     [SerializeField] private Color pressedColor;
     
     private void Awake()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
         originalScale = text.transform.localScale;
-        originalColor = text.color;
+        originalColor = text.colorGradient;
     }
 
     private void OnEnable()
     {
-        text.color = originalColor;
+        text.colorGradient = originalColor;
+        text.color = Color.white;
         text.transform.localScale = originalScale;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        text.color = targetColor;
+        text.colorGradient = targetColor;
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.mouseHoveringSound);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        text.color = originalColor;
-    }
+        text.colorGradient = originalColor;    }
 
     public void OnPointerClick(PointerEventData eventData)
     {

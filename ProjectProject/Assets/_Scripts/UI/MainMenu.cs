@@ -19,6 +19,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private float bestDistance;
     [SerializeField] private string bestTime;
 
+    private bool isTransitioning = false;
+
     #region Animation
     private bool _transitionNewScene;
     private TransitionState _transitionNewPanel = 0;
@@ -103,10 +105,21 @@ public class MainMenu : MonoBehaviour
     /// <param name="panelName"></param>
     public void ChangeActivePanel(string panelName)
     {
-        _panelFromTransition = _panels[activePanelName];
-        _panelToTransition = _panels[panelName];
-        _activeTimer = fadeTimer / 2;
-        _transitionNewPanel++;
+        if (!isTransitioning)
+        {
+            _panelFromTransition = _panels[activePanelName];
+            _panelToTransition = _panels[panelName];
+            _activeTimer = fadeTimer / 2;
+            _transitionNewPanel++;
+            isTransitioning = true;
+            StartCoroutine(ResetTransition());
+        }
+    }
+
+    private IEnumerator ResetTransition()
+    {
+        yield return new WaitForSeconds(fadeTimer / 2);
+        isTransitioning = false;
     }
 
     /// <summary>

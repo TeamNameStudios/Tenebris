@@ -172,6 +172,7 @@ public struct Sound
 {
     public SoundEnum SoundType;
     public AudioClip clip;
+    [Range(0f, 1f)]
     public float volume;
 }
 
@@ -195,5 +196,6 @@ public enum SoundEnum {
     /*Music*/
     mainMenuMusic,
     gameMusic,
+    mouseHoveringSound,
 }
 

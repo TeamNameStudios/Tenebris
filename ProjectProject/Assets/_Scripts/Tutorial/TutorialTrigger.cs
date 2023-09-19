@@ -41,14 +41,17 @@ public class TutorialTrigger : MonoBehaviour
                 else if (corrupionTutorial)
                 {
                     EventManager<float>.Instance.TriggerEvent("Corruption", GameController.Instance.Player.MaxCorruption);
+                    playerFound = true;
+                    EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.TUTORIAL);
+                    EventManager<string>.Instance.TriggerEvent("onPlayDialogue", dialogueName);
                 }
                 else
                 {
                     playerFound = true;
                     EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.TUTORIAL);
                     EventManager<string>.Instance.TriggerEvent("onPlayDialogue", dialogueName);
-                    Destroy(gameObject);
                 }
+                Destroy(gameObject);
             }
         }
     }

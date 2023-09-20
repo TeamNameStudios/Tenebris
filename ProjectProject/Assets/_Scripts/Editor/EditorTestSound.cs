@@ -17,9 +17,19 @@ public class EditorTestSound : Editor
     {
         base.OnInspectorGUI();
 
-        if (GUILayout.Button("TEST SOUND"))
+        if (GUILayout.Button("PLAY EFFECT"))
         {
             audioSystem.PlayClip(audioSystem.SoundToTest);
+        }
+
+        if (GUILayout.Button("PLAY MUSIC"))
+        {
+            audioSystem.PlayMusic(audioSystem.MusicToTest);
+        }
+
+        if (GUILayout.Button("STOP MUSIC"))
+        {
+            audioSystem.StopMusic(true);
         }
     }
 }

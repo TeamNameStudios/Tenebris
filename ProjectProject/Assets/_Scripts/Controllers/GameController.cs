@@ -19,7 +19,6 @@ public class GameController : Singleton<GameController>
     private GameObject slowMotionController;
     #endregion
 
-
     private float runTime;
     private float timeScale;
     [SerializeField]
@@ -113,7 +112,6 @@ public class GameController : Singleton<GameController>
                     bestTime = Timer;
                     SaveBestTime(bestTime);
                 }
-
 
                 EventManager<bool>.Instance.TriggerEvent("onGameOver", true);
                 EventManager<bool>.Instance.TriggerEvent("onReset", true);

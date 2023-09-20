@@ -69,6 +69,7 @@ public class MainMenu : MonoBehaviour
     /// </summary>
     public void PlayGame()
     {
+        EventManager<bool>.Instance.TriggerEvent("onStopMusic", true);
         _transitionNewScene = true;
         _activeTimer = 0;
     }

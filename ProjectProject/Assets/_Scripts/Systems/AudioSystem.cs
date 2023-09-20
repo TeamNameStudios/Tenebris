@@ -21,15 +21,16 @@ public class AudioSystem : StaticInstance<AudioSystem>
 
     private Shadow tenebris;
     [SerializeField] private float musicDistanceMaxVolume;
-    [SerializeField] private float musicMinVolume;
+    [SerializeField] private float tenebrisMusicMinVolume;
+    [SerializeField] private float tenebrisMusicMaxVolume;
 
     public AudioMixer audioMixer;
     public SoundEnum SoundToTest;
+    public SoundEnum MusicToTest;
 
     private float fadeDuration = 2;
     private float elapsedTime = 0;
     private float musicVolume;
-    private Coroutine FadeInCoroutine;
     private Coroutine FadeOutCoroutine;
 
     private void OnEnable()
@@ -81,7 +82,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
         }
     }
 
-    private void PlayMusic(SoundEnum _soundEnum)
+    public void PlayMusic(SoundEnum _soundEnum)
     {
         Sound music = Musics.Find((sound) => { return sound.SoundType == _soundEnum; });
         musicSource.clip = music.clip;
@@ -90,7 +91,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
         musicSource.Play();
     }
 
-    private void StopMusic(bool value)
+    public void StopMusic(bool value)
     {
         FadeOutCoroutine = StartCoroutine(FadeOutMusic());
     }
@@ -176,14 +177,14 @@ public class AudioSystem : StaticInstance<AudioSystem>
             {
                 float volume = 1 / (tenebris.Distance - musicDistanceMaxVolume) * 10;
                 musicSource.volume = volume;
-                if (musicSource.volume <= musicMinVolume)
+                if (musicSource.volume <= tenebrisMusicMinVolume)
                 {
-                    musicSource.volume = musicMinVolume;
+                    musicSource.volume = tenebrisMusicMinVolume;
                 }
             }
             else
             {
-                musicSource.volume = 1;
+                musicSource.volume = tenebrisMusicMaxVolume;
             }
         }
     }

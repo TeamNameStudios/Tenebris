@@ -12,13 +12,6 @@ public class TutorialHUD : MonoBehaviour
 
     private int index;
     [SerializeField] GameObject dialogueArrow;
-    private Image arrow;
-    private Coroutine thisCO;
-
-    private void Awake()
-    {
-        arrow = dialogueArrow.GetComponent<Image>();
-    }
 
     private void OnEnable()
     {

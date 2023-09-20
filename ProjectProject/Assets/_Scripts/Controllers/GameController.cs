@@ -33,7 +33,6 @@ public class GameController : Singleton<GameController>
 
     [SerializeField] private bool isSpawnShadow;
 
-    //private TimeSpan timer;
     public TimeSpan Timer { get; private set; }
     
     private TimeSpan bestTime;
@@ -84,7 +83,6 @@ public class GameController : Singleton<GameController>
                 runTime = 0;
                 timeScale = 1;
                 pageNumber = 0;
-                EventManager<SoundEnum>.Instance.TriggerEvent("onPlayMusic", SoundEnum.gameMusic);
                 EventManager<bool>.Instance.TriggerEvent("onGameStartingState", true);
 
                 break;
@@ -98,7 +96,6 @@ public class GameController : Singleton<GameController>
                 {
                     runTime += Time.unscaledDeltaTime;
                     Timer = TimeSpan.FromSeconds(runTime);
-                    //EventManager<TimeSpan>.Instance.TriggerEvent("onTimer", time);
                 }
 
                 Time.timeScale = timeScale;
@@ -136,6 +133,7 @@ public class GameController : Singleton<GameController>
         Instantiate(player, new Vector2(0, 15), Quaternion.identity).GetComponent<Player>();
         if (IsTutorial == 0)
         {
+            EventManager<SoundEnum>.Instance.TriggerEvent("onPlayMusic", SoundEnum.gameMusic);
             SpawnShadow();
         }
         Instantiate(tracker);
@@ -145,10 +143,10 @@ public class GameController : Singleton<GameController>
 
     private void TutorialEnd(bool value)
     {
-        //Instantiate(tracker);
         SpawnShadow();
         IsTutorial = 0;
         EventManager<int>.Instance.TriggerEvent("SaveTutorialFlag", IsTutorial);
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayMusic", SoundEnum.gameMusic);
     }
 
     private void SpawnShadow()
@@ -159,7 +157,6 @@ public class GameController : Singleton<GameController>
             _shadow.Setup(player);
             EventManager<Shadow>.Instance.TriggerEvent("onSetShadow", _shadow);
         }
-
     }
 
     public void Pause(bool _isPausing)

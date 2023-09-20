@@ -9,6 +9,7 @@ public class SlowMotionController : Singleton<SlowMotionController>
     {
         base.Awake();
         EventManager<bool>.Instance.TriggerEvent("onTutorialStarted", true);
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayMusic", SoundEnum.tutorialMusic);
     }
 
     private void Update()
@@ -18,6 +19,7 @@ public class SlowMotionController : Singleton<SlowMotionController>
             case GameState.IDLE:
                 break;
             case GameState.TUTORIAL:
+                EventManager<SoundEnum>.Instance.TriggerEvent("onStopContinousClip", SoundEnum.runSound);
                 Time.timeScale = Mathf.Lerp(1, 0, t);
                 t += Time.unscaledDeltaTime * slowMoSpeed;
                 break;

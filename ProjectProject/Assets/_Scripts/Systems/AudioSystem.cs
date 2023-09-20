@@ -24,14 +24,20 @@ public class AudioSystem : StaticInstance<AudioSystem>
     [SerializeField] private float musicMinVolume;
 
     public AudioMixer audioMixer;
-
     public SoundEnum SoundToTest;
+
+    private float fadeDuration = 2;
+    private float elapsedTime = 0;
+    private float musicVolume;
+    private Coroutine FadeInCoroutine;
+    private Coroutine FadeOutCoroutine;
 
     private void OnEnable()
     {
         EventManager<SoundEnum>.Instance.StartListening("onPlayClip", PlayClip);
         EventManager<SoundEnum>.Instance.StartListening("onPlayContinousClip", PlayCountinousClip);
         EventManager<SoundEnum>.Instance.StartListening("onPlayMusic", PlayMusic);
+        EventManager<bool>.Instance.StartListening("onStopMusic", StopMusic);
         EventManager<SoundEnum>.Instance.StartListening("onStopContinousClip", StopCountinousClip);
         EventManager<SoundEnum>.Instance.StartListening("onPauseMusic", PauseMusic);
         EventManager<SoundEnum>.Instance.StartListening("onUnPauseMusic", UnPauseMusic);
@@ -47,6 +53,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
         EventManager<SoundEnum>.Instance.StopListening("onPlayClip", PlayClip);
         EventManager<SoundEnum>.Instance.StopListening("onPlayContinousClip", PlayClip);
         EventManager<SoundEnum>.Instance.StopListening("onPlayMusic", PlayMusic);
+        EventManager<bool>.Instance.StopListening("onStopMusic", StopMusic);
         EventManager<SoundEnum>.Instance.StopListening("onStopContinousClip", StopCountinousClip);
         EventManager<SoundEnum>.Instance.StopListening("onPauseMusic", PauseMusic);
         EventManager<SoundEnum>.Instance.StopListening("onUnPauseMusic", PauseMusic);
@@ -72,7 +79,6 @@ public class AudioSystem : StaticInstance<AudioSystem>
             continousEffectsSource.volume = effect.volume;
             continousEffectsSource.Play();
         }
-
     }
 
     private void PlayMusic(SoundEnum _soundEnum)
@@ -80,7 +86,26 @@ public class AudioSystem : StaticInstance<AudioSystem>
         Sound music = Musics.Find((sound) => { return sound.SoundType == _soundEnum; });
         musicSource.clip = music.clip;
         musicSource.volume = music.volume;
+        musicVolume = music.volume;
         musicSource.Play();
+    }
+
+    private void StopMusic(bool value)
+    {
+        FadeOutCoroutine = StartCoroutine(FadeOutMusic());
+    }
+
+    private IEnumerator FadeOutMusic()
+    {
+        while (elapsedTime < fadeDuration)
+        {
+            musicSource.volume = Mathf.Lerp(musicVolume, 0, elapsedTime / fadeDuration);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        musicSource.Stop();
+        
+        yield break;
     }
 
     private void PlayCorruption(bool isCorrupted)
@@ -140,8 +165,8 @@ public class AudioSystem : StaticInstance<AudioSystem>
         continousEffectsSource.Stop();
         corruptionSource.clip = null;
         corruptionSource.Stop();
+        elapsedTime = 0;
     }
-
 
     private void Update()
     {
@@ -176,11 +201,6 @@ public struct Sound
     public AudioClip clip;
     [Range(0f, 1f)]
     public float volume;
-
-    public void PlayClip()
-    {
-        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundType);
-    }
 }
 
 public enum SoundEnum {
@@ -204,5 +224,6 @@ public enum SoundEnum {
     mainMenuMusic,
     gameMusic,
     mouseHoveringSound,
+    tutorialMusic,
 }
 

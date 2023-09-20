@@ -24,7 +24,9 @@ public class AudioSystem : StaticInstance<AudioSystem>
     [SerializeField] private float musicMinVolume;
 
     public AudioMixer audioMixer;
-  
+
+    public SoundEnum SoundToTest;
+
     private void OnEnable()
     {
         EventManager<SoundEnum>.Instance.StartListening("onPlayClip", PlayClip);
@@ -55,7 +57,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
         EventManager<Shadow>.Instance.StopListening("onSetShadow", SetShadow);
     }
 
-    private void PlayClip (SoundEnum _soundEnum)
+    public void PlayClip (SoundEnum _soundEnum)
     {
         Sound effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; });
         effectsSource.PlayOneShot(effect.clip, effect.volume);
@@ -174,6 +176,11 @@ public struct Sound
     public AudioClip clip;
     [Range(0f, 1f)]
     public float volume;
+
+    public void PlayClip()
+    {
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundType);
+    }
 }
 
 public enum SoundEnum {

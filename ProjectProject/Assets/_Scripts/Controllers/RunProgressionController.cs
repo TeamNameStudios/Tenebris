@@ -42,7 +42,7 @@ public class RunProgressionController : MonoBehaviour
     {
         if (timeSpan.Seconds % seconds == 0 && !hasIncrementedSeconds)
         {
-            if (timeSpan.Seconds == 0 && timeSpan.Minutes == 1)
+            if (timeSpan.Seconds == 30 && timeSpan.Minutes == 0)
             {
                 ResourceSystem.Instance.RestoreNeighbour();
             }

@@ -25,11 +25,6 @@ public class GameController : Singleton<GameController>
     private int pageNumber;
     private int totalPage;
 
-    [SerializeField] private bool trueForSeconds;
-    [SerializeField] private float seconds;
-    [SerializeField] private float minutes;
-    [SerializeField] private float timeScaleIncrement;
-
     [SerializeField] private bool isSpawnShadow;
 
     public TimeSpan Timer { get; private set; }
@@ -203,25 +198,6 @@ public class GameController : Singleton<GameController>
     {
         IsTutorial = tutorialFlag;
     }
-
-    //#region GAME-RUN MANAGER
-    //[Header("GAME-RUN MANAGER")]
-    //private bool hasIncremented = true;
-
-    //private void ManageRun(TimeSpan timeSpan)
-    //{
-    //    if (trueForSeconds)
-    //    {
-    //        ManageRunBySeconds(timeSpan);
-    //    }
-    //    else if (!trueForSeconds)
-    //    {
-    //        ManageRunByMinutes(timeSpan);
-    //    }
-    //}
-
-
-    //#endregion
 }
 public enum GameState
 {

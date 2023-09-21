@@ -36,18 +36,19 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.buttonSound);
         ResetButton();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.buttonSound);
         text.transform.localScale -= new Vector3(.15f, .15f, .15f);
         text.color = pressedColor;
 
     }
 
-    private void ResetButton() {
+    private void ResetButton() 
+    {
         text.colorGradient = originalColor;
         text.color = Color.white;
         text.transform.localScale = originalScale;

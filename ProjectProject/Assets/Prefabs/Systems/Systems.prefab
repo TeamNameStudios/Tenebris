@@ -346,9 +346,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 8345941869317210579, guid: 3738d29f75f9fa64bac7f7004c1d2bcb, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 16ae7ddc2bcecc64b83c61a1e561e84d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2dd4b666bc8ef82449be9feb00f7c624, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -582,10 +582,10 @@ MonoBehaviour:
   Musics:
   - SoundType: 15
     clip: {fileID: 8300000, guid: 16ae7ddc2bcecc64b83c61a1e561e84d, type: 3}
-    volume: 0.6
+    volume: 0.4
   - SoundType: 16
     clip: {fileID: 8300000, guid: 2dc0212eb7af96949992d8e17e4fe38f, type: 3}
-    volume: 0.4
+    volume: 0.3
   - SoundType: 18
     clip: {fileID: 8300000, guid: 2dd4b666bc8ef82449be9feb00f7c624, type: 3}
     volume: 0.4
@@ -594,7 +594,7 @@ MonoBehaviour:
   tenebrisMusicMaxVolume: 0.8
   audioMixer: {fileID: 24100000, guid: 3738d29f75f9fa64bac7f7004c1d2bcb, type: 2}
   SoundToTest: 17
-  MusicToTest: 15
+  MusicToTest: 18
 --- !u!1 &5855949029897733866
 GameObject:
   m_ObjectHideFlags: 0

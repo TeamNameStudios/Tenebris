@@ -9,6 +9,8 @@ public class SettingsHUD : MonoBehaviour
     AudioMixer audioMixer;
     [SerializeField]    
     private List<Slider> sliders = new List<Slider>();
+    [SerializeField]
+    private GameObject ConfirmPanel;
     private void OnEnable()
     {
         EventManager<float>.Instance.StartListening(VolumeType.MASTER.ToString(), ChangeMasterVolume);
@@ -51,6 +53,21 @@ public class SettingsHUD : MonoBehaviour
         float effectVolume = (1 - volume) * -80;
         audioMixer.SetFloat("EffectVolume", effectVolume);
         EventManager<float>.Instance.TriggerEvent("SaveEffectVolume", volume);
+    }
+    public void OpenConfirmPanel()
+    {
+        ConfirmPanel.SetActive(true);
+    }
+    public void ResetData()
+    {
+        DataManager.Instance.ResetData();
+        CloseConfirmPanel();
+    }
+
+
+    public void CloseConfirmPanel()
+    {
+        ConfirmPanel.SetActive(false);
     }
 }
 

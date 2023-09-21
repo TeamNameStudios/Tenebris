@@ -12,8 +12,7 @@ public class DataManager : Singleton<DataManager>
         if (!File.Exists(@"" + Application.persistentDataPath + _powerUpListFileName))
         {
             InitPowerUpFile();
-        }
-            
+        } 
     }
     private void OnEnable()
     {
@@ -22,7 +21,11 @@ public class DataManager : Singleton<DataManager>
         EventManager<string>.Instance.StartListening("SaveBestTime", SaveBestTime);
         EventManager<List<PowerUp>>.Instance.StartListening("SavePowerUp", SavePowerUp);
         EventManager<int>.Instance.StartListening("SaveTutorialFlag", SaveTutorialFlag);
+        EventManager<float>.Instance.StartListening("SaveMasterVolume", SaveMasterVolume);
+        EventManager<float>.Instance.StartListening("SaveMusicVolume", SaveMusicVolume);
+        EventManager<float>.Instance.StartListening("SaveEffectVolume", SaveEffectVolume);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
+        EventManager<bool>.Instance.StartListening("LoadAudioData", LoadAudioData);
     }
     
     private void OnDisable()
@@ -31,8 +34,12 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StopListening("SaveBestDistance", SaveBestDistance);
         EventManager<string>.Instance.StopListening("SaveBestTime", SaveBestTime);
         EventManager<List<PowerUp>>.Instance.StopListening("SavePowerUp", SavePowerUp);
-        EventManager<int>.Instance.StartListening("SaveTutorialFlag", SaveTutorialFlag);
+        EventManager<int>.Instance.StopListening("SaveTutorialFlag", SaveTutorialFlag);
+        EventManager<float>.Instance.StopListening("SaveMasterVolume", SaveMasterVolume);
+        EventManager<float>.Instance.StopListening("SaveMusicVolume", SaveMusicVolume);
+        EventManager<float>.Instance.StopListening("SaveEffectVolume", SaveEffectVolume);
         EventManager<bool>.Instance.StopListening("LoadData", LoadData);
+        EventManager<bool>.Instance.StopListening("LoadAudioData", LoadAudioData);
     }
 
     public void LoadData(bool loading)
@@ -42,6 +49,68 @@ public class DataManager : Singleton<DataManager>
         LoadBestDistance();
         LoadBestTime();
         LoadTutorialFlag();
+    }
+
+    public void SaveMasterVolume(float count)
+    {
+        if (count < 0)
+            return;
+        PlayerPrefs.SetFloat("MasterVolume", count);
+        PlayerPrefs.Save();
+    }
+
+    public float LoadMasterVolume()
+    {
+        return PlayerPrefs.GetFloat("MasterVolume", 0);
+    }
+
+    public void SaveMusicVolume(float count)
+    {
+        if (count < 0)
+            return;
+        PlayerPrefs.SetFloat("MusicVolume", count);
+        PlayerPrefs.Save();
+    }
+
+    public float LoadMusicVolume()
+    {
+       return PlayerPrefs.GetFloat("MusicVolume", 0);
+    }
+
+    public void SaveEffectVolume(float count)
+    {
+        if (count < 0)
+            return;
+        PlayerPrefs.SetFloat("EffectVolume", count);
+        PlayerPrefs.Save();
+    }
+
+    public float LoadEffectVolume()
+    {
+        return PlayerPrefs.GetFloat("EffectVolume", 0);
+    }
+
+    public void LoadAudioData(bool loading)
+    {
+
+        List<float> audioVolume = new List<float>
+        {
+            LoadMasterVolume(),
+            LoadMusicVolume(),
+            LoadEffectVolume()
+        };
+        EventManager<List<float>>.Instance.TriggerEvent("onLoadAudioData", audioVolume);
+    }
+
+    public void ResetData()
+    {
+        PlayerPrefs.DeleteAll();
+        SaveTutorialFlag(0);// The tutorial won't be reset
+        if (File.Exists(@"" + Application.persistentDataPath + _powerUpListFileName))
+        {
+            File.Delete(@"" + Application.persistentDataPath + _powerUpListFileName);
+        }
+        LoadData(true);
     }
 
     public void SaveTotalPages(int count)
@@ -144,7 +213,10 @@ public class DataManager : Singleton<DataManager>
     {
         // Read from file the json string
         if (!File.Exists(@"" + Application.persistentDataPath + _powerUpListFileName))
+        {
+            InitPowerUpFile();
             return;
+        }
         StreamReader reader = new StreamReader(Application.persistentDataPath + _powerUpListFileName);
         string json = reader.ReadToEnd();
         reader.Close();

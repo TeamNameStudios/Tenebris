@@ -28,15 +28,12 @@ public class PowerUpMenu : MonoBehaviour
     private GameObject ConfirmPanel;
 
     private ShopButton buttonClicked;
-    public void Start()
-    {
-        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
-    }
 
     public void OnEnable()
     {
         EventManager<int>.Instance.StartListening("onTotalPageLoaded", ManageTotalPage);
         EventManager<List<PowerUp>>.Instance.StartListening("onPowerUpLoaded", ManagePowerUp);
+        EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }
 
     public void OnDisable()

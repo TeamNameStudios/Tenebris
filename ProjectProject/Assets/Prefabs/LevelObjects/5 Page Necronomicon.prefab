@@ -140,7 +140,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.16
+  m_Radius: 0.5
 --- !u!1 &8718222991020654065
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,25 +207,25 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_Vertices:
-  - position: {x: 0.13, y: 0.16, z: 0}
+  - position: {x: 0.40625, y: 0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.90625, y: 1}
-  - position: {x: 0.16, y: -0.06, z: 0}
+  - position: {x: 0.5, y: -0.1875, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 1, y: 0.3125}
-  - position: {x: 0.16, y: 0.13, z: 0}
+  - position: {x: 0.5, y: 0.40625, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 1, y: 0.90625}
-  - position: {x: 0.13, y: -0.16, z: 0}
+  - position: {x: 0.40625, y: -0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.90625, y: 0}
-  - position: {x: -0.08, y: 0.16, z: 0}
+  - position: {x: -0.25, y: 0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.25, y: 1}
-  - position: {x: -0.16, y: -0.02, z: 0}
+  - position: {x: -0.5, y: -0.0625, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0.4375}
-  - position: {x: -0.16, y: -0.16, z: 0}
+  - position: {x: -0.5, y: -0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0}
   - position: {x: 0, y: 0, z: 0}
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Triangles: 060005000300040003000500000003000400010003000000020001000000
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.16, y: 0.16, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

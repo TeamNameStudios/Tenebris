@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1cacedf922bf5274888f7000c0370410
+guid: 6e6d7b93dfe81b4498421e02ec0b5cfc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -113,27 +113,15 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pg_walk_1_0
+      name: pg_jump_1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 339
+        y: 412
         width: 150
         height: 138
       alignment: 0
@@ -143,60 +131,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce680a3c1160c5c4e9e8298bb12e0de7
-      internalID: -1516366928
+      spriteID: 2ce3f8884b3873a4380a3406b8ce580b
+      internalID: -1548601574
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pg_walk_1_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 180
-        width: 150
-        height: 138
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ca5dc02ef33f7774eb46c3ac196fc9ff
-      internalID: -1799893292
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pg_walk_1_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 21
-        width: 150
-        height: 138
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c1eb1814c2a8ff64bb447f7cd0f7b258
-      internalID: -1148064718
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pg_walk_1_3
+      name: pg_jump_1_1
       rect:
         serializedVersion: 2
         x: 150
-        y: 339
+        y: 412
         width: 150
         height: 138
       alignment: 0
@@ -206,60 +152,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbc1d13142546a441918b151196ac711
-      internalID: 446133753
+      spriteID: 2b9a73eb6b238494dae36fefc491dbaf
+      internalID: -1471076767
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pg_walk_1_4
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 180
-        width: 150
-        height: 138
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e2f10b980df0c0d44aec4c62718ebc22
-      internalID: 353686133
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pg_walk_1_5
-      rect:
-        serializedVersion: 2
-        x: 150
-        y: 21
-        width: 150
-        height: 138
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4afe857dd46799840a93efb905fa33b2
-      internalID: 1617529841
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: pg_walk_1_6
+      name: pg_jump_1_2
       rect:
         serializedVersion: 2
         x: 300
-        y: 180
+        y: 448
         width: 150
         height: 138
       alignment: 0
@@ -269,18 +173,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5f9bf2ec11afd04395fd235794b611a
-      internalID: -775466957
+      spriteID: c31dd4d238f05d84dad77da0fff9fe14
+      internalID: 1241210473
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: pg_walk_1_7
+      name: pg_jump_1_3
       rect:
         serializedVersion: 2
-        x: 300
-        y: 339
+        x: 450
+        y: 583
         width: 150
         height: 138
       alignment: 0
@@ -290,8 +194,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5e80df4e1402b3469502918386d7149
-      internalID: -1474547702
+      spriteID: 6254b8d0d10a8b4409976b3de9cb4dfd
+      internalID: 783546501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pg_jump_1_4
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 574
+        width: 150
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 881db9d1b60594e4d961f75915ac37fc
+      internalID: 1219109411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pg_jump_1_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 159
+        width: 150
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83014371f133dc24b81fc73303bf4a42
+      internalID: -1656928288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pg_jump_1_6
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 12
+        width: 150
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 462a2b3c24a6bb040957ec6b4647a86b
+      internalID: -189441006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pg_jump_1_7
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 12
+        width: 150
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc7a31e3149d0b84b8625e9219e2e9ba
+      internalID: 383969883
       vertices: []
       indices: 
       edges: []
@@ -307,14 +295,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pg_walk_1_0: -1516366928
-      pg_walk_1_1: -1799893292
-      pg_walk_1_2: -1148064718
-      pg_walk_1_3: 446133753
-      pg_walk_1_4: 353686133
-      pg_walk_1_5: 1617529841
-      pg_walk_1_6: -775466957
-      pg_walk_1_7: -1474547702
+      pg_jump_1_0: -1548601574
+      pg_jump_1_1: -1471076767
+      pg_jump_1_2: 1241210473
+      pg_jump_1_3: 783546501
+      pg_jump_1_4: 1219109411
+      pg_jump_1_5: -1656928288
+      pg_jump_1_6: -189441006
+      pg_jump_1_7: 383969883
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

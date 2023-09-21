@@ -777,14 +777,17 @@ public class Player : MonoBehaviour
     }
 
 
-    //[SerializeField]
-    //bool hitGrapple;
-    //[SerializeField]
-    //bool hitBottomGrapple;
-    //[SerializeField]
-    //bool hitTopGrapple;
+    [SerializeField]
+    bool hitGrapple;
+    [SerializeField]
+    bool hitBottomGrapple;
+    [SerializeField]
+    bool hitTopGrapple;
     private void Grappling(bool _isGrappling)
     {
+        hitGrapple = false;
+        hitBottomGrapple = false;
+        hitTopGrapple = false;
         if (canGrapple && HookableObject != null && !isGrappling)
         {
 
@@ -800,41 +803,40 @@ public class Player : MonoBehaviour
             Vector2 hitTopPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
             Vector2 hitBottomPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
             float distanceHit = Vector2.Distance(hitPoint, hookObjectpos);
-            float distanceTopHit = Vector2.Distance(hitPoint, hookObjectpos);
-            float distanceBottomHit = Vector2.Distance(hitPoint, hookObjectpos);
+            float distanceTopHit = Vector2.Distance(hitTopPoint, hookObjectpos);
+            float distanceBottomHit = Vector2.Distance(hitBottomPoint, hookObjectpos);
             RaycastHit2D[] hit = Physics2D.RaycastAll(hitPoint, hookObjectpos, distanceHit,_groundMask);
             RaycastHit2D[] hitTop = Physics2D.RaycastAll(hitTopPoint, hookObjectpos, distanceTopHit, _groundMask);
             RaycastHit2D[] hitBottom = Physics2D.RaycastAll(hitBottomPoint, hookObjectpos, distanceBottomHit, _groundMask);
 
-            //for(int i = 0; i < hit.Length; i++)
-            //{
-            //    if(hit[i].collider != null && hitGrapple)
-            //    {
-            //        hitGrapple = true;
-            //    }
-              
-            //}
-            //for (int i = 0; i < hitTop.Length; i++)
-            //{
-            //    if (hitTop[i].collider != null && hitTopGrapple)
-            //    {
-            //        hitTopGrapple = true;
-            //    }
+            for (int i = 0; i < hit.Length; i++)
+            {
+                if (hit[i].collider != null)
+                {
+                    hitGrapple = true;
+                }
+
+            }
+            for (int i = 0; i < hitTop.Length; i++)
+            {
+                if (hitTop[i].collider != null)
+                {
+                    hitTopGrapple = true;
+                }
 
 
-            //}
-            //for (int i = 0; i < hitBottom.Length; i++)
-            //{
-            //    if (hitBottom[i].collider != null && hitBottomGrapple)
-            //    {
-            //        hitBottomGrapple = true;
-            //    }
-
-            //}
-            //if (hitGrapple || hitTopGrapple || hitBottomGrapple)
-            //{
-            //    return;
-            //}
+            }
+            for (int i = 0; i < hitBottom.Length; i++)
+            {
+                if (hitBottom[i].collider != null)
+                {
+                    hitBottomGrapple = true;
+                }
+            }
+            if (hitGrapple || hitTopGrapple || hitBottomGrapple)
+            {
+                return;
+            }
 
             isGrappling = _isGrappling;
             EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.grappleSound);

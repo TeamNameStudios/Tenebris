@@ -140,7 +140,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.16
+  m_Radius: 0.5
 --- !u!1 &3849712622262862893
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,34 +207,34 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_Vertices:
-  - position: {x: 0.16, y: 0.16, z: 0}
+  - position: {x: 0.5, y: 0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 1, y: 1}
-  - position: {x: 0.11, y: -0.02, z: 0}
+  - position: {x: 0.34375, y: -0.0625, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.84375, y: 0.4375}
-  - position: {x: 0.16, y: 0.1, z: 0}
+  - position: {x: 0.5, y: 0.3125, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 1, y: 0.8125}
-  - position: {x: 0.02, y: -0.14, z: 0}
+  - position: {x: 0.0625, y: -0.4375, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.5625, y: 0.0625}
-  - position: {x: 0, y: -0.16, z: 0}
+  - position: {x: 0, y: -0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.5, y: 0}
-  - position: {x: -0.04, y: 0.16, z: 0}
+  - position: {x: -0.125, y: 0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.375, y: 1}
-  - position: {x: -0.09, y: 0.11, z: 0}
+  - position: {x: -0.28125, y: 0.34375, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.21875, y: 0.84375}
-  - position: {x: -0.11, y: -0.16, z: 0}
+  - position: {x: -0.34375, y: -0.5, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.15625, y: 0}
-  - position: {x: -0.16, y: -0.06, z: 0}
+  - position: {x: -0.5, y: -0.1875, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0.3125}
-  - position: {x: -0.16, y: -0.13, z: 0}
+  - position: {x: -0.5, y: -0.40625, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0, y: 0.09375}
   - position: {x: 0, y: 0, z: 0}
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Triangles: 090008000700060007000800040007000600050004000600000004000500030004000000010003000000020001000000
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.16, y: 0.16, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

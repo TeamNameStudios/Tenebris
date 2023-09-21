@@ -343,6 +343,7 @@ public class Player : MonoBehaviour
     {
         if (InputJump && IsGrounded || CanUseCoyote && InputJump)
         {
+            InputJump = false;
             velocity.y = _jumpHeight;
             _coyoteUsable = false;
             _timeLeftGrounded = float.MinValue;

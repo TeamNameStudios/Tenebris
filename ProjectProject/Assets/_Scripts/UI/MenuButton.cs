@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler
 {
     private Vector3 originalScale;
     private TextMeshProUGUI text;
@@ -20,25 +20,37 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void OnEnable()
     {
-        text.colorGradient = originalColor;
-        text.color = Color.white;
-        text.transform.localScale = originalScale;
+        ResetButton();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.colorGradient = targetColor;
         EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.mouseHoveringSound);
+       
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        text.colorGradient = originalColor;    }
+        ResetButton();    }
 
     public void OnPointerClick(PointerEventData eventData)
+    {
+        ResetButton();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
     {
         EventManager<SoundEnum>.Instance.TriggerEvent("onPlayClip", SoundEnum.buttonSound);
         text.transform.localScale -= new Vector3(.15f, .15f, .15f);
         text.color = pressedColor;
+
     }
+
+    private void ResetButton() {
+        text.colorGradient = originalColor;
+        text.color = Color.white;
+        text.transform.localScale = originalScale;
+    }
+
 }

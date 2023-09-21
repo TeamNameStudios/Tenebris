@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +24,10 @@ public class PowerUpMenu : MonoBehaviour
     [SerializeField]
     public Sprite full;
     List<PowerUp> actualPowerUps = new List<PowerUp>();
+    [SerializeField]
+    private GameObject ConfirmPanel;
+
+    private ShopButton buttonClicked;
     public void Start()
     {
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
@@ -39,12 +44,26 @@ public class PowerUpMenu : MonoBehaviour
         EventManager<int>.Instance.StopListening("onTotalPageLoaded", ManageTotalPage);
         EventManager<List<PowerUp>>.Instance.StopListening("onPowerUpLoaded", ManagePowerUp);
     }
-    public void BuyPowerUp(int ButtonId)
+
+    public void OpenConfirmPanel(int ButtonId)
     {
-        ShopButton buttonClicked = buttonList[ButtonId];
+        ShopButton _buttonClicked = buttonList[ButtonId];
+        if (_buttonClicked.pageCost <= totalPages)
+        {
+            buttonClicked = _buttonClicked;
+            ConfirmPanel.SetActive(true);
+        }
+    }
+
+    public void CloseConfirmPanel()
+    {
+        ConfirmPanel.SetActive(false);
+    }
+
+    public void BuyPowerUp()
+    {
         if (buttonClicked.pageCost <= totalPages)
         {
-
             List<PowerUp> newList = new List<PowerUp>();
             for(int i = 0; i < actualPowerUps.Count; i++)
             {
@@ -62,6 +81,8 @@ public class PowerUpMenu : MonoBehaviour
             EventManager<List<PowerUp>>.Instance.TriggerEvent("SavePowerUp", newList);
         }
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
+        ConfirmPanel.SetActive(false);
+        buttonClicked = null;
     }
 
     private void ManagePowerUp(List<PowerUp> powerUps)

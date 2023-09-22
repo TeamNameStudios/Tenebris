@@ -75,11 +75,14 @@ public class AudioSystem : StaticInstance<AudioSystem>
     {
         Sound effect = Effects.Find((sound) => { return sound.SoundType == _soundEnum; });
         
-        if (continousEffectsSource.clip != effect.clip) 
+        if (continousEffectsSource != null)
         {
-            continousEffectsSource.clip = effect.clip;
-            continousEffectsSource.volume = effect.volume;
-            continousEffectsSource.Play();
+            if (continousEffectsSource.clip != effect.clip) 
+            {
+                continousEffectsSource.clip = effect.clip;
+                continousEffectsSource.volume = effect.volume;
+                continousEffectsSource.Play();
+            }
         }
     }
 

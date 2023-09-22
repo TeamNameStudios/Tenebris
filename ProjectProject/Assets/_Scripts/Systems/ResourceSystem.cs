@@ -9,13 +9,6 @@ using UnityEngine;
 /// </summary>
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
-    #region Keymap
-    public KeyCode jumpKey;
-    public KeyCode dashKey;
-    public KeyCode grappleKey;
-
-    #endregion
-
     #region DialogueLines
     public List<ScriptableTutorialDialogue> DialogueLines { get; private set; }
 

@@ -4,5 +4,5 @@
 /// </summary>
 public class Systems : PersistentSingleton<Systems>
 {
-    
+
 }

@@ -21,18 +21,6 @@ public class TutorialTrigger : MonoBehaviour
         {
             if (colliders[i].GetComponent<Player>() && !playerFound)
             {
-                //if (!lastTutorial)
-                //{
-                //    playerFound = true;
-                //    EventManager<GameState>.Instance.TriggerEvent("onStateChanged", GameState.TUTORIAL);
-                //    EventManager<string>.Instance.TriggerEvent("onPlayDialogue", dialogueName);
-                //    Destroy(gameObject);
-                //}
-                //else
-                //{
-                //    playerFound = true;
-                //    EventManager<bool>.Instance.TriggerEvent("onTutorialEnd", true);
-                //}
                 playerFound = true;
 
                 if (lastTutorial)

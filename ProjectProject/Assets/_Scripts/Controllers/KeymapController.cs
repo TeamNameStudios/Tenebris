@@ -14,16 +14,16 @@ public class KeymapController : Singleton<KeymapController>
 
     private void OnEnable()
     {
-        EventManager<string>.Instance.StartListening("onJumpKeyLoaded", LoadJumpKey); 
-        EventManager<string>.Instance.StartListening("onDashKeyLoaded", LoadDashKey); 
-        EventManager<string>.Instance.StartListening("onGrappleKeyLoaded", LoadGrappleKey);
+        EventManager<int>.Instance.StartListening("onJumpKeyLoaded", LoadJumpKey); 
+        EventManager<int>.Instance.StartListening("onDashKeyLoaded", LoadDashKey); 
+        EventManager<int>.Instance.StartListening("onGrappleKeyLoaded", LoadGrappleKey);
     }
 
     private void OnDisable()
     {
-        EventManager<string>.Instance.StopListening("onJumpKeyLoaded", LoadJumpKey);
-        EventManager<string>.Instance.StopListening("onDashKeyLoaded", LoadDashKey);
-        EventManager<string>.Instance.StopListening("onGrappleKeyLoaded", LoadGrappleKey);
+        EventManager<int>.Instance.StopListening("onJumpKeyLoaded", LoadJumpKey);
+        EventManager<int>.Instance.StopListening("onDashKeyLoaded", LoadDashKey);
+        EventManager<int>.Instance.StopListening("onGrappleKeyLoaded", LoadGrappleKey);
     }
 
     private void Start()
@@ -38,8 +38,6 @@ public class KeymapController : Singleton<KeymapController>
         keyDict.Add(ActionKeys.LEFT_2, KeyCode.LeftArrow);
         keyDict.Add(ActionKeys.RIGHT_1, KeyCode.D);
         keyDict.Add(ActionKeys.RIGHT_2, KeyCode.RightArrow);
-
-        ResourceSystem.Instance.ShareControlsKeys(jumpKey, dashKey, grappleKey);
     }
 
     public void StartRebind(ActionKeys keys)
@@ -79,26 +77,33 @@ public class KeymapController : Singleton<KeymapController>
         jumpKey = keyDict[ActionKeys.JUMP];
         dashKey = keyDict[ActionKeys.DASH];
         grappleKey = keyDict[ActionKeys.GRAPPLE];
-        EventManager<string>.Instance.TriggerEvent("SaveJumpKey", jumpKey.ToString());
-        EventManager<string>.Instance.TriggerEvent("SaveDashKey", dashKey.ToString());
-        EventManager<string>.Instance.TriggerEvent("SaveGrappleKey", grappleKey.ToString());
+        EventManager<int>.Instance.TriggerEvent("SaveJumpKey", (int)jumpKey);
+        EventManager<int>.Instance.TriggerEvent("SaveDashKey", (int)dashKey);
+        EventManager<int>.Instance.TriggerEvent("SaveGrappleKey", (int)grappleKey);
 
         EventManager<bool>.Instance.TriggerEvent("onRebindCompleted", true);
-        ResourceSystem.Instance.ShareControlsKeys(jumpKey, dashKey, grappleKey);
     }
 
-    private void LoadJumpKey(string _jumpKey)
+    public void ResetKeys()
     {
-        jumpKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), _jumpKey);
+        keyDict[ActionKeys.JUMP] = KeyCode.W;
+        keyDict[ActionKeys.DASH] = KeyCode.Space;
+        keyDict[ActionKeys.GRAPPLE] = KeyCode.LeftShift;
+        SaveKeys();
     }
 
-    private void LoadDashKey(string _dashKey)
+    private void LoadJumpKey(int _jumpKey)
     {
-        dashKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), _dashKey);
+        jumpKey = (KeyCode)System.Enum.ToObject(typeof(KeyCode), _jumpKey);
     }
 
-    private void LoadGrappleKey(string _grappleKey)
+    private void LoadDashKey(int _dashKey)
     {
-        grappleKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), _grappleKey);
+        dashKey = (KeyCode)System.Enum.ToObject(typeof(KeyCode), _dashKey);
+    }
+
+    private void LoadGrappleKey(int _grappleKey)
+    {
+        grappleKey = (KeyCode)System.Enum.ToObject(typeof(KeyCode), _grappleKey);
     }
 }

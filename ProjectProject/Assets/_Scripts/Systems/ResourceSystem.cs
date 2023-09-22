@@ -9,6 +9,20 @@ using UnityEngine;
 /// </summary>
 public class ResourceSystem : StaticInstance<ResourceSystem>
 {
+    #region Keymap
+    public KeyCode jumpKey;
+    public KeyCode dashKey;
+    public KeyCode grappleKey;
+
+    public void ShareControlsKeys(KeyCode _jumpKey, KeyCode _dashKey, KeyCode _grappleKey)
+    {
+        jumpKey = _jumpKey;
+        dashKey = _dashKey;
+        grappleKey = _grappleKey;
+    }
+
+    #endregion
+
     #region DialogueLines
     public List<ScriptableTutorialDialogue> DialogueLines { get; private set; }
 
@@ -39,6 +53,7 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
     [SerializeField] private float insaneProb;
 
     #endregion
+
     protected override void Awake()
     {
         base.Awake();

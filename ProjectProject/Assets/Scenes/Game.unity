@@ -2333,6 +2333,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d345435a48af53f4f9b133ace29b521a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpKey: 0
+  dashKey: 0
+  grappleKey: 0
+  canRebind: 1
 --- !u!1 &876246268
 GameObject:
   m_ObjectHideFlags: 0
@@ -2421,10 +2425,6 @@ MonoBehaviour:
   tracker: {fileID: 6804710328030143349, guid: 5f1f8f2803e3ab2449c7db666abd674f, type: 3}
   slowMotionController: {fileID: 4271288196179214565, guid: 8090f7912bd115b43a86b55eed93ee56, type: 3}
   pageNumber: 0
-  trueForSeconds: 1
-  seconds: 30
-  minutes: 1
-  timeScaleIncrement: 0.1
   isSpawnShadow: 0
 --- !u!1 &908027018
 GameObject:

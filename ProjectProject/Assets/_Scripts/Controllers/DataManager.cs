@@ -24,8 +24,12 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StartListening("SaveMasterVolume", SaveMasterVolume);
         EventManager<float>.Instance.StartListening("SaveMusicVolume", SaveMusicVolume);
         EventManager<float>.Instance.StartListening("SaveEffectVolume", SaveEffectVolume);
+        EventManager<string>.Instance.StartListening("SaveJumpKey", SaveJumpKey);
+        EventManager<string>.Instance.StartListening("SaveDashKey", SaveDashKey);
+        EventManager<string>.Instance.StartListening("SaveGrappleKey", SaveGrappleKey);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
         EventManager<bool>.Instance.StartListening("LoadAudioData", LoadAudioData);
+        EventManager<bool>.Instance.StartListening("LoadControls", LoadControls);
     }
     
     private void OnDisable()
@@ -38,8 +42,12 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StopListening("SaveMasterVolume", SaveMasterVolume);
         EventManager<float>.Instance.StopListening("SaveMusicVolume", SaveMusicVolume);
         EventManager<float>.Instance.StopListening("SaveEffectVolume", SaveEffectVolume);
+        EventManager<string>.Instance.StopListening("SaveJumpKey", SaveJumpKey);
+        EventManager<string>.Instance.StopListening("SaveDashKey", SaveDashKey);
+        EventManager<string>.Instance.StopListening("SaveGrappleKey", SaveGrappleKey);
         EventManager<bool>.Instance.StopListening("LoadData", LoadData);
         EventManager<bool>.Instance.StopListening("LoadAudioData", LoadAudioData);
+        EventManager<bool>.Instance.StopListening("LoadControls", LoadControls);
     }
 
     public void LoadData(bool loading)
@@ -49,6 +57,14 @@ public class DataManager : Singleton<DataManager>
         LoadBestDistance();
         LoadBestTime();
         LoadTutorialFlag();
+    }
+
+    public void LoadControls(bool loading)
+    {
+        LoadJumpKey();
+        LoadDashKey();
+        LoadGrappleKey();
+        Debug.Log("CONTROLS LOADED");
     }
 
     public void SaveMasterVolume(float count)
@@ -167,6 +183,44 @@ public class DataManager : Singleton<DataManager>
         EventManager<int>.Instance.TriggerEvent("onTutorialFlagLoaded", tutorialFlag);
     }
 
+    public void SaveJumpKey(string jumpKey)
+    {
+        PlayerPrefs.SetString("JumpKey", jumpKey);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadJumpKey()
+    {
+        string jumpKey = PlayerPrefs.GetString("JumpKey", KeyCode.W.ToString());
+        EventManager<string>.Instance.TriggerEvent("onJumpKeyLoaded", jumpKey);
+        Debug.Log("The jump key is: " + jumpKey);
+    }
+    
+    public void SaveDashKey(string dashKey)
+    {
+        PlayerPrefs.SetString("DashKey", dashKey);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadDashKey()
+    {
+        string dashKey = PlayerPrefs.GetString("DashKey", KeyCode.Space.ToString());
+        EventManager<string>.Instance.TriggerEvent("onDashKeyLoaded", dashKey);
+        Debug.Log("The dash key is: " + dashKey);
+    }
+    
+    public void SaveGrappleKey(string grappleKey)
+    {
+        PlayerPrefs.SetString("GrappleKey", grappleKey);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadGrappleKey()
+    {
+        string grappleKey = PlayerPrefs.GetString("GrappleKey", KeyCode.LeftShift.ToString());
+        EventManager<string>.Instance.TriggerEvent("onGrappleKeyLoaded", grappleKey);
+        Debug.Log("The grapple key is: " + grappleKey);
+    }
 
     #region POWERUPS
     public void SavePowerUp(List<PowerUp> dataList)

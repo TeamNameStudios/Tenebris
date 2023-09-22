@@ -64,7 +64,6 @@ public class DataManager : Singleton<DataManager>
         LoadJumpKey();
         LoadDashKey();
         LoadGrappleKey();
-        Debug.Log("CONTROLS LOADED");
     }
 
     public void SaveMasterVolume(float count)
@@ -193,7 +192,6 @@ public class DataManager : Singleton<DataManager>
     {
         string jumpKey = PlayerPrefs.GetString("JumpKey", KeyCode.W.ToString());
         EventManager<string>.Instance.TriggerEvent("onJumpKeyLoaded", jumpKey);
-        Debug.Log("The jump key is: " + jumpKey);
     }
     
     public void SaveDashKey(string dashKey)
@@ -206,7 +204,6 @@ public class DataManager : Singleton<DataManager>
     {
         string dashKey = PlayerPrefs.GetString("DashKey", KeyCode.Space.ToString());
         EventManager<string>.Instance.TriggerEvent("onDashKeyLoaded", dashKey);
-        Debug.Log("The dash key is: " + dashKey);
     }
     
     public void SaveGrappleKey(string grappleKey)
@@ -219,7 +216,6 @@ public class DataManager : Singleton<DataManager>
     {
         string grappleKey = PlayerPrefs.GetString("GrappleKey", KeyCode.LeftShift.ToString());
         EventManager<string>.Instance.TriggerEvent("onGrappleKeyLoaded", grappleKey);
-        Debug.Log("The grapple key is: " + grappleKey);
     }
 
     #region POWERUPS

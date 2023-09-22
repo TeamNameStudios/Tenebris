@@ -47,6 +47,7 @@ public class InputController : Singleton<InputController>
     }
 }
 
+[System.Serializable]
 public enum ActionKeys
 {
     JUMP,

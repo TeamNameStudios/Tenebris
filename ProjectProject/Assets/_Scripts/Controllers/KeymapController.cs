@@ -17,9 +17,6 @@ public class KeymapController : Singleton<KeymapController>
         EventManager<string>.Instance.StartListening("onJumpKeyLoaded", LoadJumpKey); 
         EventManager<string>.Instance.StartListening("onDashKeyLoaded", LoadDashKey); 
         EventManager<string>.Instance.StartListening("onGrappleKeyLoaded", LoadGrappleKey);
-
-        Debug.Log("KEYMAP CONTROLLER ENABLED");
-
     }
 
     private void OnDisable()
@@ -62,6 +59,7 @@ public class KeymapController : Singleton<KeymapController>
                     if (keyDict.ContainsValue(keyCode))
                     {
                         canRebind = false;
+                        EventManager<bool>.Instance.TriggerEvent("onRebindFailed", true);
                     }
                     else
                     {
@@ -85,6 +83,7 @@ public class KeymapController : Singleton<KeymapController>
         EventManager<string>.Instance.TriggerEvent("SaveDashKey", dashKey.ToString());
         EventManager<string>.Instance.TriggerEvent("SaveGrappleKey", grappleKey.ToString());
 
+        EventManager<bool>.Instance.TriggerEvent("onRebindCompleted", true);
         ResourceSystem.Instance.ShareControlsKeys(jumpKey, dashKey, grappleKey);
     }
 

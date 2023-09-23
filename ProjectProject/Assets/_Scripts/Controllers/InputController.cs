@@ -12,10 +12,22 @@ public class InputController : Singleton<InputController>
     protected override void Awake()
     {
         base.Awake();
+    }
 
-        jumpKey = ResourceSystem.Instance.jumpKey;
-        dashKey = ResourceSystem.Instance.dashKey;
-        grappleKey = ResourceSystem.Instance.grappleKey;
+    private void OnEnable()
+    {
+        EventManager<int>.Instance.StartListening("onJumpKeyLoaded", LoadJumpKey);
+        EventManager<int>.Instance.StartListening("onDashKeyLoaded", LoadDashKey);
+        EventManager<int>.Instance.StartListening("onGrappleKeyLoaded", LoadGrappleKey);
+
+        EventManager<bool>.Instance.TriggerEvent("LoadControls", true);
+    }
+
+    private void OnDisable()
+    {
+        EventManager<int>.Instance.StopListening("onJumpKeyLoaded", LoadJumpKey);
+        EventManager<int>.Instance.StopListening("onDashKeyLoaded", LoadDashKey);
+        EventManager<int>.Instance.StopListening("onGrappleKeyLoaded", LoadGrappleKey);
     }
 
     private void Update()
@@ -44,6 +56,21 @@ public class InputController : Singleton<InputController>
         {
             EventManager<bool>.Instance.TriggerEvent("onPause", true);
         }
+    }
+
+    private void LoadJumpKey(int _jumpKey)
+    {
+        jumpKey = (KeyCode)System.Enum.ToObject(typeof(KeyCode), _jumpKey);
+    }
+
+    private void LoadDashKey(int _dashKey)
+    {
+        dashKey = (KeyCode)System.Enum.ToObject(typeof(KeyCode), _dashKey);
+    }
+
+    private void LoadGrappleKey(int _grappleKey)
+    {
+        grappleKey = (KeyCode)System.Enum.ToObject(typeof(KeyCode), _grappleKey);
     }
 }
 

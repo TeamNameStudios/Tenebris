@@ -24,9 +24,9 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StartListening("SaveMasterVolume", SaveMasterVolume);
         EventManager<float>.Instance.StartListening("SaveMusicVolume", SaveMusicVolume);
         EventManager<float>.Instance.StartListening("SaveEffectVolume", SaveEffectVolume);
-        EventManager<string>.Instance.StartListening("SaveJumpKey", SaveJumpKey);
-        EventManager<string>.Instance.StartListening("SaveDashKey", SaveDashKey);
-        EventManager<string>.Instance.StartListening("SaveGrappleKey", SaveGrappleKey);
+        EventManager<int>.Instance.StartListening("SaveJumpKey", SaveJumpKey);
+        EventManager<int>.Instance.StartListening("SaveDashKey", SaveDashKey);
+        EventManager<int>.Instance.StartListening("SaveGrappleKey", SaveGrappleKey);
         EventManager<bool>.Instance.StartListening("LoadData", LoadData);
         EventManager<bool>.Instance.StartListening("LoadAudioData", LoadAudioData);
         EventManager<bool>.Instance.StartListening("LoadControls", LoadControls);
@@ -42,9 +42,9 @@ public class DataManager : Singleton<DataManager>
         EventManager<float>.Instance.StopListening("SaveMasterVolume", SaveMasterVolume);
         EventManager<float>.Instance.StopListening("SaveMusicVolume", SaveMusicVolume);
         EventManager<float>.Instance.StopListening("SaveEffectVolume", SaveEffectVolume);
-        EventManager<string>.Instance.StopListening("SaveJumpKey", SaveJumpKey);
-        EventManager<string>.Instance.StopListening("SaveDashKey", SaveDashKey);
-        EventManager<string>.Instance.StopListening("SaveGrappleKey", SaveGrappleKey);
+        EventManager<int>.Instance.StopListening("SaveJumpKey", SaveJumpKey);
+        EventManager<int>.Instance.StopListening("SaveDashKey", SaveDashKey);
+        EventManager<int>.Instance.StopListening("SaveGrappleKey", SaveGrappleKey);
         EventManager<bool>.Instance.StopListening("LoadData", LoadData);
         EventManager<bool>.Instance.StopListening("LoadAudioData", LoadAudioData);
         EventManager<bool>.Instance.StopListening("LoadControls", LoadControls);
@@ -64,7 +64,6 @@ public class DataManager : Singleton<DataManager>
         LoadJumpKey();
         LoadDashKey();
         LoadGrappleKey();
-        Debug.Log("CONTROLS LOADED");
     }
 
     public void SaveMasterVolume(float count)
@@ -183,43 +182,40 @@ public class DataManager : Singleton<DataManager>
         EventManager<int>.Instance.TriggerEvent("onTutorialFlagLoaded", tutorialFlag);
     }
 
-    public void SaveJumpKey(string jumpKey)
+    public void SaveJumpKey(int jumpKey)
     {
-        PlayerPrefs.SetString("JumpKey", jumpKey);
+        PlayerPrefs.SetInt("JumpKey", jumpKey);
         PlayerPrefs.Save();
     }
 
     public void LoadJumpKey()
     {
-        string jumpKey = PlayerPrefs.GetString("JumpKey", KeyCode.W.ToString());
-        EventManager<string>.Instance.TriggerEvent("onJumpKeyLoaded", jumpKey);
-        Debug.Log("The jump key is: " + jumpKey);
+        int jumpKey = PlayerPrefs.GetInt("JumpKey", ((int)KeyCode.W));
+        EventManager<int>.Instance.TriggerEvent("onJumpKeyLoaded", jumpKey);
     }
     
-    public void SaveDashKey(string dashKey)
+    public void SaveDashKey(int dashKey)
     {
-        PlayerPrefs.SetString("DashKey", dashKey);
+        PlayerPrefs.SetInt("DashKey", dashKey);
         PlayerPrefs.Save();
     }
 
     public void LoadDashKey()
     {
-        string dashKey = PlayerPrefs.GetString("DashKey", KeyCode.Space.ToString());
-        EventManager<string>.Instance.TriggerEvent("onDashKeyLoaded", dashKey);
-        Debug.Log("The dash key is: " + dashKey);
+        int dashKey = PlayerPrefs.GetInt("DashKey", ((int)KeyCode.Space));
+        EventManager<int>.Instance.TriggerEvent("onDashKeyLoaded", dashKey);
     }
     
-    public void SaveGrappleKey(string grappleKey)
+    public void SaveGrappleKey(int grappleKey)
     {
-        PlayerPrefs.SetString("GrappleKey", grappleKey);
+        PlayerPrefs.SetInt("GrappleKey", grappleKey);
         PlayerPrefs.Save();
     }
 
     public void LoadGrappleKey()
     {
-        string grappleKey = PlayerPrefs.GetString("GrappleKey", KeyCode.LeftShift.ToString());
-        EventManager<string>.Instance.TriggerEvent("onGrappleKeyLoaded", grappleKey);
-        Debug.Log("The grapple key is: " + grappleKey);
+        int grappleKey = PlayerPrefs.GetInt("GrappleKey", ((int)KeyCode.LeftShift));
+        EventManager<int>.Instance.TriggerEvent("onGrappleKeyLoaded", grappleKey);
     }
 
     #region POWERUPS

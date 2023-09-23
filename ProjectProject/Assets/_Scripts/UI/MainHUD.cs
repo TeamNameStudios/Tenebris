@@ -79,7 +79,6 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StartListening("pause", SetPauseState);
         EventManager<int>.Instance.StartListening("UpdatePageCount", UpdatePageCount);
         EventManager<float>.Instance.StartListening("UpdateDistanceCount", UpdateDistanceCount);
-        EventManager<bool>.Instance.StartListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StartListening("onGameOver", TempGameOver);
         //EventManager<TimeSpan>.Instance.StartListening("onTimer", UpdateTimer);
         EventManager<float>.Instance.StartListening("onBestDistanceUpdated", UpdateBestDistance);
@@ -93,7 +92,6 @@ public class MainHUD : MonoBehaviour
         EventManager<bool>.Instance.StopListening("pause", SetPauseState);
         EventManager<int>.Instance.StopListening("UpdatePageCount", UpdatePageCount);
         EventManager<float>.Instance.StopListening("UpdateDistanceCount", UpdateDistanceCount);
-        EventManager<bool>.Instance.StopListening("onLevelEnded", TempLevelEnd);
         EventManager<bool>.Instance.StopListening("onGameOver", TempGameOver);
         //EventManager<TimeSpan>.Instance.StopListening("onTimer", UpdateTimer);
         EventManager<float>.Instance.StopListening("onBestDistanceU", UpdateBestDistance); 
@@ -117,13 +115,6 @@ public class MainHUD : MonoBehaviour
     {
         EventManager<bool>.Instance.TriggerEvent("onSceneReload", true);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private void TempLevelEnd(bool state)
-    {
-        if (state)
-        {
-        }
     }
 
     private void TempGameOver(bool state)

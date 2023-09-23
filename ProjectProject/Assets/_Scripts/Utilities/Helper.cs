@@ -269,8 +269,12 @@ public static class Helper
 /// </summary>
 public abstract class StaticInstance<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance { get; private set; }
-    protected virtual void Awake() => Instance = this as T;
+    public static T Instance { get; protected set; }
+    protected virtual void Awake() 
+    {
+        Instance = this as T;
+        Debug.Log("STATIC INSTANCE " + Instance.GetType());
+    }
 
     protected virtual void OnApplicationQuit()
     {
@@ -287,8 +291,14 @@ public abstract class Singleton<T> : StaticInstance<T> where T : MonoBehaviour
 {
     protected override void Awake()
     {
-        if (Instance != null) Destroy(gameObject);
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            Debug.Log("DESTROYING " + Instance.GetType());
+            return;
+        }
         base.Awake();
+        Debug.Log("SINGLETON INSTANCE " + Instance.GetType());
     }
 }
 
@@ -301,7 +311,16 @@ public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehavi
 {
     protected override void Awake()
     {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            Instance = this as T;
+            DontDestroyOnLoad(gameObject);
+        }
+        Debug.Log("PERSISTENT INSTANCE " + Instance.GetType());
     }
 }

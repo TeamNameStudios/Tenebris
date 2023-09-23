@@ -273,7 +273,6 @@ public abstract class StaticInstance<T> : MonoBehaviour where T : MonoBehaviour
     protected virtual void Awake() 
     {
         Instance = this as T;
-        Debug.Log("STATIC INSTANCE " + Instance.GetType());
     }
 
     protected virtual void OnApplicationQuit()
@@ -294,11 +293,9 @@ public abstract class Singleton<T> : StaticInstance<T> where T : MonoBehaviour
         if (Instance != null)
         {
             Destroy(gameObject);
-            Debug.Log("DESTROYING " + Instance.GetType());
             return;
         }
         base.Awake();
-        Debug.Log("SINGLETON INSTANCE " + Instance.GetType());
     }
 }
 
@@ -321,6 +318,5 @@ public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehavi
             Instance = this as T;
             DontDestroyOnLoad(gameObject);
         }
-        Debug.Log("PERSISTENT INSTANCE " + Instance.GetType());
     }
 }

@@ -83,16 +83,6 @@ public class ResourceSystem : StaticInstance<ResourceSystem>
             LevelChunks[i].InGamePossibleNeighbour = new List<LevelID>(LevelChunks[i].PossibleNeighbour);
 
             levelDictByDifficulty[LevelChunks[i].Difficulty].Add(LevelChunks[i].ID);
-
-            if (LevelChunks[i].HasManifestation)
-            {
-                manifestationLevels.Add(LevelChunks[i].ID);
-            }
-
-            if (LevelChunks[i].HasCollectible)
-            {
-                collectibleLevels.Add(LevelChunks[i].ID);
-            }
         }
     }
 

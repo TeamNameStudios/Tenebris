@@ -76,7 +76,7 @@ public class DataManager : Singleton<DataManager>
 
     public float LoadMasterVolume()
     {
-        return PlayerPrefs.GetFloat("MasterVolume", 0);
+        return PlayerPrefs.GetFloat("MasterVolume", 1);
     }
 
     public void SaveMusicVolume(float count)
@@ -89,7 +89,7 @@ public class DataManager : Singleton<DataManager>
 
     public float LoadMusicVolume()
     {
-       return PlayerPrefs.GetFloat("MusicVolume", 0);
+       return PlayerPrefs.GetFloat("MusicVolume", 1);
     }
 
     public void SaveEffectVolume(float count)
@@ -102,7 +102,7 @@ public class DataManager : Singleton<DataManager>
 
     public float LoadEffectVolume()
     {
-        return PlayerPrefs.GetFloat("EffectVolume", 0);
+        return PlayerPrefs.GetFloat("EffectVolume", 1);
     }
 
     public void LoadAudioData(bool loading)

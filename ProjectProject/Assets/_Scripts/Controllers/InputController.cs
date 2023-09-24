@@ -38,7 +38,7 @@ public class InputController : Singleton<InputController>
             float directionY = Input.GetAxisRaw("Vertical");
             EventManager<Vector2>.Instance.TriggerEvent("movement", new Vector2(directionX, directionY));
 
-            if (Input.GetKeyDown(jumpKey))
+            if (Input.GetKeyDown(jumpKey) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 EventManager<bool>.Instance.TriggerEvent("jumpMovement", true);
             }
@@ -84,4 +84,6 @@ public enum ActionKeys
     LEFT_2,
     RIGHT_1,
     RIGHT_2,
+    JUMP_1,
+    JUMP_2,
 }

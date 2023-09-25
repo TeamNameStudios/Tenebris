@@ -799,9 +799,9 @@ public class Player : MonoBehaviour
             {
                 return;
             }
-            Vector2 hitPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
+            Vector2 hitPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.center.y);
             Vector2 hitTopPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
-            Vector2 hitBottomPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.max.y);
+            Vector2 hitBottomPoint = pos + new Vector2(_characterBounds.max.x * direction.x, _characterBounds.min.y + 1);
             float distanceHit = Vector2.Distance(hitPoint, hookObjectpos);
             float distanceTopHit = Vector2.Distance(hitTopPoint, hookObjectpos);
             float distanceBottomHit = Vector2.Distance(hitBottomPoint, hookObjectpos);

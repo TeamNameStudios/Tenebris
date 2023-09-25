@@ -31,6 +31,8 @@ public class KeymapController : Singleton<KeymapController>
         EventManager<bool>.Instance.TriggerEvent("LoadControls", true);
 
         keyDict.Add(ActionKeys.JUMP, jumpKey);
+        keyDict.Add(ActionKeys.JUMP_1, KeyCode.W);
+        keyDict.Add(ActionKeys.JUMP_2, KeyCode.UpArrow);
         keyDict.Add(ActionKeys.DASH, dashKey);
         keyDict.Add(ActionKeys.GRAPPLE, grappleKey);
         keyDict.Add(ActionKeys.PAUSE, KeyCode.Escape);
@@ -86,7 +88,7 @@ public class KeymapController : Singleton<KeymapController>
 
     public void ResetKeys()
     {
-        keyDict[ActionKeys.JUMP] = KeyCode.W;
+        keyDict[ActionKeys.JUMP] = KeyCode.RightShift;
         keyDict[ActionKeys.DASH] = KeyCode.Space;
         keyDict[ActionKeys.GRAPPLE] = KeyCode.LeftShift;
         SaveKeys();

@@ -47,6 +47,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
         EventManager<bool>.Instance.StartListening("onUnPauseAll", UnPauseAll);
         EventManager<bool>.Instance.StartListening("onReset", ResetAll);
         EventManager<Shadow>.Instance.StartListening("onSetShadow", SetShadow);
+
     }
 
     private void OnDisable()
@@ -63,6 +64,12 @@ public class AudioSystem : StaticInstance<AudioSystem>
         EventManager<bool>.Instance.StopListening("onUnPauseAll", UnPauseAll);
         EventManager<bool>.Instance.StopListening("onReset", ResetAll);
         EventManager<Shadow>.Instance.StopListening("onSetShadow", SetShadow);
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        PlayMusic(SoundEnum.mainMenuMusic);
     }
 
     public void PlayClip (SoundEnum _soundEnum)

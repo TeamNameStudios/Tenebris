@@ -31,7 +31,7 @@ public class RebindUI : MonoBehaviour
 
     private void UpdateControlsText(bool value)
     {
-        jumpText.text = KeymapController.Instance.jumpKey.ToString();
+        jumpText.text = "w key / up arrow / " + KeymapController.Instance.jumpKey.ToString();
         dashText.text = KeymapController.Instance.dashKey.ToString();
         grappleText.text = KeymapController.Instance.grappleKey.ToString();
     }

@@ -85,6 +85,19 @@ public class TutorialHUD : MonoBehaviour
             ScriptableTutorialDialogue SO = ResourceSystem.Instance.GetDialogueLines(name);
             lines.Clear();
             lines = new List<string>(SO.lines);
+            if (SO.containsCustomKey)
+            {
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    if (lines[i].Contains("TASTO"))
+                    {
+                        string newLine;
+                        newLine = lines[i].Replace("TASTO", "\"" + KeymapController.Instance.keyDict[SO.customKey].ToString() + "\"");
+                        lines[i] = string.Empty;
+                        lines[i] = newLine;
+                    }
+                }
+            }
             textComponent.transform.localPosition = SO.position;
             StartDialogue();
         }

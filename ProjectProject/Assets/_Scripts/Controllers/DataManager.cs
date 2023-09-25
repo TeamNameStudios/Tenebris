@@ -126,6 +126,7 @@ public class DataManager : Singleton<DataManager>
             File.Delete(@"" + Application.persistentDataPath + _powerUpListFileName);
         }
         LoadData(true);
+        LoadAudioData(true);
     }
 
     public void SaveTotalPages(int count)
@@ -190,7 +191,7 @@ public class DataManager : Singleton<DataManager>
 
     public void LoadJumpKey()
     {
-        int jumpKey = PlayerPrefs.GetInt("JumpKey", ((int)KeyCode.W));
+        int jumpKey = PlayerPrefs.GetInt("JumpKey", ((int)KeyCode.RightShift));
         EventManager<int>.Instance.TriggerEvent("onJumpKeyLoaded", jumpKey);
     }
     

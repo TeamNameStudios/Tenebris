@@ -120,7 +120,6 @@ public class DataManager : Singleton<DataManager>
     public void ResetData()
     {
         PlayerPrefs.DeleteAll();
-        SaveTutorialFlag(0);// The tutorial won't be reset
         if (File.Exists(@"" + Application.persistentDataPath + _powerUpListFileName))
         {
             File.Delete(@"" + Application.persistentDataPath + _powerUpListFileName);

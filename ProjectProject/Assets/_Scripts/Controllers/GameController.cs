@@ -50,7 +50,7 @@ public class GameController : Singleton<GameController>
         EventManager<bool>.Instance.StartListening("onPause", Pause);
         EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
         EventManager<bool>.Instance.StartListening("onTutorialEnd", TutorialEnd);
-        EventManager<int>.Instance.StartListening("onTutorialFlagLoaded", LoadTutorialFlag);
+        //EventManager<int>.Instance.StartListening("onTutorialFlagLoaded", LoadTutorialFlag);
 
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }

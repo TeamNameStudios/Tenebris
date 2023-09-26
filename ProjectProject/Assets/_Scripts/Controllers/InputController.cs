@@ -52,7 +52,7 @@ public class InputController : Singleton<InputController>
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Escape) && GameController.Instance.State != GameState.TUTORIAL)
+        if (Input.GetKeyUp(KeyCode.Escape) && GameController.Instance.State != GameState.TUTORIAL && GameController.Instance.State != GameState.LOSING)
         {
             EventManager<bool>.Instance.TriggerEvent("onPause", true);
         }

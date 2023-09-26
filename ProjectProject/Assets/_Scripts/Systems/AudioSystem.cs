@@ -99,6 +99,7 @@ public class AudioSystem : StaticInstance<AudioSystem>
         musicSource.volume = music.volume;
         musicVolume = music.volume;
         musicSource.Play();
+        elapsedTime = 0;
     }
 
     public void StopMusic(bool value)
@@ -115,7 +116,6 @@ public class AudioSystem : StaticInstance<AudioSystem>
             yield return null;
         }
         musicSource.Stop();
-        
         yield break;
     }
 

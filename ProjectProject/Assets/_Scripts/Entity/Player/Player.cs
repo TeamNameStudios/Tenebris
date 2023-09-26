@@ -322,7 +322,10 @@ public class Player : MonoBehaviour
     private bool InputJump;
     private void Jump(bool _inputJump)
     {
-        InputJump = _inputJump;
+        if (IsGrounded || _coyoteUsable)
+        {
+            InputJump = _inputJump;
+        }
     }
 
     public void CalculateJumpApex()

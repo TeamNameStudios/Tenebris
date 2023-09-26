@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -315,6 +316,9 @@ public class Player : MonoBehaviour
     public bool _coyoteUsable;
     private float _apexPoint; // Becomes 1 at the apex of a jump
 
+    [SerializeField] private float _jumpBuffer = 0.1f;
+    private float _lastJumpPressed;
+    private bool HasBufferedJump => IsGrounded && _lastJumpPressed + _jumpBuffer > Time.time;
 
     [SerializeField]
     private bool CanUseCoyote => _coyoteUsable && !IsGrounded && _timeLeftGrounded + _coyoteTimeThreshold > Time.unscaledTime;
@@ -322,7 +326,11 @@ public class Player : MonoBehaviour
     private bool InputJump;
     private void Jump(bool _inputJump)
     {
-        InputJump = _inputJump;
+        if (_inputJump)
+        {
+            _lastJumpPressed = Time.time;
+        }
+
     }
 
     public void CalculateJumpApex()
@@ -341,7 +349,7 @@ public class Player : MonoBehaviour
 
     public void CalculateJump()
     {
-        if (InputJump && IsGrounded || CanUseCoyote && InputJump)
+        if (HasBufferedJump || CanUseCoyote && InputJump)
         {
             InputJump = false;
             velocity.y = _jumpHeight;

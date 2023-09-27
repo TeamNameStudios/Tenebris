@@ -28,14 +28,18 @@ public class SettingsHUD : MonoBehaviour
         EventManager<float>.Instance.StopListening(VolumeType.EFFECTS.ToString(), ChangeEffectVolume);
         EventManager<List<float>>.Instance.StopListening("onLoadAudioData", SetAudioSlider);
     }
-    private void SetAudioSlider(List<float> audioVolume) {
+
+    public void SetAudioSlider(List<float> audioVolume) {
 
         sliders[0].value = audioVolume[0];
-        audioMixer.SetFloat("MasterVolume", audioVolume[0]);
+        float masterVolume = (1 - audioVolume[0]) * -80;
+        audioMixer.SetFloat("MasterVolume", masterVolume);
         sliders[1].value = audioVolume[1];
-        audioMixer.SetFloat("MusicVolume", audioVolume[1]);
+        float musicVolume = (1 - audioVolume[1]) * -80;
+        audioMixer.SetFloat("MusicVolume", musicVolume);
         sliders[2].value = audioVolume[2];
-        audioMixer.SetFloat("EffectVolume", audioVolume[2]);
+        float effectVolume = (1 - audioVolume[2]) * -80;
+        audioMixer.SetFloat("EffectVolume", effectVolume);
     }
 
     public void ChangeMasterVolume(float volume)

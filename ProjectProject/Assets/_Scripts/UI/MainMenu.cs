@@ -18,7 +18,7 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] private float bestDistance;
     [SerializeField] private string bestTime;
-
+    [SerializeField] private SettingsHUD SettingsHUD;
     private bool isTransitioning = false;
 
     #region Animation
@@ -43,6 +43,11 @@ public class MainMenu : MonoBehaviour
         EventManager<SoundEnum>.Instance.TriggerEvent("onPlayMusic", SoundEnum.mainMenuMusic);
     }
 
+    private void Start()
+    {
+        EventManager<bool>.Instance.TriggerEvent("LoadAudioData", true);
+    }
+
     private void OnEnable()
     {
         Time.timeScale = 1;
@@ -56,12 +61,14 @@ public class MainMenu : MonoBehaviour
         _panels[activePanelName].SetActive(true);
         EventManager<float>.Instance.StartListening("onBestDistanceLoaded", LoadBestDistance);
         EventManager<string>.Instance.StartListening("onBestTimeLoaded", LoadBestTime);
+        EventManager<List<float>>.Instance.StartListening("onLoadAudioData", SettingsHUD.SetAudioSlider);
         EventManager<bool>.Instance.TriggerEvent("LoadData", true);
     }
     private void OnDisable()
     {
         EventManager<string>.Instance.StopListening("onBestTimeLoaded", LoadBestTime);
         EventManager<float>.Instance.StopListening("onBestDistanceLoaded", LoadBestDistance);
+        EventManager<List<float>>.Instance.StopListening("onLoadAudioData", SettingsHUD.SetAudioSlider);
     }
 
     /// <summary>

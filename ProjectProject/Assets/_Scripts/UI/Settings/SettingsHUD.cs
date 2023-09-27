@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class SettingsHUD : MonoBehaviour
@@ -30,8 +31,11 @@ public class SettingsHUD : MonoBehaviour
     private void SetAudioSlider(List<float> audioVolume) {
 
         sliders[0].value = audioVolume[0];
+        audioMixer.SetFloat("MasterVolume", audioVolume[0]);
         sliders[1].value = audioVolume[1];
+        audioMixer.SetFloat("MusicVolume", audioVolume[1]);
         sliders[2].value = audioVolume[2];
+        audioMixer.SetFloat("EffectVolume", audioVolume[2]);
     }
 
     public void ChangeMasterVolume(float volume)

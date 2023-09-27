@@ -14,7 +14,7 @@ The gameplay is based on the classic platformer/Endless runner systems and mecha
 ## Requirements
 
 If you want to open, edit or see the Unity project:
-* Unity 2021.3.212f1 (or greater)
+* Unity 2021.3.21f1 (or greater)
 
 ## How to play
 
